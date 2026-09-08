@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Shapes;
+using Avalonia.Threading;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Markup.Xaml.MarkupExtensions;
@@ -231,6 +232,23 @@ public class ThemeTests
             PaletteDictionaries()[ThemeVariant.Light]["KumoBrushLine"]).Color;
         Assert.Equal(expectedLine,
             Assert.IsType<SolidColorBrush>(layoutRoot.BorderBrush).Color);
+    }
+
+    [AvaloniaFact]
+    public void Demo_main_window_builds_full_palette_showcase()
+    {
+        Application.Current!.RequestedThemeVariant = ThemeVariant.Light;
+        var window = new MainWindow();
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        var semantic = Assert.IsType<WrapPanel>(
+            window.FindControl<WrapPanel>("SemanticSwatches")!);
+        var primitives = Assert.IsType<WrapPanel>(
+            window.FindControl<WrapPanel>("PrimitiveSwatches")!);
+        Assert.Equal(54, semantic.Children.Count);
+        Assert.True(primitives.Children.Count > 40,
+            $"expected primitives swatches, got {primitives.Children.Count}");
     }
 
     [AvaloniaFact]

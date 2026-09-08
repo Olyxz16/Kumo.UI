@@ -63,6 +63,21 @@
 
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
+                    <TextBlock Text="Palette" FontWeight="SemiBold"
+                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <TextBlock Text="54 semantic tokens, one chip per KumoBrush resource. Chips re-resolve when you toggle dark mode."
+                               FontSize="{StaticResource KumoFontSizeSm}"
+                               Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                    <WrapPanel x:Name="SemanticSwatches" />
+                    <TextBlock Text="Raw palette (Tailwind primitives used by components)"
+                               FontSize="{StaticResource KumoFontSizeSm}"
+                               Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                    <WrapPanel x:Name="PrimitiveSwatches" />
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
                     <TextBlock Text="Status" FontWeight="SemiBold"
                                Foreground="{DynamicResource KumoBrushTextStrong}" />
                     <UniformGrid Columns="4" Rows="1">
