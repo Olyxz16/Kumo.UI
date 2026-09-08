@@ -63,10 +63,11 @@ converted by `scripts/generate_tokens.py`. Values are sRGB hex,
 | `--color-kumo-badge-neutral` | `#737373` | `#525252` | `KumoColorBadgeNeutral` | `KumoBrushBadgeNeutral` |
 | `--color-kumo-badge-inverted` | `#0A0A0A` | `#FFFFFF` | `KumoColorBadgeInverted` | `KumoBrushBadgeInverted` |
 
-## Raw palette primitives (41)
+## Component base colors (41)
 
-Tailwind palette values referenced by Kumo component classes, parsed from
-`design/kumo/kumo-standalone.css`. Variant-independent (`KumoColor*` / `KumoBrush*`).
+Fixed shades referenced by upstream component classes (switch tracks,
+checkbox fills, badge colors), parsed from `design/kumo/kumo-standalone.css`.
+Variant-independent (`KumoColor*` / `KumoBrush*`). Prefer semantic tokens in app UI.
 
 CSS var | Hex | Color key |
 | --- | --- | --- |

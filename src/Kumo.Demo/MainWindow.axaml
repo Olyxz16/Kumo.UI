@@ -69,11 +69,6 @@
                                FontSize="{StaticResource KumoFontSizeSm}"
                                Foreground="{DynamicResource KumoBrushTextSubtle}" />
                     <WrapPanel x:Name="SemanticSwatches" />
-                    <TextBlock Text="Raw palette — upstream Tailwind shades that Kumo component classes reference internally (switch tracks, checkbox fills, badge colors). Prefer the semantic tokens above in app UI; use these only when mirroring a specific upstream component."
-                               FontSize="{StaticResource KumoFontSizeSm}"
-                               TextWrapping="Wrap"
-                               Foreground="{DynamicResource KumoBrushTextSubtle}" />
-                    <WrapPanel x:Name="PrimitiveSwatches" />
                 </StackPanel>
             </Border>
 
@@ -183,23 +178,23 @@
                     <TextBlock Text="Badges" FontWeight="SemiBold"
                                Foreground="{DynamicResource KumoBrushTextStrong}" />
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <Border Classes="badge,primary"><TextBlock Text="Primary" /></Border>
-                        <Border Classes="badge,secondary"><TextBlock Text="Secondary" /></Border>
-                        <Border Classes="badge,info"><TextBlock Text="Info" /></Border>
-                        <Border Classes="badge,success"><TextBlock Text="Success" /></Border>
-                        <Border Classes="badge,warning"><TextBlock Text="Warning" /></Border>
-                        <Border Classes="badge,error"><TextBlock Text="Error" /></Border>
-                        <Border Classes="badge,outline"><TextBlock Text="Outline" /></Border>
-                        <Border Classes="badge,beta"><TextBlock Text="Beta" /></Border>
+                        <Border Classes="badge primary"><TextBlock Text="Primary" /></Border>
+                        <Border Classes="badge secondary"><TextBlock Text="Secondary" /></Border>
+                        <Border Classes="badge info"><TextBlock Text="Info" /></Border>
+                        <Border Classes="badge success"><TextBlock Text="Success" /></Border>
+                        <Border Classes="badge warning"><TextBlock Text="Warning" /></Border>
+                        <Border Classes="badge error"><TextBlock Text="Error" /></Border>
+                        <Border Classes="badge outline"><TextBlock Text="Outline" /></Border>
+                        <Border Classes="badge beta"><TextBlock Text="Beta" /></Border>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <Border Classes="badge,red"><TextBlock Text="Red" /></Border>
-                        <Border Classes="badge,green"><TextBlock Text="Green" /></Border>
-                        <Border Classes="badge,neutral"><TextBlock Text="Neutral" /></Border>
-                        <Border Classes="badge,orange"><TextBlock Text="Orange" /></Border>
-                        <Border Classes="badge,purple"><TextBlock Text="Purple" /></Border>
-                        <Border Classes="badge,teal"><TextBlock Text="Teal" /></Border>
-                        <Border Classes="badge,blue"><TextBlock Text="Blue" /></Border>
+                        <Border Classes="badge red"><TextBlock Text="Red" /></Border>
+                        <Border Classes="badge green"><TextBlock Text="Green" /></Border>
+                        <Border Classes="badge neutral"><TextBlock Text="Neutral" /></Border>
+                        <Border Classes="badge orange"><TextBlock Text="Orange" /></Border>
+                        <Border Classes="badge purple"><TextBlock Text="Purple" /></Border>
+                        <Border Classes="badge teal"><TextBlock Text="Teal" /></Border>
+                        <Border Classes="badge blue"><TextBlock Text="Blue" /></Border>
                     </StackPanel>
                 </StackPanel>
             </Border>
@@ -208,10 +203,10 @@
                 <StackPanel Spacing="12">
                     <TextBlock Text="Banners and progress" FontWeight="SemiBold"
                                Foreground="{DynamicResource KumoBrushTextStrong}" />
-                    <Border Classes="banner,info">
+                    <Border Classes="banner info">
                         <TextBlock Text="Scheduled maintenance on Sunday, 02:00 UTC." TextWrapping="Wrap" />
                     </Border>
-                    <Border Classes="banner,warning">
+                    <Border Classes="banner warning">
                         <TextBlock Text="Your certificate expires in 7 days." TextWrapping="Wrap" />
                     </Border>
                     <StackPanel Orientation="Horizontal" Spacing="24" Margin="0,4,0,0">

@@ -1,19 +1,19 @@
 # Theme completeness audit
 
-Status: **controls wave complete.** All 54 semantic tokens plus the raw Tailwind
-primitives are generated, and the core interactive controls are themed and
+Status: **controls wave complete.** All 54 semantic tokens plus the component
+base colors are generated, and the core interactive controls are themed and
 covered by headless tests. What remains is composition-level work (documented
 in section 2).
 
-Audited against `@cloudflare/kumo` v2.13.1. Component specs were extracted from
-the unminified component chunks shipped in the npm package (`dist/chunks/*.js`
-carry the exact Tailwind class strings per state).
+Audited against `@cloudflare/kumo` v2.13.1. Component specs (colors, geometry,
+state treatments) were extracted from the unminified component chunks shipped
+in the npm package (`dist/chunks/*.js`).
 
 ## 1. In place (ready + verified)
 
 | Area | State |
 | --- | --- |
-| Token pipeline `scripts/generate_tokens.py` | Complete. Parses all 54 upstream semantic tokens (oklch, `light-dark()`, `color-mix(in oklch)`, `var()` fallbacks, alpha) **plus the raw Tailwind palette primitives** (`blue-*`, `neutral-*`, `emerald-*`, ...) that component classes reference, converts oklch→sRGB (verified against culori), emits `Palette.axaml` + `docs/TOKENS.md`. `--check` mode for CI. |
+| Token pipeline `scripts/generate_tokens.py` | Complete. Parses all 54 upstream semantic tokens (oklch, `light-dark()`, `color-mix(in oklch)`, `var()` fallbacks, alpha) **plus the component base colors** (fixed `blue-*`/`neutral-*`/`emerald-*`/... shades) that component styles derive from, converts oklch→sRGB (verified against culori), emits `Palette.axaml` + `docs/TOKENS.md`. `--check` mode for CI. |
 | Color tokens | Complete: 54/54 semantic tokens × Light/Dark (Color + Brush each) and 60+ primitives, applied via `ThemeDictionaries`. |
 | Non-color tokens (`Tokens.axaml`) | Complete: font sizes 12-30 px, 4 px spacing scale, radii 4/6/8/12/full, shadows xs/sm/md/lg + card, stroke widths. |
 | Derived component brushes (`KumoTheme.axaml`) | Light/Dark pairs the components need that upstream expresses as `dark:` pairs of primitives (switch track/thumb, focus ring 50%, danger ring 50%, skeleton fill, toast backdrop). Fluent's `ControlCornerRadius`/`OverlayCornerRadius` and the ComboBox popup resources are redefined to Kumo values inside `Controls.axaml` resources so base-theme chrome follows Kumo radii too. |

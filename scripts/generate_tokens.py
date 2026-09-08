@@ -31,8 +31,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "design" / "kumo" / "theme-kumo.css"
-# Raw Tailwind palette colors referenced by Kumo component classes (e.g.
-# `bg-blue-500 dark:bg-blue-600` on the Switch) live in the compiled CSS.
+# Fixed palette shades referenced by upstream component classes (e.g. the
+# switch track colors) live in the compiled CSS; exposed for control styles.
 PRIMITIVES_SRC = ROOT / "design" / "kumo" / "kumo-standalone.css"
 OUT_AXAML = ROOT / "src" / "Kumo.Avalonia" / "Themes" / "Palette.axaml"
 OUT_MD = ROOT / "docs" / "TOKENS.md"
@@ -179,7 +179,7 @@ def _resolve(expr: str) -> RGBA:
 
 
 def parse_primitives(css: str) -> dict[str, RGBA]:
-    """Parse raw `--color-<family>-<shade>` Tailwind palette vars (no variant)."""
+    """Parse fixed `--color-<family>-<shade>` component base colors (no variant)."""
     out: dict[str, RGBA] = {}
     body = "\n".join(re.findall(r"@layer\s+theme\s*\{(.*?)\n?\}", css, re.S))
     for m in re.finditer(r"--color-((?!kumo)[a-z]+)(-\d+)?\s*:\s*([^;]+)", body):
@@ -244,7 +244,7 @@ def emit_axaml(tokens: list[Token], primitives: dict[str, RGBA]) -> str:
         '<ResourceDictionary xmlns="https://github.com/avaloniaui"',
         '                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">',
         f"    <!-- {HEADER.format(v=KUMO_VERSION)} -->",
-        "    <!-- Raw Tailwind palette colors used by Kumo component classes (variant-independent) -->",
+        "    <!-- Component base colors used by control styles (variant-independent) -->",
     ]
     for name in sorted(primitives):
         hex_val = _rgba_to_hex(primitives[name])
@@ -287,10 +287,11 @@ def emit_md(tokens: list[Token], primitives: dict[str, RGBA]) -> str:
                    f"| `{t.color_key}` | `{t.brush_key}` |")
     out += [
         "",
-        f"## Raw palette primitives ({len(primitives)})",
+        f"## Component base colors ({len(primitives)})",
         "",
-        "Tailwind palette values referenced by Kumo component classes, parsed from",
-        "`design/kumo/kumo-standalone.css`. Variant-independent (`KumoColor*` / `KumoBrush*`).",
+        "Fixed shades referenced by upstream component classes (switch tracks,",
+        "checkbox fills, badge colors), parsed from `design/kumo/kumo-standalone.css`.",
+        "Variant-independent (`KumoColor*` / `KumoBrush*`). Prefer semantic tokens in app UI.",
         "",
         "CSS var | Hex | Color key |",
         "| --- | --- | --- |",

@@ -52,6 +52,27 @@ Every token is exposed twice: `<Color>` under `KumoColor*` and `<SolidColorBrush
 (54 semantic tokens per variant, mapped 1:1 from the upstream CSS custom properties).
 See `docs/TOKENS.md` for the full mapping.
 
+### Class presets
+
+Control look comes from style classes on standard Avalonia controls. Note that
+`Classes` is **space-separated** in Avalonia XAML (a comma would form one
+literal class name):
+
+```xml
+<Button Classes="primary" Content="Deploy" />
+<Border Classes="badge success"><TextBlock Text="Healthy" /></Border>
+<Border Classes="banner warning"><TextBlock Text="Certificate expires soon" /></Border>
+<Border Classes="toast error"><TextBlock Text="Deployment failed" /></Border>
+<ProgressBar Classes="success" Value="100" />
+<Border Classes="layer-card"> ... </Border>
+<Border Classes="skeleton-line" Width="240" />
+```
+
+Available presets: buttons (`primary`, `danger`, `ghost`), progress (`success`,
+`danger`), badges (14 variants), banners (`info`, `warning`, `error`,
+`secondary`), toasts (4 status variants), `layer-card`, `skeleton-line`,
+checkbox/radio `error`.
+
 ## Regenerating the palette
 
 The palette XAML is generated; never edit it by hand.

@@ -1,4 +1,4 @@
-using Avalonia;
+using System;using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Controls.Primitives;
@@ -82,7 +82,7 @@ public class ThemeTests
     }
 
     [AvaloniaFact]
-    public void Raw_palette_primitives_are_available_outside_theme_dictionaries()
+    public void Component_base_colors_are_available_outside_theme_dictionaries()
     {
         var primitives = new[]
         {
@@ -245,11 +245,12 @@ public class ThemeTests
 
         var semantic = Assert.IsType<WrapPanel>(
             window.FindControl<WrapPanel>("SemanticSwatches")!);
-        var primitives = Assert.IsType<WrapPanel>(
-            window.FindControl<WrapPanel>("PrimitiveSwatches")!);
         Assert.Equal(54, semantic.Children.Count);
-        Assert.True(primitives.Children.Count > 40,
-            $"expected primitives swatches, got {primitives.Children.Count}");
+
+        var badge = window.GetVisualDescendants().OfType<Border>()
+            .First(b => b.Classes.Contains("badge") && b.Classes.Contains("primary"));
+        Assert.NotNull(badge.Background);
+        Assert.IsType<SolidColorBrush>(badge.Background);
     }
 
     [AvaloniaFact]

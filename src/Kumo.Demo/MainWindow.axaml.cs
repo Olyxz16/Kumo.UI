@@ -81,30 +81,23 @@ public partial class MainWindow : Window
 
     private void BuildPaletteSections()
     {
-        var (semantic, primitives) = CollectTokenNames();
+        var semantic = CollectTokenNames();
         FillSwatches(SemanticSwatches, semantic);
-        FillSwatches(PrimitiveSwatches, primitives);
     }
 
-    private static (IReadOnlyList<string> semantic, IReadOnlyList<string> primitives)
-        CollectTokenNames()
+    private static IReadOnlyList<string> CollectTokenNames()
     {
         var app = Application.Current ?? throw new InvalidOperationException("no app");
         var palette = FindTokenDictionary(app.Resources)
             ?? throw new InvalidOperationException("Kumo palette not found");
 
-        var primitiveNames = palette.Keys.OfType<string>()
-            .Where(k => k.StartsWith("KumoBrush")).OrderBy(k => k).ToList();
-
-        var semanticNames = palette.ThemeDictionaries.Values
+        return palette.ThemeDictionaries.Values
             .SelectMany(v => v is ResourceDictionary rd
                 ? rd.Keys.OfType<string>().Where(k => k.StartsWith("KumoBrush"))
                 : Enumerable.Empty<string>())
             .Distinct()
             .OrderBy(k => k)
             .ToList();
-
-        return (semanticNames, primitiveNames);
     }
 
     private static ResourceDictionary? FindTokenDictionary(IResourceDictionary dictionary)
