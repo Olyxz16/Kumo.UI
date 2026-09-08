@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Shapes;
 using Avalonia.Threading;
@@ -249,6 +250,26 @@ public class ThemeTests
         Assert.Equal(54, semantic.Children.Count);
         Assert.True(primitives.Children.Count > 40,
             $"expected primitives swatches, got {primitives.Children.Count}");
+    }
+
+    [AvaloniaFact]
+    public void NotificationCard_toast_uses_kumo_surface_and_status_ring()
+    {
+        Application.Current!.RequestedThemeVariant = ThemeVariant.Light;
+        var window = new MainWindow();
+        var card = new NotificationCard
+        {
+            Content = new TextBlock { Text = "Done" },
+            NotificationType = NotificationType.Success,
+        };
+        window.Content = card;
+        window.Show();
+
+        Assert.Equal(12, card.CornerRadius.TopLeft);
+        var expectedSuccess = Assert.IsType<SolidColorBrush>(
+            PaletteDictionaries()[ThemeVariant.Light]["KumoBrushSuccess"]).Color;
+        Assert.Equal(expectedSuccess,
+            Assert.IsType<SolidColorBrush>(card.BorderBrush).Color);
     }
 
     [AvaloniaFact]

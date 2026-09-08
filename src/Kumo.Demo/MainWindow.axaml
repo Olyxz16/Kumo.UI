@@ -69,8 +69,9 @@
                                FontSize="{StaticResource KumoFontSizeSm}"
                                Foreground="{DynamicResource KumoBrushTextSubtle}" />
                     <WrapPanel x:Name="SemanticSwatches" />
-                    <TextBlock Text="Raw palette (Tailwind primitives used by components)"
+                    <TextBlock Text="Raw palette — upstream Tailwind shades that Kumo component classes reference internally (switch tracks, checkbox fills, badge colors). Prefer the semantic tokens above in app UI; use these only when mirroring a specific upstream component."
                                FontSize="{StaticResource KumoFontSizeSm}"
+                               TextWrapping="Wrap"
                                Foreground="{DynamicResource KumoBrushTextSubtle}" />
                     <WrapPanel x:Name="PrimitiveSwatches" />
                 </StackPanel>
@@ -132,7 +133,7 @@
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <CheckBox Content="Enable observability" IsChecked="True" />
                         </StackPanel>
-                        <CheckBox Content="Indeterminate" IsChecked="{x:Null}" />
+                        <CheckBox Content="Indeterminate" IsChecked="{x:Null}" IsThreeState="True" />
                         <CheckBox Content="Disabled" IsEnabled="False" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="24">
@@ -266,7 +267,7 @@
                     <TextBlock Text="Collapsible" FontWeight="SemiBold"
                                Foreground="{DynamicResource KumoBrushTextStrong}" />
                     <Expander Header="How do I rotate an API token?" IsExpanded="True">
-                        <TextBlock Text="Tokens can be rotated from the dashboard under My Profile, or with the API. TextBlock"
+                        <TextBlock Text="Tokens can be rotated from the dashboard under My Profile, or with the API."
                                    TextWrapping="Wrap" FontWeight="Normal"
                                    Foreground="{DynamicResource KumoBrushTextDefault}" />
                     </Expander>
@@ -277,13 +278,14 @@
                 <StackPanel Spacing="12">
                     <TextBlock Text="Toasts" FontWeight="SemiBold"
                                Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <TextBlock Text="Live notifications at the bottom-right corner. Auto-dismiss after 4 seconds."
+                               FontSize="{StaticResource KumoFontSizeSm}"
+                               Foreground="{DynamicResource KumoBrushTextSubtle}" />
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <Border Classes="toast,success" MaxWidth="320">
-                            <TextBlock Text="Deployment succeeded" />
-                        </Border>
-                        <Border Classes="toast,warning" MaxWidth="320">
-                            <TextBlock Text="Build took longer than expected" />
-                        </Border>
+                        <Button Classes="primary" Content="Success toast" Click="OnShowToast" Tag="success" />
+                        <Button Content="Info toast" Click="OnShowToast" Tag="info" />
+                        <Button Content="Warning toast" Click="OnShowToast" Tag="warning" />
+                        <Button Classes="danger" Content="Error toast" Click="OnShowToast" Tag="error" />
                     </StackPanel>
                 </StackPanel>
             </Border>

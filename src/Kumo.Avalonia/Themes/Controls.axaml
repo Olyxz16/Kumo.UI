@@ -405,6 +405,80 @@
         </Style>
     </ControlTheme>
 
+    <!-- NotificationCard (live toast): base surface, xl radius, status ring, enter/exit animation -->
+
+    <ControlTheme x:Key="{x:Type NotificationCard}" TargetType="NotificationCard">
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="Width" Value="384" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
+        <Setter Property="RenderTransformOrigin" Value="50%,75%" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushLine}" />
+        <Setter Property="Background" Value="{DynamicResource KumoBrushToastBackdrop}" />
+        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusXl}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <LayoutTransformControl Name="PART_LayoutTransformControl" UseRenderTransform="True">
+                        <Border Margin="4,0,4,12">
+                            <Border x:Name="PART_Ring"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{TemplateBinding CornerRadius}"
+                                    BoxShadow="{StaticResource KumoShadowLg}">
+                                <ContentPresenter Name="PART_ContentPresenter"
+                                                  Margin="16"
+                                                  Content="{TemplateBinding Content}" />
+                            </Border>
+                        </Border>
+                    </LayoutTransformControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <ControlTheme.Animations>
+            <Animation Duration="0:0:0.35" Easing="CubicEaseOut" FillMode="Forward">
+                <KeyFrame Cue="0%">
+                    <Setter Property="Opacity" Value="0" />
+                    <Setter Property="TranslateTransform.Y" Value="16" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="Opacity" Value="1" />
+                    <Setter Property="TranslateTransform.Y" Value="0" />
+                </KeyFrame>
+            </Animation>
+        </ControlTheme.Animations>
+
+        <Style Selector="^[IsClosing=true]">
+            <Style.Animations>
+                <Animation Duration="0:0:1.25" Easing="QuadraticEaseOut" FillMode="Forward">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="Opacity" Value="1" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="IsClosed" Value="True" />
+                        <Setter Property="Opacity" Value="0" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+
+        <Style Selector="^:information">
+            <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushInfo}" />
+        </Style>
+        <Style Selector="^:success">
+            <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushSuccess}" />
+        </Style>
+        <Style Selector="^:warning">
+            <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushWarning}" />
+        </Style>
+        <Style Selector="^:error">
+            <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushDanger}" />
+        </Style>
+    </ControlTheme>
+
     </ResourceDictionary>
     </Styles.Resources>
 

@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
 using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Media;
 using Avalonia.Styling;
@@ -11,9 +15,25 @@ namespace Kumo.Demo;
 
 public partial class MainWindow : Window
 {
+    private readonly WindowNotificationManager _toasts;
+    private static readonly Dictionary<string, (NotificationType Type, string Title, string Message)> toastText =
+        new()
+        {
+            ["success"] = (NotificationType.Success, "Deployment succeeded", "Version 42 is live in production."),
+            ["info"] = (NotificationType.Information, "Sync in progress", "Zone settings are being propagated."),
+            ["warning"] = (NotificationType.Warning, "Build took longer than expected", "Cache was skipped for this run."),
+            ["error"] = (NotificationType.Error, "Deployment failed", "Rollback completed to version 41."),
+        };
+
     public MainWindow()
     {
         InitializeComponent();
+        _toasts = new WindowNotificationManager(this)
+        {
+            Position = NotificationPosition.BottomRight,
+            Margin = new Thickness(0, 0, 16, 16),
+            MaxItems = 4,
+        };
         Loaded += (_, _) => BuildPaletteSections();
     }
 
@@ -26,6 +46,37 @@ public partial class MainWindow : Window
 
         Application.Current.RequestedThemeVariant =
             ThemeToggle.IsChecked == true ? ThemeVariant.Dark : ThemeVariant.Light;
+    }
+
+    private void OnShowToast(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (sender is not Button { Tag: string tag } || !toastText.TryGetValue(tag, out var spec))
+        {
+            return;
+        }
+
+        var content = new StackPanel { Spacing = 2 };
+        content.Children.Add(new TextBlock
+        {
+            Text = spec.Title,
+            FontWeight = FontWeight.SemiBold,
+            [!TextBlock.ForegroundProperty] = new DynamicResourceExtension($"KumoBrushText{spec.Type switch
+            {
+                NotificationType.Success => "Success",
+                NotificationType.Warning => "Warning",
+                NotificationType.Error => "Danger",
+                _ => "Info",
+            }}"),
+        });
+        content.Children.Add(new TextBlock
+        {
+            Text = spec.Message,
+            TextWrapping = TextWrapping.Wrap,
+            [!TextBlock.ForegroundProperty] = new DynamicResourceExtension("KumoBrushTextDefault"),
+        });
+
+        _toasts.Show(content, spec.Type,
+            expiration: TimeSpan.FromSeconds(4), onClick: null, onClose: null);
     }
 
     private void BuildPaletteSections()

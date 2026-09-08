@@ -29,7 +29,7 @@ carry the exact Tailwind class strings per state).
 | Kumo component | Avalonia target | Status |
 | --- | --- | --- |
 | Dialog | `Window` + `OverlayPopupHost` chrome | Not styled (needs window chrome + scrim decisions) |
-| Toast (live notifications) | `NotificationCard` restyle + `WindowNotificationManager` wiring | Presets exist; live card restyle pending |
+| Toast (live notifications) | `NotificationCard` ControlTheme + `WindowNotificationManager` | Done: Kumo toast surface, status ring via `:success`/`:warning`/`:error`/`:information` pseudoclasses, enter/exit animation, 4s auto-dismiss in demo |
 | Table | `DataGrid` (needs Avalonia.Controls.DataGrid package) | Not styled |
 | Select with search / Combobox / Autocomplete | `AutoCompleteBox` restyle | Not styled |
 | Input group / sensitive input / InputArea | composed TextBox styles | Partial (plain TextBox only) |
@@ -47,6 +47,8 @@ carry the exact Tailwind class strings per state).
 - `Border.badge.beta` uses a solid brand border; Avalonia `Border` cannot dash. 
 - Checkbox/radio glyph icons are paths instead of Phosphor bold check/minus (same geometry, 12px equivalent).
 - Hover treatment follows the Kumo rule "no color transitions": no `Transitions` on colors anywhere.
+- Expander expands without a height animation; upstream Kumo animates the collapsible via motion tokens (see roadmap).
+- Toast close button: upstream toasts have a close X; the Avalonia NotificationCard template has none — cards auto-dismiss (4s in demo) instead.
 
 ### 2c. Design-rule checklist (from https://kumo-ui.com/skill.md)
 
