@@ -2,7 +2,9 @@ using System;using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Shapes;
+using Avalonia.Layout;
 using Avalonia.Threading;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
@@ -289,5 +291,198 @@ public class ThemeTests
         var textBrush = Assert.IsType<SolidColorBrush>(
             Assert.IsType<TextBlock>(badge.Child).Foreground);
         Assert.NotEqual(textBrush.Color, background.Color);
+    }
+
+    [AvaloniaFact]
+    public void Link_button_uses_text_link_color_with_underline()
+    {
+        Application.Current!.RequestedThemeVariant = ThemeVariant.Light;
+        var window = new MainWindow();
+        var link = new HyperlinkButton { Content = "Docs" };
+        var plain = new HyperlinkButton { Classes = { "plain" }, Content = "Plain" };
+        window.Content = new StackPanel { Children = { link, plain } };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal(Color.Parse("#193CB8"),
+            Assert.IsType<SolidColorBrush>(link.Foreground).Color);
+        var underlined = link.GetVisualDescendants().OfType<TextBlock>().First();
+        Assert.Equal(TextDecorations.Underline, underlined.TextDecorations);
+        var bare = plain.GetVisualDescendants().OfType<TextBlock>().First();
+        Assert.True(bare.TextDecorations is null || bare.TextDecorations.Count == 0,
+            "plain link should not be underlined");
+    }
+
+    [AvaloniaFact]
+    public void Loader_template_renders_spinning_arc()
+    {
+        var window = new MainWindow();
+        var loader = new ContentControl { Classes = { "loader" } };
+        window.Content = loader;
+        window.Show();
+
+        var spin = loader.GetVisualDescendants().OfType<Panel>()
+            .First(p => p.Name == "PART_Spin");
+        Assert.True(spin.IsVisible);
+        var paths = loader.GetVisualDescendants().OfType<AvaloniaPath>().ToList();
+        Assert.Equal(2, paths.Count);
+    }
+
+    [AvaloniaFact]
+    public void Input_group_children_reset_radii_and_focus_ring_wraps_group()
+    {
+        Application.Current!.RequestedThemeVariant = ThemeVariant.Light;
+        var window = new MainWindow();
+        var group = new Border { Classes = { "input-group" } };
+        var input = new TextBox { Width = 200 };
+        group.Child = input;
+        var probe = new TextBlock
+        {
+            [!TextBlock.ForegroundProperty] = new DynamicResourceExtension("KumoBrushFocusRing")
+        };
+        window.Content = new StackPanel { Children = { group, probe } };
+        window.Show();
+
+        Assert.Equal(Color.Parse("#FFFFFF"),
+            Assert.IsType<SolidColorBrush>(group.Background).Color);
+        var borderElement = input.GetVisualDescendants().OfType<Border>()
+            .First(b => b.Name == "PART_BorderElement");
+        Assert.Equal(0, borderElement.CornerRadius.TopLeft);
+
+        input.Focus();
+        Dispatcher.UIThread.RunJobs();
+        Assert.Contains(":focus-within", group.Classes);
+        Dispatcher.UIThread.RunJobs();
+        Assert.Equal(((ISolidColorBrush)probe.Foreground!).Color,
+            ((ISolidColorBrush)group.BorderBrush!).Color);
+    }
+
+    [AvaloniaFact]
+    public void Meter_uses_fill_track_with_8px_height()
+    {
+        Application.Current!.RequestedThemeVariant = ThemeVariant.Light;
+        var window = new MainWindow();
+        var meter = new ProgressBar { Classes = { "meter" }, Value = 50 };
+        window.Content = meter;
+        window.Show();
+
+        Assert.Equal(8, meter.MinHeight);
+        var expectedFill = Assert.IsType<SolidColorBrush>(
+            PaletteDictionaries()[ThemeVariant.Light]["KumoBrushFill"]).Color;
+        Assert.Equal(expectedFill, Assert.IsType<SolidColorBrush>(meter.Background).Color);
+
+        var warning = new ProgressBar { Classes = { "meter", "warning" }, Value = 50 };
+        window.Content = warning;
+        var expectedWarning = Assert.IsType<SolidColorBrush>(
+            PaletteDictionaries()[ThemeVariant.Light]["KumoBrushWarning"]).Color;
+        Assert.Equal(expectedWarning, Assert.IsType<SolidColorBrush>(warning.Foreground).Color);
+    }
+
+    [AvaloniaFact]
+    public void Table_row_presets_use_elevated_and_tint_backgrounds()
+    {
+        Application.Current!.RequestedThemeVariant = ThemeVariant.Light;
+        var window = new MainWindow();
+        var alt = new Border { Classes = { "table-row", "alt" } };
+        var selected = new Border { Classes = { "table-row", "selected" } };
+        var stack = new StackPanel { Children = { alt, selected } };
+        window.Content = stack;
+        window.Show();
+
+        var expectedElevated = Assert.IsType<SolidColorBrush>(
+            PaletteDictionaries()[ThemeVariant.Light]["KumoBrushElevated"]).Color;
+        Assert.Equal(expectedElevated, Assert.IsType<SolidColorBrush>(alt.Background).Color);
+        var expectedTint = Assert.IsType<SolidColorBrush>(
+            PaletteDictionaries()[ThemeVariant.Light]["KumoBrushTint"]).Color;
+        Assert.Equal(expectedTint, Assert.IsType<SolidColorBrush>(selected.Background).Color);
+    }
+
+    [AvaloniaFact]
+    public void Toolbar_buttons_get_edge_rounding_only()
+    {
+        var window = new MainWindow();
+        var toolbar = new Border { Classes = { "toolbar" } };
+        var first = new Button();
+        var middle = new Button();
+        var last = new Button();
+        toolbar.Child = new StackPanel
+        {
+            Orientation = Orientation.Horizontal,
+            Children = { first, middle, last },
+        };
+        window.Content = toolbar;
+        window.Show();
+
+        foreach (var button in new[] { first, middle, last })
+        {
+            var presenter = button.GetVisualDescendants()
+                .OfType<ContentPresenter>().First(p => p.Name == "PART_ContentPresenter");
+            if (button == first)
+            {
+                Assert.Equal(6, presenter.CornerRadius.TopLeft);
+                Assert.Equal(0, presenter.CornerRadius.TopRight);
+            }
+            else if (button == last)
+            {
+                Assert.Equal(0, presenter.CornerRadius.TopLeft);
+                Assert.Equal(6, presenter.CornerRadius.TopRight);
+            }
+            else
+            {
+                Assert.Equal(0, presenter.CornerRadius.TopLeft);
+                Assert.Equal(0, presenter.CornerRadius.TopRight);
+            }
+        }
+    }
+
+    [AvaloniaFact]
+    public void Empty_preset_uses_xl_radius_and_spec_padding()
+    {
+        var window = new MainWindow();
+        var empty = new Border { Classes = { "empty" } };
+        window.Content = empty;
+        window.Show();
+
+        Assert.Equal(12, empty.CornerRadius.TopLeft);
+        Assert.Equal(64, empty.Padding.Top);
+        var small = new Border { Classes = { "empty", "empty-sm" } };
+        window.Content = small;
+        Assert.Equal(32, small.Padding.Top);
+    }
+
+    [AvaloniaFact]
+    public void Autocomplete_dropdown_uses_control_surface()
+    {
+        Application.Current!.RequestedThemeVariant = ThemeVariant.Light;
+        var window = new MainWindow();
+        var box = new AutoCompleteBox();
+        box.ItemsSource = new[] { "alpha", "beta" };
+        window.Content = box;
+        window.Show();
+
+        var popup = Assert.IsType<Popup>(box.GetVisualDescendants().First(c => c is Popup));
+        var container = Assert.IsType<Border>(popup.Child);
+        Assert.Equal("PART_SuggestionsContainer", container.Name);
+        Assert.Equal(Color.Parse("#FFFFFF"),
+            Assert.IsType<SolidColorBrush>(container.Background).Color);
+        Assert.Equal(8, container.CornerRadius.TopLeft);
+    }
+
+    [AvaloniaFact]
+    public void Dialog_window_uses_dialog_surface_and_typography()
+    {
+        Application.Current!.RequestedThemeVariant = ThemeVariant.Light;
+        var window = new MainWindow();
+        var dialog = new DialogWindow();
+        dialog.Show();
+        Dispatcher.UIThread.RunJobs();
+        var surface = dialog.GetVisualDescendants().OfType<Border>()
+            .First(b => b.Classes.Contains("dialog-surface"));
+        Assert.Equal(Color.Parse("#FFFFFF"),
+            Assert.IsType<SolidColorBrush>(surface.Background).Color);
+        Assert.Equal(12, surface.CornerRadius.TopLeft);
+        var title = dialog.GetVisualDescendants().OfType<TextBlock>()
+            .First(b => b.Classes.Contains("dialog-title"));
+        Assert.Equal(16, title.FontSize);
     }
 }

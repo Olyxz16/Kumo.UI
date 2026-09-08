@@ -298,6 +298,265 @@
                 </StackPanel>
             </Border>
 
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Links &amp; code" FontWeight="SemiBold"
+                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                        <HyperlinkButton Content="Read the docs" NavigateUri="https://kumo-ui.com" />
+                        <HyperlinkButton Classes="plain" Content="Plain link" NavigateUri="https://kumo-ui.com" />
+                        <TextBlock Classes="link" Text="Current-color link" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <TextBlock Foreground="{DynamicResource KumoBrushTextDefault}">
+                        <Run Text="Inline code, e.g. configure in " />
+                        <Run Text="wrangler.toml" FontFamily="{StaticResource KumoFontMono}"
+                             Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                        <Run Text=" then deploy." />
+                    </TextBlock>
+                    <Border Classes="code-block" MaxWidth="420" HorizontalAlignment="Left">
+                        <SelectableTextBlock Text="npx wrangler deploy --env production" />
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Loaders &amp; meters" FontWeight="SemiBold"
+                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <StackPanel Orientation="Horizontal" Spacing="20" VerticalAlignment="Center">
+                        <Panel Classes="loader loader-sm" />
+                        <Panel Classes="loader" />
+                        <Panel Classes="loader loader-lg" />
+                        <Panel Classes="loader loader-sm" TextElement.Foreground="{DynamicResource KumoBrushSuccess}" />
+                        <Panel Classes="loader loader-sm" TextElement.Foreground="{DynamicResource KumoBrushDanger}" />
+                    </StackPanel>
+                    <StackPanel Spacing="4">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Text="Bandwidth used" FontSize="{StaticResource KumoFontSizeXs}"
+                                       Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                            <TextBlock Grid.Column="1" Text="1.2 TB / 2 TB" FontSize="{StaticResource KumoFontSizeSm}"
+                                       FontWeight="Medium" Foreground="{DynamicResource KumoBrushTextDefault}" />
+                        </Grid>
+                        <ProgressBar Classes="meter" Value="62" Maximum="100" />
+                    </StackPanel>
+                    <StackPanel Spacing="4">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Text="CPU" FontSize="{StaticResource KumoFontSizeXs}"
+                                       Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                            <TextBlock Grid.Column="1" Text="94%" FontSize="{StaticResource KumoFontSizeSm}"
+                                       FontWeight="Medium" Foreground="{DynamicResource KumoBrushTextDefault}" />
+                        </Grid>
+                        <ProgressBar Classes="meter danger" Value="94" Maximum="100" />
+                    </StackPanel>
+                    <ProgressBar Classes="meter warning" Value="80" Maximum="100" />
+                    <ProgressBar Classes="meter info" Value="45" Maximum="100" />
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Toolbar &amp; menubar" FontWeight="SemiBold"
+                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Border Classes="toolbar" HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Classes="icon">
+                                <Path Width="18" Height="18" Stretch="Uniform"
+                                      Data="M12,5 L12,19 M5,12 L19,12"
+                                      Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
+                            </Button>
+                            <Button Classes="icon">
+                                <Path Width="18" Height="18" Stretch="Uniform"
+                                      Data="M6,16 L6,11 A6,6 0 1 1 18,11 L18,16 M4,16 L20,16 M10,19 A2,2 0 0 0 14,19"
+                                      Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
+                            </Button>
+                            <TextBox Width="150" PlaceholderText="Filter resources" VerticalAlignment="Center" />
+                            <Button Classes="icon">
+                                <Path Width="18" Height="18" Stretch="Uniform"
+                                      Data="M5,12 L10,17 L19,7"
+                                      Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                    <Border Classes="menubar" HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Classes="icon active">
+                                <Path Width="18" Height="18" Stretch="Uniform"
+                                      Data="M4,6 L20,6 M4,12 L20,12 M4,18 L20,18"
+                                      Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
+                            </Button>
+                            <Button Classes="icon">
+                                <Path Width="18" Height="18" Stretch="Uniform"
+                                      Data="M12,5 L12,19 M5,12 L19,12"
+                                      Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
+                            </Button>
+                            <Button Classes="icon">
+                                <Path Width="18" Height="18" Stretch="Uniform"
+                                      Data="M9.5,7 L14.5,12 L9.5,17"
+                                      Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Field, input group &amp; special inputs" FontWeight="SemiBold"
+                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <StackPanel Spacing="6" MaxWidth="420" HorizontalAlignment="Left">
+                        <TextBlock Foreground="{DynamicResource KumoBrushTextDefault}">
+                            <Run Text="API token" FontWeight="Medium" />
+                            <Run Text=" (optional)" FontSize="{StaticResource KumoFontSizeXs}"
+                                 Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                        </TextBlock>
+                        <TextBox PlaceholderText="sk_live_..." />
+                        <TextBlock Classes="field-description" Text="Used to authenticate requests against the API." />
+                        <TextBlock Classes="field-error" Text="Token expired. Rotate it in My Profile." />
+                    </StackPanel>
+                    <Border Classes="input-group" MaxWidth="300" HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Width="210" PlaceholderText="Search docs" BorderThickness="0"
+                                     Background="Transparent" />
+                            <Button Classes="icon">
+                                <Path Width="16" Height="16" Stretch="Uniform"
+                                      Data="M10.5,4 A6.5,6.5 0 1 0 10.51,4 Z M15.3,15.3 L20,20"
+                                      Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                    <TextBox Classes="multiline" AcceptsReturn="True" PlaceholderText="Deployment notes..."
+                             MaxWidth="360" HorizontalAlignment="Left" />
+                    <StackPanel Spacing="6" MaxWidth="420" HorizontalAlignment="Left">
+                        <TextBlock Classes="field-label" Text="Environment" />
+                        <AutoCompleteBox Name="EnvAutocomplete" PlaceholderText="production"
+                                         FilterMode="Contains" MaxDropDownHeight="220" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBox Name="SensitiveInput" Classes="password" Text="hunter2-secret-value" Width="240" />
+                        <Button Classes="icon ghost" Click="OnToggleReveal">
+                            <Path Width="18" Height="18" Stretch="Uniform"
+                                  Data="M2,12 C5,6.5 19,6.5 22,12 C19,17.5 5,17.5 2,12 M12,9 A3,3 0 1 0 12.01,9"
+                                  Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Breadcrumbs &amp; pagination" FontWeight="SemiBold"
+                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <StackPanel Orientation="Horizontal" Spacing="2" VerticalAlignment="Center">
+                        <Button Classes="breadcrumb" Content="Dashboard" />
+                        <Path Width="14" Height="14" Stretch="Uniform" VerticalAlignment="Center"
+                              Data="M9.5,7 L14.5,12 L9.5,17"
+                              Stroke="{DynamicResource KumoBrushTextInactive}" StrokeThickness="1.5" />
+                        <Button Classes="breadcrumb" Content="Projects" />
+                        <Path Width="14" Height="14" Stretch="Uniform" VerticalAlignment="Center"
+                              Data="M9.5,7 L14.5,12 L9.5,17"
+                              Stroke="{DynamicResource KumoBrushTextInactive}" StrokeThickness="1.5" />
+                        <TextBlock Classes="breadcrumb-current" Text="Kumo Avalonia" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                        <TextBlock Classes="pagination-info" Text="1 &#8211; 10 of 128" VerticalAlignment="Center" />
+                        <Border Classes="pagination-separator" />
+                        <Button Classes="page icon">
+                            <Path Width="16" Height="16" Stretch="Uniform"
+                                  Data="M14.5,7 L9.5,12 L14.5,17"
+                                  Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
+                        </Button>
+                        <Button Classes="page" Content="1" />
+                        <Button Classes="page page-selected" Content="2" />
+                        <Button Classes="page" Content="3" />
+                        <Button Classes="page icon">
+                            <Path Width="16" Height="16" Stretch="Uniform"
+                                  Data="M9.5,7 L14.5,12 L9.5,17"
+                                  Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Table" FontWeight="SemiBold"
+                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Border Classes="table" MaxWidth="520" HorizontalAlignment="Left">
+                        <StackPanel>
+                            <Grid ColumnDefinitions="*,120,110">
+                                <Border Classes="table-header-cell"><TextBlock Text="Region" /></Border>
+                                <Border Classes="table-header-cell" Grid.Column="1"><TextBlock Text="Status" /></Border>
+                                <Border Classes="table-header-cell" Grid.Column="2"><TextBlock Text="Requests" /></Border>
+                            </Grid>
+                            <Border Classes="table-row">
+                                <Grid ColumnDefinitions="*,120,110">
+                                    <Border Classes="table-cell"><TextBlock Text="North America" /></Border>
+                                    <Border Classes="table-cell" Grid.Column="1"><TextBlock Text="Healthy" /></Border>
+                                    <Border Classes="table-cell" Grid.Column="2"><TextBlock Classes="mono" Text="24.1M" /></Border>
+                                </Grid>
+                            </Border>
+                            <Border Classes="table-row alt">
+                                <Grid ColumnDefinitions="*,120,110">
+                                    <Border Classes="table-cell"><TextBlock Text="Europe" /></Border>
+                                    <Border Classes="table-cell" Grid.Column="1"><TextBlock Text="Degraded" /></Border>
+                                    <Border Classes="table-cell" Grid.Column="2"><TextBlock Classes="mono" Text="12.9M" /></Border>
+                                </Grid>
+                            </Border>
+                            <Border Classes="table-row selected">
+                                <Grid ColumnDefinitions="*,120,110">
+                                    <Border Classes="table-cell"><TextBlock Text="Asia Pacific" /></Border>
+                                    <Border Classes="table-cell" Grid.Column="1"><TextBlock Text="Healthy" /></Border>
+                                    <Border Classes="table-cell" Grid.Column="2"><TextBlock Classes="mono" Text="8.4M" /></Border>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Empty state" FontWeight="SemiBold"
+                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Border Classes="empty empty-sm" MaxWidth="520" HorizontalAlignment="Left">
+                        <StackPanel Spacing="16" HorizontalAlignment="Center">
+                            <Path Width="40" Height="40" Stretch="Uniform" HorizontalAlignment="Center"
+                                  Data="M3,6 A3,3 0 0 1 6,3 L18,3 A3,3 0 0 1 21,6 L21,18 A3,3 0 0 1 18,21 L6,21 A3,3 0 0 1 3,18 Z M3,9 L21,9 M8,13 L16,13"
+                                  Stroke="{DynamicResource KumoBrushTextInactive}" StrokeThickness="1.5" />
+                            <StackPanel Spacing="4">
+                                <TextBlock Classes="empty-title" Text="No zones yet" />
+                                <TextBlock Classes="empty-description"
+                                           Text="Add your first zone to start proxying traffic through the edge." />
+                            </StackPanel>
+                            <Button Classes="primary" Content="Add zone" HorizontalAlignment="Center" />
+                            <Border Classes="empty-command">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Classes="empty-command-prefix" Text="$" />
+                                    <TextBlock Classes="empty-command-text" Text="npx wrangler zones add example.com" />
+                                    <Button Classes="icon ghost icon-sm">
+                                        <Path Width="14" Height="14" Stretch="Uniform"
+                                              Data="M9,9 L19,9 L19,19 L9,19 Z M15,9 L15,5 L5,5 L5,15 L9,15"
+                                              Stroke="{DynamicResource KumoBrushTextInactive}" StrokeThickness="1.5" />
+                                    </Button>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Dialog" FontWeight="SemiBold"
+                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <TextBlock Text="Themed modal window with backdrop, surface shadow and dialog typography."
+                               FontSize="{StaticResource KumoFontSizeSm}"
+                               Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                    <Button Content="Open dialog" Click="OnOpenDialog" HorizontalAlignment="Left" />
+                </StackPanel>
+            </Border>
+
         </StackPanel>
     </ScrollViewer>
 </Window>

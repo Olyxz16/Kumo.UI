@@ -25,6 +25,9 @@ public partial class MainWindow : Window
             ["error"] = (NotificationType.Error, "Deployment failed", "Rollback completed to version 41."),
         };
 
+    private static readonly string[] Environments =
+        ["production", "staging", "development", "preview", "workers-dev"];
+
     public MainWindow()
     {
         InitializeComponent();
@@ -34,7 +37,28 @@ public partial class MainWindow : Window
             Margin = new Thickness(0, 0, 16, 16),
             MaxItems = 4,
         };
-        Loaded += (_, _) => BuildPaletteSections();
+        Loaded += (_, _) =>
+        {
+            BuildPaletteSections();
+            EnvAutocomplete.ItemsSource = Environments;
+        };
+    }
+
+    private void OnToggleReveal(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        var box = this.FindControl<TextBox>("SensitiveInput");
+        if (box is null)
+        {
+            return;
+        }
+
+        box.PasswordChar = box.PasswordChar == '\u2022' ? default : '\u2022';
+    }
+
+    private async void OnOpenDialog(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        var dialog = new DialogWindow();
+        await dialog.ShowDialog(this);
     }
 
     private void OnToggleTheme(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
