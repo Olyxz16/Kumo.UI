@@ -1,0 +1,138 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="860" d:DesignHeight="900"
+        x:Class="Kumo.Demo.MainWindow"
+        Title="Kumo for Avalonia"
+        Width="880" Height="900"
+        Background="{DynamicResource KumoBrushCanvas}"
+        Foreground="{DynamicResource KumoBrushTextDefault}"
+        FontSize="{StaticResource KumoFontSizeBase}">
+
+    <ScrollViewer>
+        <StackPanel Margin="40,32" MaxWidth="800" Spacing="24">
+
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Grid.Column="0" Spacing="4">
+                    <TextBlock Text="Kumo for Avalonia"
+                               FontSize="{StaticResource KumoFontSizeXxl}"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <TextBlock Text="Cloudflare design system tokens, on Avalonia"
+                               Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                </StackPanel>
+                <ToggleButton x:Name="ThemeToggle" Grid.Column="1"
+                              Content="Dark mode"
+                              VerticalAlignment="Center"
+                              Click="OnToggleTheme" />
+            </Grid>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Surfaces" FontWeight="SemiBold"
+                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <UniformGrid Columns="6" Rows="1">
+                        <StackPanel Spacing="4">
+                            <Border Height="56" CornerRadius="8" Background="{DynamicResource KumoBrushCanvas}" BorderBrush="{DynamicResource KumoBrushHairline}" BorderThickness="1" />
+                            <TextBlock Text="canvas" FontSize="{StaticResource KumoFontSizeSm}" Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                        </StackPanel>
+                        <StackPanel Spacing="4">
+                            <Border Height="56" CornerRadius="8" Background="{DynamicResource KumoBrushBase}" BorderBrush="{DynamicResource KumoBrushHairline}" BorderThickness="1" />
+                            <TextBlock Text="base" FontSize="{StaticResource KumoFontSizeSm}" Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                        </StackPanel>
+                        <StackPanel Spacing="4">
+                            <Border Height="56" CornerRadius="8" Background="{DynamicResource KumoBrushElevated}" BorderBrush="{DynamicResource KumoBrushHairline}" BorderThickness="1" />
+                            <TextBlock Text="elevated" FontSize="{StaticResource KumoFontSizeSm}" Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                        </StackPanel>
+                        <StackPanel Spacing="4">
+                            <Border Height="56" CornerRadius="8" Background="{DynamicResource KumoBrushRecessed}" BorderBrush="{DynamicResource KumoBrushHairline}" BorderThickness="1" />
+                            <TextBlock Text="recessed" FontSize="{StaticResource KumoFontSizeSm}" Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                        </StackPanel>
+                        <StackPanel Spacing="4">
+                            <Border Height="56" CornerRadius="8" Background="{DynamicResource KumoBrushTint}" BorderBrush="{DynamicResource KumoBrushHairline}" BorderThickness="1" />
+                            <TextBlock Text="tint" FontSize="{StaticResource KumoFontSizeSm}" Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                        </StackPanel>
+                        <StackPanel Spacing="4">
+                            <Border Height="56" CornerRadius="8" Background="{DynamicResource KumoBrushContrast}" />
+                            <TextBlock Text="contrast" FontSize="{StaticResource KumoFontSizeSm}" Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                        </StackPanel>
+                    </UniformGrid>
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Status" FontWeight="SemiBold"
+                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <UniformGrid Columns="4" Rows="1">
+                        <Border Margin="0,0,8,0" Padding="12,8" CornerRadius="8" Background="{DynamicResource KumoBrushInfoTint}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Ellipse Width="8" Height="8" Fill="{DynamicResource KumoBrushInfo}" VerticalAlignment="Center" />
+                                <TextBlock Text="Info" Foreground="{DynamicResource KumoBrushTextInfo}" />
+                            </StackPanel>
+                        </Border>
+                        <Border Margin="0,0,8,0" Padding="12,8" CornerRadius="8" Background="{DynamicResource KumoBrushSuccessTint}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Ellipse Width="8" Height="8" Fill="{DynamicResource KumoBrushSuccess}" VerticalAlignment="Center" />
+                                <TextBlock Text="Success" Foreground="{DynamicResource KumoBrushTextSuccess}" />
+                            </StackPanel>
+                        </Border>
+                        <Border Margin="0,0,8,0" Padding="12,8" CornerRadius="8" Background="{DynamicResource KumoBrushWarningTint}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Ellipse Width="8" Height="8" Fill="{DynamicResource KumoBrushWarning}" VerticalAlignment="Center" />
+                                <TextBlock Text="Warning" Foreground="{DynamicResource KumoBrushTextWarning}" />
+                            </StackPanel>
+                        </Border>
+                        <Border Padding="12,8" CornerRadius="8" Background="{DynamicResource KumoBrushDangerTint}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Ellipse Width="8" Height="8" Fill="{DynamicResource KumoBrushDanger}" VerticalAlignment="Center" />
+                                <TextBlock Text="Danger" Foreground="{DynamicResource KumoBrushTextDanger}" />
+                            </StackPanel>
+                        </Border>
+                    </UniformGrid>
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Buttons" FontWeight="SemiBold"
+                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Classes="primary" Content="Primary" ToolTip.Tip="Primary action" />
+                        <Button Content="Secondary" />
+                        <Button Classes="danger" Content="Delete" />
+                        <Button Classes="ghost" Content="Ghost" />
+                        <Button Content="Disabled" IsEnabled="False" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Inputs" FontWeight="SemiBold"
+                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <TextBox PlaceholderText="Worker name" MaxWidth="320" HorizontalAlignment="Left" />
+                    <StackPanel Orientation="Horizontal" Spacing="24">
+                        <CheckBox Content="Enable observability" IsChecked="True" />
+                        <ToggleSwitch Content="Preview" IsChecked="True" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card" Background="{DynamicResource KumoBrushElevated}">
+                <StackPanel Spacing="4">
+                    <TextBlock Text="Text scale" FontWeight="SemiBold"
+                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <TextBlock Text="3xl heading, 30px" FontSize="{StaticResource KumoFontSize3xl}" Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <TextBlock Text="xxl heading, 24px" FontSize="{StaticResource KumoFontSizeXxl}" FontWeight="SemiBold" Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <TextBlock Text="lg subheading, 16px" FontSize="{StaticResource KumoFontSizeLg}" Foreground="{DynamicResource KumoBrushTextDefault}" />
+                    <TextBlock Text="base content text, 14px" FontSize="{StaticResource KumoFontSizeBase}" Foreground="{DynamicResource KumoBrushTextDefault}" />
+                    <TextBlock Text="sm caption, 13px" FontSize="{StaticResource KumoFontSizeSm}" Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                    <TextBlock Text="xs label, 12px" FontSize="{StaticResource KumoFontSizeXs}" Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</Window>

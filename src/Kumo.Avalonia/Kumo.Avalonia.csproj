@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Version>0.1.0</Version>
+    <Title>Kumo.Avalonia</Title>
+    <Description>Kumo (Cloudflare's design system) as an Avalonia theme: semantic color tokens with light/dark variants and starter control styles.</Description>
+    <PackageTags>avalonia;kumo;cloudflare;design-system;theme</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="12.1.2" />
+  </ItemGroup>
+
+</Project>

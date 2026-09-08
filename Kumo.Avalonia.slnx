@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Kumo.Avalonia/Kumo.Avalonia.csproj" />
+    <Project Path="src/Kumo.Demo/Kumo.Demo.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Kumo.Avalonia.Tests/Kumo.Avalonia.Tests.csproj" />
+  </Folder>
+</Solution>

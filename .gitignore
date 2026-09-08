@@ -1,0 +1,29 @@
+## .NET
+bin/
+obj/
+artifacts/
+out/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## IDE
+.vs/
+.idea/
+*.swp
+*.swo
+
+## OS
+.DS_Store
+Thumbs.db
+
+## Test
+TestResults/
+*.trx
+
+## Avalonia
+*.axaml.cs.bak
+
+## Python
+__pycache__/
