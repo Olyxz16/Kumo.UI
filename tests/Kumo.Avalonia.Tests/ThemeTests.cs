@@ -1,10 +1,14 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Shapes;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Media;
 using Avalonia.Styling;
+using Avalonia.VisualTree;
+using AvaloniaPath = Avalonia.Controls.Shapes.Path;
 using Kumo.Demo;
 using Xunit;
 
@@ -26,7 +30,9 @@ public class ThemeTests
     private static ResourceDictionary? FindPalette(IResourceDictionary dictionary)
     {
         if (dictionary is ResourceDictionary resourceDictionary &&
-            resourceDictionary.ThemeDictionaries.Count > 0)
+            resourceDictionary.ThemeDictionaries.Count > 0 &&
+            resourceDictionary.ThemeDictionaries.Values
+                .Any(v => v is ResourceDictionary rd && rd.Keys.Contains("KumoBrushBrand")))
         {
             return resourceDictionary;
         }
@@ -70,6 +76,22 @@ public class ThemeTests
             {
                 Assert.Equal(lightBrushKeys, brushKeys.ToHashSet());
             }
+        }
+    }
+
+    [AvaloniaFact]
+    public void Raw_palette_primitives_are_available_outside_theme_dictionaries()
+    {
+        var primitives = new[]
+        {
+            "KumoColorBlue500", "KumoColorBlue600", "KumoColorNeutral200",
+            "KumoColorNeutral700", "KumoColorNeutral800", "KumoColorBlue300",
+        };
+        foreach (var key in primitives)
+        {
+            Assert.True(Application.Current!.TryGetResource(key, null, out var color),
+                $"missing primitive {key}");
+            Assert.IsType<Color>(color);
         }
     }
 
@@ -119,5 +141,113 @@ public class ThemeTests
         Assert.Equal(Color.Parse("#056DFF"), background.Color);
         var foreground = Assert.IsType<SolidColorBrush>(button.Foreground);
         Assert.Equal(Color.Parse("#F5F5F5"), foreground.Color);
+    }
+
+    [AvaloniaFact]
+    public void ToggleSwitch_checked_track_uses_blue_scale()
+    {
+        Application.Current!.RequestedThemeVariant = ThemeVariant.Light;
+        var window = new MainWindow();
+        var toggle = new ToggleSwitch { IsChecked = true };
+        window.Content = toggle;
+        window.Show();
+
+        var onTrack = toggle.GetVisualDescendants()
+            .OfType<Border>().First(b => b.Name == "SwitchKnobBounds");
+        Assert.Equal(Color.Parse("#2B7FFF"),
+            Assert.IsType<SolidColorBrush>(onTrack.Background).Color);
+
+        var knob = toggle.GetVisualDescendants()
+            .OfType<Ellipse>().First(e => e.Name == "SwitchKnobOn");
+        Assert.Equal(Color.Parse("#FFFFFF"),
+            Assert.IsType<SolidColorBrush>(knob.Fill).Color);
+
+        Application.Current.RequestedThemeVariant = ThemeVariant.Dark;
+        Assert.Equal(Color.Parse("#155DFC"),
+            Assert.IsType<SolidColorBrush>(onTrack.Background).Color);
+        Assert.Equal(Color.Parse("#8EC5FF"),
+            Assert.IsType<SolidColorBrush>(knob.Fill).Color);
+    }
+
+    [AvaloniaFact]
+    public void CheckBox_checked_box_fills_with_contrast()
+    {
+        Application.Current!.RequestedThemeVariant = ThemeVariant.Light;
+        var window = new MainWindow();
+        var checkBox = new CheckBox { Content = "Test", IsChecked = true };
+        window.Content = checkBox;
+        window.Show();
+
+        var box = checkBox.GetVisualDescendants()
+            .OfType<Border>().First(b => b.Name == "Box");
+        Assert.Equal(4, box.CornerRadius.TopLeft);
+        var expectedContrast = Assert.IsType<SolidColorBrush>(
+            PaletteDictionaries()[ThemeVariant.Light]["KumoBrushContrast"]).Color;
+        Assert.Equal(expectedContrast,
+            Assert.IsType<SolidColorBrush>(box.Background).Color);
+
+        var check = checkBox.GetVisualDescendants()
+            .OfType<AvaloniaPath>().First(p => p.Name == "CheckGlyph");
+        Assert.True(check.IsVisible);
+    }
+
+    [AvaloniaFact]
+    public void ComboBox_popup_and_trigger_use_kumo_surfaces()
+    {
+        Application.Current!.RequestedThemeVariant = ThemeVariant.Light;
+        var window = new MainWindow();
+        var comboBox = new ComboBox { PlaceholderText = "Pick" };
+        comboBox.Items.Add("One");
+        comboBox.Items.Add("Two");
+        window.Content = comboBox;
+        window.Show();
+
+        var popup = Assert.IsType<Popup>(comboBox.GetVisualDescendants()
+            .First(c => c is Popup));
+        var popupBorder = Assert.IsType<Border>(popup.Child);
+        Assert.Equal(Color.Parse("#FFFFFF"),
+            Assert.IsType<SolidColorBrush>(popupBorder.Background).Color);
+        Assert.Equal(8, popupBorder.CornerRadius.TopLeft);
+    }
+
+    [AvaloniaFact]
+    public void TabItem_selected_tab_fills_with_base_surface()
+    {
+        Application.Current!.RequestedThemeVariant = ThemeVariant.Light;
+        var window = new MainWindow();
+        var tabControl = new TabControl();
+        tabControl.Items.Add(new TabItem { Header = "One" });
+        tabControl.Items.Add(new TabItem { Header = "Two" });
+        tabControl.SelectedIndex = 1;
+        window.Content = tabControl;
+        window.Show();
+
+        var selected = Assert.IsType<TabItem>(tabControl.SelectedItem);
+        var layoutRoot = selected.GetVisualDescendants()
+            .OfType<Border>().First(b => b.Name == "PART_LayoutRoot");
+        Assert.Equal(Color.Parse("#FFFFFF"),
+            Assert.IsType<SolidColorBrush>(layoutRoot.Background).Color);
+        var expectedLine = Assert.IsType<SolidColorBrush>(
+            PaletteDictionaries()[ThemeVariant.Light]["KumoBrushLine"]).Color;
+        Assert.Equal(expectedLine,
+            Assert.IsType<SolidColorBrush>(layoutRoot.BorderBrush).Color);
+    }
+
+    [AvaloniaFact]
+    public void Badge_error_class_applies_danger_tint()
+    {
+        var window = new MainWindow();
+        var badge = new Border { Classes = { "badge", "error" } };
+        badge.Child = new TextBlock { Text = "Error" };
+        window.Content = badge;
+        window.Show();
+
+        var background = Assert.IsType<SolidColorBrush>(badge.Background);
+        var expectedTint = Assert.IsType<SolidColorBrush>(
+            PaletteDictionaries()[ThemeVariant.Light]["KumoBrushDangerTint"]).Color;
+        Assert.Equal(expectedTint, background.Color);
+        var textBrush = Assert.IsType<SolidColorBrush>(
+            Assert.IsType<TextBlock>(badge.Child).Foreground);
+        Assert.NotEqual(textBrush.Color, background.Color);
     }
 }

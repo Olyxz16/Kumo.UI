@@ -4,7 +4,7 @@ Source: `design/kumo/theme-kumo.css` from `@cloudflare/kumo` v2.13.1,
 converted by `scripts/generate_tokens.py`. Values are sRGB hex,
 `#AARRGGBB` when the token carries alpha.
 
-54 tokens. Set `RequestedThemeVariant` (Light/Dark) to switch.
+54 semantic tokens. Set `RequestedThemeVariant` (Light/Dark) to switch.
 
 | CSS token | Light | Dark | Color key | Brush key |
 | --- | --- | --- | --- | --- |
@@ -62,3 +62,52 @@ converted by `scripts/generate_tokens.py`. Values are sRGB hex,
 | `--color-kumo-badge-blue` | `#155DFC` | `#1447E6` | `KumoColorBadgeBlue` | `KumoBrushBadgeBlue` |
 | `--color-kumo-badge-neutral` | `#737373` | `#525252` | `KumoColorBadgeNeutral` | `KumoBrushBadgeNeutral` |
 | `--color-kumo-badge-inverted` | `#0A0A0A` | `#FFFFFF` | `KumoColorBadgeInverted` | `KumoBrushBadgeInverted` |
+
+## Raw palette primitives (41)
+
+Tailwind palette values referenced by Kumo component classes, parsed from
+`design/kumo/kumo-standalone.css`. Variant-independent (`KumoColor*` / `KumoBrush*`).
+
+CSS var | Hex | Color key |
+| --- | --- | --- |
+| `--color-black` | `#000000` | `KumoColorBlack` |
+| `--color-blue300` | `#8EC5FF` | `KumoColorBlue300` |
+| `--color-blue400` | `#51A2FF` | `KumoColorBlue400` |
+| `--color-blue500` | `#2B7FFF` | `KumoColorBlue500` |
+| `--color-blue600` | `#155DFC` | `KumoColorBlue600` |
+| `--color-blue700` | `#1447E6` | `KumoColorBlue700` |
+| `--color-blue800` | `#193CB8` | `KumoColorBlue800` |
+| `--color-emerald200` | `#A4F4CF` | `KumoColorEmerald200` |
+| `--color-emerald400` | `#00D492` | `KumoColorEmerald400` |
+| `--color-emerald600` | `#009966` | `KumoColorEmerald600` |
+| `--color-emerald700` | `#007A55` | `KumoColorEmerald700` |
+| `--color-emerald800` | `#006045` | `KumoColorEmerald800` |
+| `--color-neutral100` | `#F5F5F5` | `KumoColorNeutral100` |
+| `--color-neutral200` | `#E5E5E5` | `KumoColorNeutral200` |
+| `--color-neutral300` | `#D4D4D4` | `KumoColorNeutral300` |
+| `--color-neutral400` | `#A1A1A1` | `KumoColorNeutral400` |
+| `--color-neutral50` | `#FAFAFA` | `KumoColorNeutral50` |
+| `--color-neutral500` | `#737373` | `KumoColorNeutral500` |
+| `--color-neutral600` | `#525252` | `KumoColorNeutral600` |
+| `--color-neutral700` | `#404040` | `KumoColorNeutral700` |
+| `--color-neutral800` | `#262626` | `KumoColorNeutral800` |
+| `--color-neutral900` | `#171717` | `KumoColorNeutral900` |
+| `--color-neutral950` | `#0A0A0A` | `KumoColorNeutral950` |
+| `--color-orange200` | `#FFD6A7` | `KumoColorOrange200` |
+| `--color-orange400` | `#FF8904` | `KumoColorOrange400` |
+| `--color-orange650` | `#FFAC00` | `KumoColorOrange650` |
+| `--color-orange800` | `#9F2D00` | `KumoColorOrange800` |
+| `--color-purple600` | `#9810FA` | `KumoColorPurple600` |
+| `--color-purple700` | `#8200DB` | `KumoColorPurple700` |
+| `--color-red400` | `#FF6467` | `KumoColorRed400` |
+| `--color-red500` | `#FB2C36` | `KumoColorRed500` |
+| `--color-red600` | `#E7000B` | `KumoColorRed600` |
+| `--color-red650` | `#DB0002` | `KumoColorRed650` |
+| `--color-red700` | `#C10007` | `KumoColorRed700` |
+| `--color-sky100` | `#DFF2FE` | `KumoColorSky100` |
+| `--color-teal200` | `#96F7E4` | `KumoColorTeal200` |
+| `--color-teal650` | `#058378` | `KumoColorTeal650` |
+| `--color-teal700` | `#00786F` | `KumoColorTeal700` |
+| `--color-teal800` | `#005F5A` | `KumoColorTeal800` |
+| `--color-white` | `#FFFFFF` | `KumoColorWhite` |
+| `--color-yellow100` | `#FEF9C2` | `KumoColorYellow100` |

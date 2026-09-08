@@ -114,8 +114,161 @@
                                Foreground="{DynamicResource KumoBrushTextStrong}" />
                     <TextBox PlaceholderText="Worker name" MaxWidth="320" HorizontalAlignment="Left" />
                     <StackPanel Orientation="Horizontal" Spacing="24">
-                        <CheckBox Content="Enable observability" IsChecked="True" />
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <CheckBox Content="Enable observability" IsChecked="True" />
+                        </StackPanel>
+                        <CheckBox Content="Indeterminate" IsChecked="{x:Null}" />
+                        <CheckBox Content="Disabled" IsEnabled="False" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="24">
+                        <RadioButton GroupName="demo" Content="Workers" IsChecked="True" />
+                        <RadioButton GroupName="demo" Content="Zones" />
+                        <RadioButton GroupName="demo2" Content="Disabled" IsEnabled="False" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="24">
                         <ToggleSwitch Content="Preview" IsChecked="True" />
+                        <ToggleSwitch Content="Draft" />
+                        <ToggleSwitch Content="Off" IsEnabled="False" />
+                    </StackPanel>
+                    <ComboBox MaxWidth="320" HorizontalAlignment="Left" PlaceholderText="Environment"
+                              SelectedIndex="1">
+                        <ComboBoxItem>Production</ComboBoxItem>
+                        <ComboBoxItem>Staging</ComboBoxItem>
+                        <ComboBoxItem>Development</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Tabs" FontWeight="SemiBold"
+                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <TabControl>
+                        <TabItem Header="Overview">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="Overview content" />
+                                <Border Classes="skeleton-line" Width="280" HorizontalAlignment="Left" />
+                                <Border Classes="skeleton-line" Width="220" HorizontalAlignment="Left" />
+                                <Border Classes="skeleton-line" Width="250" HorizontalAlignment="Left" />
+                            </StackPanel>
+                        </TabItem>
+                        <TabItem Header="Metrics">
+                            <TextBlock Text="Metrics content" />
+                        </TabItem>
+                        <TabItem Header="Logs">
+                            <TextBlock Text="Logs content" />
+                        </TabItem>
+                    </TabControl>
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Badges" FontWeight="SemiBold"
+                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Border Classes="badge,primary"><TextBlock Text="Primary" /></Border>
+                        <Border Classes="badge,secondary"><TextBlock Text="Secondary" /></Border>
+                        <Border Classes="badge,info"><TextBlock Text="Info" /></Border>
+                        <Border Classes="badge,success"><TextBlock Text="Success" /></Border>
+                        <Border Classes="badge,warning"><TextBlock Text="Warning" /></Border>
+                        <Border Classes="badge,error"><TextBlock Text="Error" /></Border>
+                        <Border Classes="badge,outline"><TextBlock Text="Outline" /></Border>
+                        <Border Classes="badge,beta"><TextBlock Text="Beta" /></Border>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Border Classes="badge,red"><TextBlock Text="Red" /></Border>
+                        <Border Classes="badge,green"><TextBlock Text="Green" /></Border>
+                        <Border Classes="badge,neutral"><TextBlock Text="Neutral" /></Border>
+                        <Border Classes="badge,orange"><TextBlock Text="Orange" /></Border>
+                        <Border Classes="badge,purple"><TextBlock Text="Purple" /></Border>
+                        <Border Classes="badge,teal"><TextBlock Text="Teal" /></Border>
+                        <Border Classes="badge,blue"><TextBlock Text="Blue" /></Border>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Banners and progress" FontWeight="SemiBold"
+                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Border Classes="banner,info">
+                        <TextBlock Text="Scheduled maintenance on Sunday, 02:00 UTC." TextWrapping="Wrap" />
+                    </Border>
+                    <Border Classes="banner,warning">
+                        <TextBlock Text="Your certificate expires in 7 days." TextWrapping="Wrap" />
+                    </Border>
+                    <StackPanel Orientation="Horizontal" Spacing="24" Margin="0,4,0,0">
+                        <ProgressBar Value="65" MinWidth="220" />
+                        <ProgressBar Classes="success" Value="100" MinWidth="220" />
+                    </StackPanel>
+                    <ProgressBar IsIndeterminate="True" MinWidth="220" HorizontalAlignment="Left" />
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Menus" FontWeight="SemiBold"
+                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Content="Actions">
+                            <Button.Flyout>
+                                <MenuFlyout>
+                                    <MenuItem Header="Deploy" />
+                                    <MenuItem Header="Restart" />
+                                    <MenuItem Header="Pause" IsEnabled="False" />
+                                    <Separator />
+                                    <MenuItem Header="Delete" />
+                                </MenuFlyout>
+                            </Button.Flyout>
+                        </Button>
+                        <Button Content="Right-click me">
+                            <Button.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Copy" />
+                                    <MenuItem Header="Paste" />
+                                    <Separator />
+                                    <MenuItem Header="Settings" />
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
+                        <Button Content="Popover">
+                            <Button.Flyout>
+                                <Flyout>
+                                    <StackPanel MaxWidth="240" Spacing="8">
+                                        <TextBlock Text="Popover title" FontWeight="SemiBold" Foreground="{DynamicResource KumoBrushTextStrong}" />
+                                        <TextBlock Text="Some supporting detail shown in the flyout surface." TextWrapping="Wrap" Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                                    </StackPanel>
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Collapsible" FontWeight="SemiBold"
+                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Expander Header="How do I rotate an API token?" IsExpanded="True">
+                        <TextBlock Text="Tokens can be rotated from the dashboard under My Profile, or with the API. TextBlock"
+                                   TextWrapping="Wrap" FontWeight="Normal"
+                                   Foreground="{DynamicResource KumoBrushTextDefault}" />
+                    </Expander>
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Toasts" FontWeight="SemiBold"
+                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Border Classes="toast,success" MaxWidth="320">
+                            <TextBlock Text="Deployment succeeded" />
+                        </Border>
+                        <Border Classes="toast,warning" MaxWidth="320">
+                            <TextBlock Text="Build took longer than expected" />
+                        </Border>
                     </StackPanel>
                 </StackPanel>
             </Border>

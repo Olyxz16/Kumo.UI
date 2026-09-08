@@ -1,9 +1,39 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceInclude Source="avares://Kumo.Avalonia/Themes/Palette.axaml" />
         <ResourceInclude Source="avares://Kumo.Avalonia/Themes/Tokens.axaml" />
     </ResourceDictionary.MergedDictionaries>
+
+    <ResourceDictionary.ThemeDictionaries>
+
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="KumoBrushFocusRing" Color="{DynamicResource KumoColorFocus}" Opacity="0.5" />
+            <SolidColorBrush x:Key="KumoBrushDangerRing" Color="{DynamicResource KumoColorDanger}" Opacity="0.5" />
+            <SolidColorBrush x:Key="KumoBrushSwitchTrackOff" Color="{DynamicResource KumoColorNeutral200}" />
+            <SolidColorBrush x:Key="KumoBrushSwitchTrackOffRing" Color="{DynamicResource KumoColorNeutral300}" />
+            <SolidColorBrush x:Key="KumoBrushSwitchTrackOn" Color="{DynamicResource KumoColorBlue500}" />
+            <SolidColorBrush x:Key="KumoBrushSwitchTrackOnRing" Color="{DynamicResource KumoColorBlue600}" />
+            <SolidColorBrush x:Key="KumoBrushSwitchThumbOn" Color="{DynamicResource KumoColorBase}" />
+            <SolidColorBrush x:Key="KumoBrushSwitchThumbOff" Color="{DynamicResource KumoColorBase}" />
+            <SolidColorBrush x:Key="KumoBrushSkeletonFill" Color="#F3F4F6" />
+            <SolidColorBrush x:Key="KumoBrushToastBackdrop" Color="{DynamicResource KumoColorBase}" Opacity="0.9" />
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="KumoBrushFocusRing" Color="{DynamicResource KumoColorFocus}" Opacity="0.5" />
+            <SolidColorBrush x:Key="KumoBrushDangerRing" Color="{DynamicResource KumoColorDanger}" Opacity="0.5" />
+            <SolidColorBrush x:Key="KumoBrushSwitchTrackOff" Color="{DynamicResource KumoColorNeutral700}" />
+            <SolidColorBrush x:Key="KumoBrushSwitchTrackOffRing" Color="{DynamicResource KumoColorNeutral600}" />
+            <SolidColorBrush x:Key="KumoBrushSwitchTrackOn" Color="{DynamicResource KumoColorBlue600}" />
+            <SolidColorBrush x:Key="KumoBrushSwitchTrackOnRing" Color="{DynamicResource KumoColorBlue500}" />
+            <SolidColorBrush x:Key="KumoBrushSwitchThumbOn" Color="{DynamicResource KumoColorBlue300}" />
+            <SolidColorBrush x:Key="KumoBrushSwitchThumbOff" Color="{DynamicResource KumoColorNeutral800}" />
+            <SolidColorBrush x:Key="KumoBrushSkeletonFill" Color="#0FFFFFFF" />
+            <SolidColorBrush x:Key="KumoBrushToastBackdrop" Color="{DynamicResource KumoColorBase}" Opacity="0.9" />
+        </ResourceDictionary>
+
+    </ResourceDictionary.ThemeDictionaries>
 
 </ResourceDictionary>

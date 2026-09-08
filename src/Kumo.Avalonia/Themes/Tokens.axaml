@@ -28,6 +28,7 @@
     <BoxShadows x:Key="KumoShadowXs">0 1 2 0 #0D000000</BoxShadows>
     <BoxShadows x:Key="KumoShadowSm">0 1 3 0 #1A000000,0 1 2 -1 #1A000000</BoxShadows>
     <BoxShadows x:Key="KumoShadowMd">0 4 6 -1 #1A000000,0 2 4 -2 #1A000000</BoxShadows>
+    <BoxShadows x:Key="KumoShadowLg">0 10 15 -3 #1A000000,0 4 6 -4 #1A000000</BoxShadows>
     <BoxShadows x:Key="KumoShadowCard">0 0 1 0 #1F000000,0 1 2 0 #14000000</BoxShadows>
 
     <x:Double x:Key="KumoStrokeWidth">1</x:Double>
