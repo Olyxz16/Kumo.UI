@@ -1,0 +1,28 @@
+{
+  "fixture": "table-header",
+  "description": "Table header cell",
+  "kumo_version": "2.13.1",
+  "keys": [
+    "color",
+    "border-bottom-width",
+    "border-bottom-color",
+    "padding",
+    "font-weight",
+    "font-size"
+  ],
+  "vars": {},
+  "states": {
+    "default": {
+      "font-size": "14px",
+      "line-height": "var(--tw-leading,var(--text-base--line-height))",
+      "color": "#171717",
+      "border-bottom-width": "1px",
+      "border-color": "#E5E5E5",
+      "padding-top": "12px",
+      "padding-right": "12px",
+      "padding-bottom": "12px",
+      "padding-left": "12px",
+      "font-weight": "600"
+    }
+  }
+}

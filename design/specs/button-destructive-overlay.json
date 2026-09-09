@@ -1,0 +1,30 @@
+{
+  "fixture": "button-destructive-overlay",
+  "description": "Destructive button gradient overlay span",
+  "kumo_version": "2.13.1",
+  "keys": [
+    "gradient-from",
+    "gradient-to",
+    "inset-shadow"
+  ],
+  "vars": {
+    "--kumo-button-emphasis-ring": "color-mix(in oklch, var(--color-kumo-danger), black 10%)",
+    "--kumo-button-emphasis-bg": "color-mix(in oklch, var(--color-kumo-danger), white 30%)",
+    "--kumo-button-emphasis-gradient-start": "color-mix(in oklch, var(--color-kumo-danger), white 15%)",
+    "--kumo-button-emphasis-gradient-end": "var(--color-kumo-danger)"
+  },
+  "states": {
+    "default": {
+      "border-radius": "inherit",
+      "gradient-from": "#FF5B57",
+      "gradient-to": "#FB2C36",
+      "shadow": "inset 0 1px 0 0 #FF7D75"
+    },
+    "hover": {
+      "border-radius": "inherit",
+      "gradient-from": "#FF7D75",
+      "gradient-to": "#FB2C36",
+      "shadow": "inset 0 1px 0 0 #FF7D75"
+    }
+  }
+}

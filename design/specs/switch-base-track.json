@@ -1,0 +1,41 @@
+{
+  "fixture": "switch-base-track",
+  "description": "Switch track size=base default variant, off/checked",
+  "kumo_version": "2.13.1",
+  "keys": [
+    "background-color",
+    "ring-color",
+    "border-radius",
+    "height",
+    "width"
+  ],
+  "vars": {},
+  "states": {
+    "default": {
+      "border-style": "none",
+      "padding-top": "0px",
+      "padding-right": "0px",
+      "padding-bottom": "0px",
+      "padding-left": "0px",
+      "ring-width": "1px",
+      "height": "18px",
+      "width": "36px",
+      "border-radius": "5px",
+      "background-color": "#E5E5E5",
+      "ring-color": "#D4D4D4"
+    },
+    "checked": {
+      "border-style": "none",
+      "padding-top": "0px",
+      "padding-right": "0px",
+      "padding-bottom": "0px",
+      "padding-left": "0px",
+      "ring-width": "1px",
+      "height": "18px",
+      "width": "36px",
+      "border-radius": "5px",
+      "background-color": "#2B7FFF",
+      "ring-color": "#155DFC"
+    }
+  }
+}

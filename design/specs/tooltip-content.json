@@ -1,0 +1,27 @@
+{
+  "fixture": "tooltip-content",
+  "description": "Tooltip content",
+  "kumo_version": "2.13.1",
+  "keys": [
+    "background-color",
+    "color",
+    "border-radius",
+    "padding-left",
+    "padding-top",
+    "font-size"
+  ],
+  "vars": {},
+  "states": {
+    "default": {
+      "border-radius": "6px",
+      "background-color": "#FFFFFF",
+      "padding-left": "10px",
+      "padding-right": "10px",
+      "padding-top": "6px",
+      "padding-bottom": "6px",
+      "font-size": "13px",
+      "line-height": "var(--tw-leading,var(--text-sm--line-height))",
+      "color": "#171717"
+    }
+  }
+}

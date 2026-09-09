@@ -9,15 +9,16 @@
         <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
         <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushLine}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusMd}" />
+        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusLg}" />
         <Setter Property="Padding" Value="12,6" />
-        <Setter Property="MinHeight" Value="32" />
+        <Setter Property="MinHeight" Value="36" />
         <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
         <Setter Property="FontWeight" Value="Medium" />
         <Setter Property="Cursor" Value="Hand" />
     </Style>
     <Style Selector="Button /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusMd}" />
+        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusLg}" />
+        <Setter Property="BoxShadow" Value="{DynamicResource KumoBoxShadowXs}" />
     </Style>
     <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource KumoBrushTint}" />
@@ -27,13 +28,22 @@
         <Setter Property="Background" Value="{DynamicResource KumoBrushFill}" />
     </Style>
     <Style Selector="Button:disabled">
-        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextInactive}" />
+        <Setter Property="Background" Value="{DynamicResource KumoBrushButtonDisabledBg}" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushButtonDisabledText}" />
+        <Setter Property="Cursor" Value="No" />
+    </Style>
+    <Style Selector="Button:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource KumoBrushButtonDisabledBg}" />
+    </Style>
+    <Style Selector="Button.primary:disabled, Button.danger:disabled">
         <Setter Property="Opacity" Value="0.5" />
+        <Setter Property="Background" Value="{DynamicResource KumoBrushButtonPrimaryGradient}" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushWhite}" />
     </Style>
 
     <Style Selector="Button.primary">
         <Setter Property="Background" Value="{DynamicResource KumoBrushButtonPrimaryGradient}" />
-        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextInverse}" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushWhite}" />
         <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushButtonPrimaryRing}" />
     </Style>
     <Style Selector="Button.primary:pointerover /template/ ContentPresenter#PART_ContentPresenter">
@@ -47,7 +57,7 @@
 
     <Style Selector="Button.danger">
         <Setter Property="Background" Value="{DynamicResource KumoBrushButtonDangerGradient}" />
-        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextInverse}" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushWhite}" />
         <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushButtonDangerRing}" />
     </Style>
     <Style Selector="Button.danger:pointerover /template/ ContentPresenter#PART_ContentPresenter">
@@ -58,6 +68,9 @@
     <Style Selector="Button.ghost">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="Button.ghost /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="BoxShadow" Value="{DynamicResource KumoBoxShadowNone}" />
     </Style>
     <Style Selector="Button.ghost:pointerover /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource KumoBrushTint}" />
@@ -76,9 +89,9 @@
         <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
         <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushLine}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusMd}" />
-        <Setter Property="MinHeight" Value="32" />
-        <Setter Property="Padding" Value="10,5" />
+        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusLg}" />
+        <Setter Property="MinHeight" Value="36" />
+        <Setter Property="Padding" Value="12,6" />
         <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource KumoBrushBrand}" />
         <Setter Property="CaretBrush" Value="{DynamicResource KumoBrushTextDefault}" />
@@ -87,13 +100,23 @@
     <Style Selector="TextBox /template/ Border#PART_BorderElement">
         <Setter Property="Background" Value="{DynamicResource KumoBrushControl}" />
         <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushLine}" />
-        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusMd}" />
+        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusLg}" />
     </Style>
     <Style Selector="TextBox /template/ TextBlock#PART_TextElement">
         <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextPlaceholder}" />
     </Style>
     <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
         <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushFocusRing}" />
+        <Setter Property="BorderThickness" Value="1.5" />
+    </Style>
+    <Style Selector="TextBox:focus">
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+    </Style>
+    <Style Selector="TextBox.error /template/ Border#PART_BorderElement">
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushDanger}" />
+    </Style>
+    <Style Selector="TextBox.error:focus /template/ Border#PART_BorderElement">
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushDanger}" />
         <Setter Property="BorderThickness" Value="1.5" />
     </Style>
     <Style Selector="TextBox:focus-visible /template/ Border#PART_BorderElement">
@@ -178,6 +201,10 @@
         <Style Selector="^:pointerover /template/ Border#Box">
             <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushHairline}" />
         </Style>
+        <Style Selector="^:focus /template/ Border#Box">
+            <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushFocus}" />
+            <Setter Property="BorderThickness" Value="2" />
+        </Style>
         <Style Selector="^:focus-visible /template/ Border#Box">
             <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushBrand}" />
             <Setter Property="BorderThickness" Value="2" />
@@ -261,35 +288,27 @@
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Content="{TemplateBinding OnContent}"
                                               ContentTemplate="{TemplateBinding OnContentTemplate}" />
-                            <Border x:Name="OuterBorder"
+                            <Border x:Name="SwitchKnobBounds"
                                     Grid.Row="1"
                                     Width="36" Height="18"
                                     CornerRadius="5"
                                     BorderThickness="1"
                                     Background="{DynamicResource KumoBrushSwitchTrackOff}"
                                     BorderBrush="{DynamicResource KumoBrushSwitchTrackOffRing}" />
-                            <Border x:Name="SwitchKnobBounds"
-                                    Grid.Row="1"
-                                    Width="36" Height="18"
-                                    CornerRadius="5"
-                                    BorderThickness="1"
-                                    Background="{DynamicResource KumoBrushSwitchTrackOn}"
-                                    BorderBrush="{DynamicResource KumoBrushSwitchTrackOnRing}" />
                             <Canvas x:Name="PART_SwitchKnob"
                                     Grid.Row="1"
                                     Width="18" Height="18"
-                                    Margin="1,0"
                                     HorizontalAlignment="Left">
                                 <Grid x:Name="PART_MovingKnobs" Width="18" Height="18">
                                     <Border x:Name="SwitchKnobOn"
                                             Background="{DynamicResource KumoBrushSwitchThumbOn}"
                                             BoxShadow="{DynamicResource KumoBoxShadowSwitchThumb}"
-                                            Width="16" Height="16"
+                                            Width="18" Height="18"
                                             CornerRadius="5" />
                                     <Border x:Name="SwitchKnobOff"
                                             Background="{DynamicResource KumoBrushSwitchThumbOff}"
                                             BoxShadow="{DynamicResource KumoBoxShadowSwitchThumb}"
-                                            Width="16" Height="16"
+                                            Width="18" Height="18"
                                             CornerRadius="5" />
                                 </Grid>
                             </Canvas>
@@ -305,17 +324,9 @@
         <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter:empty">
             <Setter Property="Margin" Value="0" />
         </Style>
-        <Style Selector="^:checked /template/ Border#OuterBorder">
-            <Setter Property="Opacity" Value="0" />
-        </Style>
-        <Style Selector="^:checked /template/ Ellipse#SwitchKnobOff">
-            <Setter Property="Opacity" Value="0" />
-        </Style>
         <Style Selector="^:checked /template/ Border#SwitchKnobBounds">
-            <Setter Property="Opacity" Value="1" />
-        </Style>
-        <Style Selector="^:checked /template/ Ellipse#SwitchKnobOn">
-            <Setter Property="Opacity" Value="1" />
+            <Setter Property="Background" Value="{DynamicResource KumoBrushSwitchTrackOn}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushSwitchTrackOnRing}" />
         </Style>
         <Style Selector="^:checked /template/ ContentPresenter#PART_OffContentPresenter">
             <Setter Property="Opacity" Value="0" />
@@ -323,18 +334,7 @@
         <Style Selector="^:checked /template/ ContentPresenter#PART_OnContentPresenter">
             <Setter Property="Opacity" Value="1" />
         </Style>
-        <Style Selector="^:unchecked /template/ Border#OuterBorder">
-            <Setter Property="Opacity" Value="1" />
-        </Style>
-        <Style Selector="^:unchecked /template/ Ellipse#SwitchKnobOff">
-            <Setter Property="Opacity" Value="1" />
-        </Style>
-        <Style Selector="^:unchecked /template/ Ellipse#SwitchKnobOn">
-            <Setter Property="Opacity" Value="0" />
-        </Style>
-        <Style Selector="^:unchecked /template/ Border#SwitchKnobBounds">
-            <Setter Property="Opacity" Value="0" />
-        </Style>
+
         <Style Selector="^:unchecked /template/ ContentPresenter#PART_OffContentPresenter">
             <Setter Property="Opacity" Value="1" />
         </Style>
@@ -421,9 +421,9 @@
         <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
         <Setter Property="RenderTransformOrigin" Value="50%,75%" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushLine}" />
-        <Setter Property="Background" Value="{DynamicResource KumoBrushToastBackdrop}" />
-        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusXl}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushFill}" />
+        <Setter Property="Background" Value="{DynamicResource KumoBrushControl}" />
+        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusLg}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
@@ -589,8 +589,8 @@
 
     <Style Selector="TabItem">
         <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
-        <Setter Property="FontWeight" Value="Medium" />
-        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextSubtle}" />
+        <Setter Property="TextElement.FontWeight" Value="Normal" />
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushTextSubtle}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="MinHeight" Value="32" />
         <Setter Property="Padding" Value="10,0" />
@@ -606,10 +606,11 @@
         <Setter Property="Background" Value="{DynamicResource KumoBrushTint}" />
     </Style>
     <Style Selector="TabItem:pointerover">
-        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
     </Style>
     <Style Selector="TabItem:selected">
-        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        <Setter Property="TextElement.FontWeight" Value="Medium" />
     </Style>
     <Style Selector="TabItem:selected /template/ Border#PART_LayoutRoot">
         <Setter Property="Background" Value="{DynamicResource KumoBrushBase}" />
@@ -820,9 +821,15 @@
         <Setter Property="Background" Value="{DynamicResource KumoBrushDangerTint}" />
         <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushTextDanger}" />
     </Style>
+    <Style Selector="Border.banner.banner-sm">
+        <Setter Property="Padding" Value="12,8" />
+        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusMd}" />
+        <Setter Property="TextElement.FontSize" Value="{StaticResource KumoFontSizeSm}" />
+    </Style>
+
     <Style Selector="Border.banner.secondary">
-        <Setter Property="Background" Value="{DynamicResource KumoBrushFill}" />
-        <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        <Setter Property="Background" Value="{DynamicResource KumoBrushBannerSecondaryBg}" />
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushBannerSecondaryText}" />
     </Style>
 
     <!-- Toast presets (Border classes): base surface, xl radius, line ring, lg shadow -->
@@ -1275,14 +1282,15 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusMd}" />
-        <Setter Property="MinHeight" Value="32" />
-        <Setter Property="MinWidth" Value="32" />
-        <Setter Property="Padding" Value="8,0" />
-        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeSm}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushHairline}" />
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="MinHeight" Value="26" />
+        <Setter Property="MinWidth" Value="26" />
+        <Setter Property="Padding" Value="8,2" />
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeXs}" />
     </Style>
     <Style Selector="Button.page /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="BoxShadow" Value="{DynamicResource KumoBoxShadowNone}" />
         <Setter Property="Background" Value="Transparent" />
     </Style>
     <Style Selector="Button.page:pointerover /template/ ContentPresenter#PART_ContentPresenter">
@@ -1318,6 +1326,8 @@
         <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushFill}" />
         <Setter Property="BorderThickness" Value="0,0,0,1" />
         <Setter Property="Padding" Value="12" />
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        <Setter Property="TextElement.FontWeight" Value="SemiBold" />
     </Style>
     <Style Selector="Border.table-header-cell.compact">
         <Setter Property="Background" Value="{DynamicResource KumoBrushElevated}" />
@@ -1339,7 +1349,7 @@
         <Setter Property="Padding" Value="12,8" />
     </Style>
     <Style Selector="Border.table-row">
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{DynamicResource KumoBrushBase}" />
     </Style>
     <Style Selector="Border.table-row.alt">
         <Setter Property="Background" Value="{DynamicResource KumoBrushElevated}" />
@@ -1355,6 +1365,7 @@
     <!-- Dialog surface + window chrome -->
     <Style Selector="Border.dialog-surface">
         <Setter Property="Background" Value="{DynamicResource KumoBrushBase}" />
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
         <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushLine}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusXl}" />

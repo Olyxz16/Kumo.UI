@@ -1,0 +1,20 @@
+{
+  "fixture": "table-row",
+  "description": "Table row (odd) / even / selected",
+  "kumo_version": "2.13.1",
+  "keys": [
+    "background-color"
+  ],
+  "vars": {},
+  "states": {
+    "default": {
+      "background-color": "#FFFFFF"
+    },
+    "even": {
+      "background-color": "#F8F8F8"
+    },
+    "selected": {
+      "background-color": "#F5F5F5"
+    }
+  }
+}

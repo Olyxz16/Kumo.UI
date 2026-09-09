@@ -1,0 +1,31 @@
+{
+  "fixture": "badge-primary",
+  "description": "Badge variant=primary",
+  "kumo_version": "2.13.1",
+  "keys": [
+    "background-color",
+    "color",
+    "border-radius",
+    "padding-left",
+    "padding-top",
+    "font-size",
+    "font-weight"
+  ],
+  "vars": {},
+  "states": {
+    "default": {
+      "width": "fit-content",
+      "gap": "4px",
+      "border-radius": "9999px",
+      "padding-left": "8px",
+      "padding-right": "8px",
+      "padding-top": "2px",
+      "padding-bottom": "2px",
+      "font-size": "12px",
+      "line-height": "var(--tw-leading,var(--text-xs--line-height))",
+      "font-weight": "500",
+      "background-color": "#0A0A0A",
+      "color": "#FFFFFF"
+    }
+  }
+}

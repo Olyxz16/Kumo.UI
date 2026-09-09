@@ -1,0 +1,19 @@
+{
+  "fixture": "tabs-list",
+  "description": "Tabs list container (boxed/segmented)",
+  "kumo_version": "2.13.1",
+  "keys": [
+    "background-color",
+    "border-radius",
+    "padding-left"
+  ],
+  "vars": {},
+  "states": {
+    "default": {
+      "border-radius": "8px",
+      "background-color": "#F3F3F3",
+      "padding-left": "2px",
+      "padding-right": "2px"
+    }
+  }
+}

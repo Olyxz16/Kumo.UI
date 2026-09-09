@@ -1,0 +1,23 @@
+{
+  "fixture": "dialog-surface",
+  "description": "Dialog surface",
+  "kumo_version": "2.13.1",
+  "keys": [
+    "background-color",
+    "color",
+    "border-radius",
+    "ring-width",
+    "ring-color",
+    "shadow"
+  ],
+  "vars": {},
+  "states": {
+    "default": {
+      "ring-width": "1px",
+      "ring-color": "#0A0A0A1A",
+      "border-radius": "12px",
+      "background-color": "#FFFFFF",
+      "color": "#171717"
+    }
+  }
+}

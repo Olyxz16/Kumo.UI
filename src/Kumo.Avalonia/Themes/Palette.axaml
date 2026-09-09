@@ -86,7 +86,7 @@
     <SolidColorBrush x:Key="KumoBrushYellow100" Color="#FEF9C2" />
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
-            <Color x:Key="KumoColorTextDefault">#18181B</Color>
+            <Color x:Key="KumoColorTextDefault">#171717</Color>
             <Color x:Key="KumoColorTextInverse">#F5F5F5</Color>
             <Color x:Key="KumoColorTextStrong">#0A0A0A</Color>
             <Color x:Key="KumoColorTextSubtle">#737373</Color>
@@ -104,11 +104,11 @@
             <Color x:Key="KumoColorTextBadgeInverted">#FFFFFF</Color>
             <Color x:Key="KumoColorCanvas">#FBFBFB</Color>
             <Color x:Key="KumoColorElevated">#F8F8F8</Color>
-            <Color x:Key="KumoColorRecessed">#F2F2F2</Color>
+            <Color x:Key="KumoColorRecessed">#F3F3F3</Color>
             <Color x:Key="KumoColorBase">#FFFFFF</Color>
             <Color x:Key="KumoColorTint">#F5F5F5</Color>
-            <Color x:Key="KumoColorContrast">#020202</Color>
-            <Color x:Key="KumoColorOverlay">#F7F7F7</Color>
+            <Color x:Key="KumoColorContrast">#060606</Color>
+            <Color x:Key="KumoColorOverlay">#FBFBFB</Color>
             <Color x:Key="KumoColorControl">#FFFFFF</Color>
             <Color x:Key="KumoColorInteract">#D4D4D4</Color>
             <Color x:Key="KumoColorFill">#E5E5E5</Color>
@@ -123,7 +123,7 @@
             <Color x:Key="KumoColorArrowEdge">#1A0A0A0A</Color>
             <Color x:Key="KumoColorArrowStroke">#00000000</Color>
             <Color x:Key="KumoColorInfoTint">#73DBEAFE</Color>
-            <Color x:Key="KumoColorInfo">#00A6F4</Color>
+            <Color x:Key="KumoColorInfo">#2B7FFF</Color>
             <Color x:Key="KumoColorWarningTint">#33FFE894</Color>
             <Color x:Key="KumoColorWarning">#FA8900</Color>
             <Color x:Key="KumoColorDangerTint">#6BFFE2E2</Color>
@@ -141,7 +141,7 @@
             <Color x:Key="KumoColorBadgeNeutral">#737373</Color>
             <Color x:Key="KumoColorBadgeInverted">#0A0A0A</Color>
             <!-- Brushes -->
-            <SolidColorBrush x:Key="KumoBrushTextDefault" Color="#18181B" />
+            <SolidColorBrush x:Key="KumoBrushTextDefault" Color="#171717" />
             <SolidColorBrush x:Key="KumoBrushTextInverse" Color="#F5F5F5" />
             <SolidColorBrush x:Key="KumoBrushTextStrong" Color="#0A0A0A" />
             <SolidColorBrush x:Key="KumoBrushTextSubtle" Color="#737373" />
@@ -159,11 +159,11 @@
             <SolidColorBrush x:Key="KumoBrushTextBadgeInverted" Color="#FFFFFF" />
             <SolidColorBrush x:Key="KumoBrushCanvas" Color="#FBFBFB" />
             <SolidColorBrush x:Key="KumoBrushElevated" Color="#F8F8F8" />
-            <SolidColorBrush x:Key="KumoBrushRecessed" Color="#F2F2F2" />
+            <SolidColorBrush x:Key="KumoBrushRecessed" Color="#F3F3F3" />
             <SolidColorBrush x:Key="KumoBrushBase" Color="#FFFFFF" />
             <SolidColorBrush x:Key="KumoBrushTint" Color="#F5F5F5" />
-            <SolidColorBrush x:Key="KumoBrushContrast" Color="#020202" />
-            <SolidColorBrush x:Key="KumoBrushOverlay" Color="#F7F7F7" />
+            <SolidColorBrush x:Key="KumoBrushContrast" Color="#060606" />
+            <SolidColorBrush x:Key="KumoBrushOverlay" Color="#FBFBFB" />
             <SolidColorBrush x:Key="KumoBrushControl" Color="#FFFFFF" />
             <SolidColorBrush x:Key="KumoBrushInteract" Color="#D4D4D4" />
             <SolidColorBrush x:Key="KumoBrushFill" Color="#E5E5E5" />
@@ -178,7 +178,7 @@
             <SolidColorBrush x:Key="KumoBrushArrowEdge" Color="#1A0A0A0A" />
             <SolidColorBrush x:Key="KumoBrushArrowStroke" Color="#00000000" />
             <SolidColorBrush x:Key="KumoBrushInfoTint" Color="#73DBEAFE" />
-            <SolidColorBrush x:Key="KumoBrushInfo" Color="#00A6F4" />
+            <SolidColorBrush x:Key="KumoBrushInfo" Color="#2B7FFF" />
             <SolidColorBrush x:Key="KumoBrushWarningTint" Color="#33FFE894" />
             <SolidColorBrush x:Key="KumoBrushWarning" Color="#FA8900" />
             <SolidColorBrush x:Key="KumoBrushDangerTint" Color="#6BFFE2E2" />
@@ -195,6 +195,28 @@
             <SolidColorBrush x:Key="KumoBrushBadgeBlue" Color="#155DFC" />
             <SolidColorBrush x:Key="KumoBrushBadgeNeutral" Color="#737373" />
             <SolidColorBrush x:Key="KumoBrushBadgeInverted" Color="#0A0A0A" />
+            <LinearGradientBrush x:Key="KumoBrushButtonPrimaryGradient" StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#3C86FF" Offset="0" />
+                <GradientStop Color="#056DFF" Offset="1" />
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="KumoBrushButtonPrimaryGradientHover" StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#619EFF" Offset="0" />
+                <GradientStop Color="#056DFF" Offset="1" />
+            </LinearGradientBrush>
+
+            <SolidColorBrush x:Key="KumoBrushButtonPrimaryRing" Color="#045EDE" />
+            <LinearGradientBrush x:Key="KumoBrushButtonDangerGradient" StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#FF5B57" Offset="0" />
+                <GradientStop Color="#FB2C36" Offset="1" />
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="KumoBrushButtonDangerGradientHover" StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#FF7D75" Offset="0" />
+                <GradientStop Color="#FB2C36" Offset="1" />
+            </LinearGradientBrush>
+
+            <SolidColorBrush x:Key="KumoBrushButtonDangerRing" Color="#DA252E" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <Color x:Key="KumoColorTextDefault">#F5F5F5</Color>
@@ -220,10 +242,10 @@
             <Color x:Key="KumoColorTint">#262626</Color>
             <Color x:Key="KumoColorContrast">#FAFAFA</Color>
             <Color x:Key="KumoColorOverlay">#262626</Color>
-            <Color x:Key="KumoColorControl">#18181B</Color>
+            <Color x:Key="KumoColorControl">#171717</Color>
             <Color x:Key="KumoColorInteract">#404040</Color>
             <Color x:Key="KumoColorFill">#262626</Color>
-            <Color x:Key="KumoColorFillHover">#404040</Color>
+            <Color x:Key="KumoColorFillHover">#262626</Color>
             <Color x:Key="KumoColorBrand">#045EDE</Color>
             <Color x:Key="KumoColorBrandHover">#1447E6</Color>
             <Color x:Key="KumoColorLine">#333333</Color>
@@ -234,7 +256,7 @@
             <Color x:Key="KumoColorArrowEdge">#00000000</Color>
             <Color x:Key="KumoColorArrowStroke">#333333</Color>
             <Color x:Key="KumoColorInfoTint">#381C398E</Color>
-            <Color x:Key="KumoColorInfo">#00A6F4</Color>
+            <Color x:Key="KumoColorInfo">#2B7FFF</Color>
             <Color x:Key="KumoColorWarningTint">#5E573100</Color>
             <Color x:Key="KumoColorWarning">#DB6809</Color>
             <Color x:Key="KumoColorDangerTint">#2B990003</Color>
@@ -275,10 +297,10 @@
             <SolidColorBrush x:Key="KumoBrushTint" Color="#262626" />
             <SolidColorBrush x:Key="KumoBrushContrast" Color="#FAFAFA" />
             <SolidColorBrush x:Key="KumoBrushOverlay" Color="#262626" />
-            <SolidColorBrush x:Key="KumoBrushControl" Color="#18181B" />
+            <SolidColorBrush x:Key="KumoBrushControl" Color="#171717" />
             <SolidColorBrush x:Key="KumoBrushInteract" Color="#404040" />
             <SolidColorBrush x:Key="KumoBrushFill" Color="#262626" />
-            <SolidColorBrush x:Key="KumoBrushFillHover" Color="#404040" />
+            <SolidColorBrush x:Key="KumoBrushFillHover" Color="#262626" />
             <SolidColorBrush x:Key="KumoBrushBrand" Color="#045EDE" />
             <SolidColorBrush x:Key="KumoBrushBrandHover" Color="#1447E6" />
             <SolidColorBrush x:Key="KumoBrushLine" Color="#333333" />
@@ -289,7 +311,7 @@
             <SolidColorBrush x:Key="KumoBrushArrowEdge" Color="#00000000" />
             <SolidColorBrush x:Key="KumoBrushArrowStroke" Color="#333333" />
             <SolidColorBrush x:Key="KumoBrushInfoTint" Color="#381C398E" />
-            <SolidColorBrush x:Key="KumoBrushInfo" Color="#00A6F4" />
+            <SolidColorBrush x:Key="KumoBrushInfo" Color="#2B7FFF" />
             <SolidColorBrush x:Key="KumoBrushWarningTint" Color="#5E573100" />
             <SolidColorBrush x:Key="KumoBrushWarning" Color="#DB6809" />
             <SolidColorBrush x:Key="KumoBrushDangerTint" Color="#2B990003" />
@@ -306,6 +328,28 @@
             <SolidColorBrush x:Key="KumoBrushBadgeBlue" Color="#1447E6" />
             <SolidColorBrush x:Key="KumoBrushBadgeNeutral" Color="#525252" />
             <SolidColorBrush x:Key="KumoBrushBadgeInverted" Color="#FFFFFF" />
+            <LinearGradientBrush x:Key="KumoBrushButtonPrimaryGradient" StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#3879E5" Offset="0" />
+                <GradientStop Color="#045EDE" Offset="1" />
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="KumoBrushButtonPrimaryGradientHover" StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#5C92EC" Offset="0" />
+                <GradientStop Color="#045EDE" Offset="1" />
+            </LinearGradientBrush>
+
+            <SolidColorBrush x:Key="KumoBrushButtonPrimaryRing" Color="#0351C1" />
+            <LinearGradientBrush x:Key="KumoBrushButtonDangerGradient" StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#F04C3F" Offset="0" />
+                <GradientStop Color="#E7000B" Offset="1" />
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="KumoBrushButtonDangerGradientHover" StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#F87263" Offset="0" />
+                <GradientStop Color="#E7000B" Offset="1" />
+            </LinearGradientBrush>
+
+            <SolidColorBrush x:Key="KumoBrushButtonDangerRing" Color="#C90008" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

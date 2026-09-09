@@ -64,7 +64,7 @@ public class ThemeTests
         {
             var brushKeys = dictionary.Keys.OfType<string>()
                 .Where(k => k.StartsWith("KumoBrush")).ToList();
-            Assert.Equal(54, brushKeys.Count);
+            Assert.Equal(60, brushKeys.Count);
             var colorKeys = dictionary.Keys.OfType<string>()
                 .Where(k => k.StartsWith("KumoColor")).ToList();
             Assert.Equal(54, colorKeys.Count);
@@ -128,7 +128,7 @@ public class ThemeTests
         Application.Current.RequestedThemeVariant = ThemeVariant.Dark;
         var darkBrush = Assert.IsType<SolidColorBrush>(text.Foreground);
 
-        Assert.Equal(Color.Parse("#18181B"), lightBrush.Color);
+        Assert.Equal(Color.Parse("#171717"), lightBrush.Color);
         Assert.Equal(Color.Parse("#F5F5F5"), darkBrush.Color);
         Assert.NotEqual(lightBrush.Color, darkBrush.Color);
     }
@@ -142,10 +142,10 @@ public class ThemeTests
         window.Show();
 
         var background = Assert.IsType<LinearGradientBrush>(button.Background);
-        Assert.Equal(Color.Parse("#2A83FF"), background.GradientStops[0].Color);
+        Assert.Equal(Color.Parse("#3C86FF"), background.GradientStops[0].Color);
         Assert.Equal(Color.Parse("#056DFF"), background.GradientStops[1].Color);
         var foreground = Assert.IsType<SolidColorBrush>(button.Foreground);
-        Assert.Equal(Color.Parse("#F5F5F5"), foreground.Color);
+        Assert.Equal(Color.Parse("#FFFFFF"), foreground.Color);
     }
 
     [AvaloniaFact]
@@ -199,7 +199,7 @@ public class ThemeTests
             .OfType<Border>().First(b => b.Name == "SwitchKnobOn");
         Assert.Equal(Color.Parse("#FFFFFF"),
             Assert.IsType<SolidColorBrush>(knob.Background).Color);
-        Assert.Equal(16, knob.Width);
+        Assert.Equal(18, knob.Width);
         Assert.Equal(5, knob.CornerRadius.TopLeft);
 
         Application.Current.RequestedThemeVariant = ThemeVariant.Dark;
@@ -314,7 +314,7 @@ public class ThemeTests
 
         var semantic = Assert.IsType<WrapPanel>(
             window.FindControl<WrapPanel>("SemanticSwatches")!);
-        Assert.Equal(54, semantic.Children.Count);
+        Assert.Equal(60, semantic.Children.Count);
 
         var badge = window.GetVisualDescendants().OfType<Border>()
             .First(b => b.Classes.Contains("badge") && b.Classes.Contains("primary"));
@@ -335,7 +335,7 @@ public class ThemeTests
         window.Content = card;
         window.Show();
 
-        Assert.Equal(12, card.CornerRadius.TopLeft);
+        Assert.Equal(8, card.CornerRadius.TopLeft);
         var expectedSuccess = Assert.IsType<SolidColorBrush>(
             PaletteDictionaries()[ThemeVariant.Light]["KumoBrushSuccess"]).Color;
         Assert.Equal(expectedSuccess,

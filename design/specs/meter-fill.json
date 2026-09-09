@@ -1,0 +1,17 @@
+{
+  "fixture": "meter-fill",
+  "description": "Meter fill (brand gradient)",
+  "kumo_version": "2.13.1",
+  "keys": [
+    "background-image"
+  ],
+  "vars": {},
+  "states": {
+    "default": {
+      "left": "0px",
+      "border-radius": "9999px",
+      "gradient-from": "#056DFF",
+      "gradient-to": "#056DFF"
+    }
+  }
+}

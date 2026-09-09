@@ -1,0 +1,28 @@
+{
+  "fixture": "switch-base-thumb",
+  "description": "Switch thumb (18px, base bg, edge shadow)",
+  "kumo_version": "2.13.1",
+  "keys": [
+    "background-color",
+    "width",
+    "border-radius",
+    "box-shadow"
+  ],
+  "vars": {},
+  "states": {
+    "default": {
+      "shadow": "0 0 1px .5px #0000001F | 0 1px 2px #00000014",
+      "background-color": "#FFFFFF",
+      "left": "0px",
+      "width": "18px",
+      "border-radius": "5px"
+    },
+    "checked": {
+      "shadow": "0 0 1px .5px #0000001F | 0 1px 2px #00000014",
+      "background-color": "#FFFFFF",
+      "left": "18px",
+      "width": "18px",
+      "border-radius": "5px"
+    }
+  }
+}

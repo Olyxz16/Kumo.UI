@@ -1,0 +1,31 @@
+{
+  "fixture": "pagination-page",
+  "description": "Pagination page button (ghost + square + hairline ring)",
+  "kumo_version": "2.13.1",
+  "keys": [
+    "border-radius",
+    "ring-color",
+    "height",
+    "font-size"
+  ],
+  "vars": {},
+  "states": {
+    "default": {
+      "width": "max-content",
+      "font-weight": "500",
+      "border-width": "0px",
+      "shadow": "0 1px 2px 0 #0000000D",
+      "height": "26px",
+      "gap": "4px",
+      "border-radius": "0px",
+      "padding-left": "8px",
+      "padding-right": "8px",
+      "font-size": "12px",
+      "line-height": "var(--tw-leading,var(--text-xs--line-height))",
+      "color": "#171717",
+      "background-color": "inherit",
+      "ring-width": "1px",
+      "ring-color": "#E9E9E9"
+    }
+  }
+}

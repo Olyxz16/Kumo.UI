@@ -1,0 +1,17 @@
+{
+  "fixture": "table-td",
+  "description": "Table cell padding",
+  "kumo_version": "2.13.1",
+  "keys": [
+    "padding"
+  ],
+  "vars": {},
+  "states": {
+    "default": {
+      "padding-top": "12px",
+      "padding-right": "12px",
+      "padding-bottom": "12px",
+      "padding-left": "12px"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "fixture": "toast-success",
+  "description": "NotificationCard success accent",
+  "kumo_version": "2.13.1",
+  "keys": [
+    "ring-color"
+  ],
+  "vars": {},
+  "states": {
+    "default": {
+      "border-radius": "8px",
+      "border-width": "1px",
+      "border-color": "#E5E5E5",
+      "background-color": "#FFFFFF",
+      "padding-top": "16px",
+      "padding-right": "16px",
+      "padding-bottom": "16px",
+      "padding-left": "16px",
+      "shadow": "0 10px 15px -3px #0000001A | 0 4px 6px -4px #0000001A",
+      "color": "#171717",
+      "ring-width": "0.3px",
+      "ring-color": "#009966"
+    }
+  }
+}

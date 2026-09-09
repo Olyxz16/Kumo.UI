@@ -1,0 +1,34 @@
+{
+  "fixture": "menu-item",
+  "description": "Menu item (dropdown)",
+  "kumo_version": "2.13.1",
+  "keys": [
+    "padding-left",
+    "padding-top",
+    "border-radius",
+    "font-size",
+    "background-color"
+  ],
+  "vars": {},
+  "states": {
+    "default": {
+      "border-radius": "6px",
+      "padding-left": "8px",
+      "padding-right": "8px",
+      "padding-top": "6px",
+      "padding-bottom": "6px",
+      "font-size": "14px",
+      "line-height": "var(--tw-leading,var(--text-base--line-height))"
+    },
+    "highlighted": {
+      "border-radius": "6px",
+      "padding-left": "8px",
+      "padding-right": "8px",
+      "padding-top": "6px",
+      "padding-bottom": "6px",
+      "font-size": "14px",
+      "line-height": "var(--tw-leading,var(--text-base--line-height))",
+      "background-color": "#FBFBFB"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "fixture": "banner-info-sm",
+  "description": "Banner info size=sm",
+  "kumo_version": "2.13.1",
+  "keys": [
+    "border-radius",
+    "padding-left",
+    "padding-top",
+    "font-size"
+  ],
+  "vars": {},
+  "states": {
+    "default": {
+      "gap": "8px",
+      "border-radius": "6px",
+      "padding-left": "12px",
+      "padding-right": "12px",
+      "padding-top": "8px",
+      "padding-bottom": "8px",
+      "font-size": "13px",
+      "line-height": "var(--tw-leading,var(--text-sm--line-height))",
+      "background-color": "#DBEAFE73",
+      "color": "#193CB8"
+    }
+  }
+}

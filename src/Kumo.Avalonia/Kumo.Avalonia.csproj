@@ -7,7 +7,10 @@
     <Version>0.1.0</Version>
     <Title>Kumo.Avalonia</Title>
     <Description>Kumo (Cloudflare's design system) as an Avalonia theme: semantic color tokens with light/dark variants and starter control styles.</Description>
-    <PackageTags>avalonia;kumo;cloudflare;design-system;theme</PackageTags>
+    <!-- The XAML compiler must see the embedded !AvaloniaResources index when
+         other projects compile against this library; stripped ref assemblies
+         break that (AVLN2000 "!AvaloniaResources" on cold builds). -->
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
   </PropertyGroup>
 
   <ItemGroup>

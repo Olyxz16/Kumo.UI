@@ -1,0 +1,30 @@
+{
+  "fixture": "button-primary-overlay",
+  "description": "Primary button gradient overlay span",
+  "kumo_version": "2.13.1",
+  "keys": [
+    "gradient-from",
+    "gradient-to",
+    "inset-shadow"
+  ],
+  "vars": {
+    "--kumo-button-emphasis-ring": "color-mix(in oklch, var(--color-kumo-brand), black 10%)",
+    "--kumo-button-emphasis-bg": "color-mix(in oklch, var(--color-kumo-brand), white 30%)",
+    "--kumo-button-emphasis-gradient-start": "color-mix(in oklch, var(--color-kumo-brand), white 15%)",
+    "--kumo-button-emphasis-gradient-end": "var(--color-kumo-brand)"
+  },
+  "states": {
+    "default": {
+      "border-radius": "inherit",
+      "gradient-from": "#3C86FF",
+      "gradient-to": "#056DFF",
+      "shadow": "inset 0 1px 0 0 #619EFF"
+    },
+    "hover": {
+      "border-radius": "inherit",
+      "gradient-from": "#619EFF",
+      "gradient-to": "#056DFF",
+      "shadow": "inset 0 1px 0 0 #619EFF"
+    }
+  }
+}

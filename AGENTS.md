@@ -18,6 +18,8 @@ https://kumo-ui.com/skill.md
 - Run demo app: `dotnet run --project src/Kumo.Demo`
 - Regenerate tokens from `design/kumo/theme-kumo.css` into `src/Kumo.Avalonia/Themes/Palette.axaml` and `docs/TOKENS.md`: `python3 scripts/generate_tokens.py`
 - Check generated tokens are up to date (CI-style): `python3 scripts/generate_tokens.py --check`
+- Regenerate reference component specs (needs the kumo npm tarball at /tmp/opencode/kumo-pkg): `python3 scripts/extract_component_specs.py` (writes `design/specs/*.json`; `--check` verifies staleness)
+- The headless SpecTests diff resolved control properties against those specs; accepted deviations live in SpecTests.cs `Accepted`
 - Run headless theme tests (no display needed): `dotnet run --project tests/Kumo.Avalonia.Tests`
 
 ## Layout

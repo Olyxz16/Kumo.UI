@@ -1,0 +1,21 @@
+{
+  "fixture": "tabs-indicator",
+  "description": "Active tab indicator (floating pill)",
+  "kumo_version": "2.13.1",
+  "keys": [
+    "background-color",
+    "ring-width",
+    "ring-color",
+    "shadow"
+  ],
+  "vars": {},
+  "states": {
+    "default": {
+      "height": "var(--active-tab-height)",
+      "background-color": "#FFFFFF",
+      "shadow": "0 1px 3px 0 #0000001A | 0 1px 2px -1px #0000001A",
+      "ring-width": "1px",
+      "ring-color": "#0A0A0A1A"
+    }
+  }
+}

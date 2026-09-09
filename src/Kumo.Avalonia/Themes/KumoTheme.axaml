@@ -19,26 +19,15 @@
             <SolidColorBrush x:Key="KumoBrushSwitchThumbOff" Color="{DynamicResource KumoColorBase}" />
             <SolidColorBrush x:Key="KumoBrushSkeletonFill" Color="#F3F4F6" />
             <SolidColorBrush x:Key="KumoBrushToastBackdrop" Color="{DynamicResource KumoColorBase}" Opacity="0.9" />
+            <BoxShadows x:Key="KumoBoxShadowXs">0 1 2 0 #0D000000</BoxShadows>
+            <BoxShadows x:Key="KumoBoxShadowNone">0 0 0 0 #00000000</BoxShadows>
+            <SolidColorBrush x:Key="KumoBrushButtonDisabledBg" Color="{DynamicResource KumoColorBase}" Opacity="0.5" />
+            <SolidColorBrush x:Key="KumoBrushButtonDisabledText" Color="{DynamicResource KumoColorTextDefault}" Opacity="0.7" />
+            <SolidColorBrush x:Key="KumoBrushBannerSecondaryBg" Color="{DynamicResource KumoColorContrast}" Opacity="0.05" />
+            <SolidColorBrush x:Key="KumoBrushBannerSecondaryText" Color="{DynamicResource KumoColorTextDefault}" Opacity="0.7" />
             <BoxShadows x:Key="KumoBoxShadowDialog">0 20 25 -5 #08000000, 0 8 10 -6 #08000000</BoxShadows>
             <BoxShadows x:Key="KumoBoxShadowSwitchThumb">0 0 1 0 #66000000, 0 1 2 0 #1A000000</BoxShadows>
-            <LinearGradientBrush x:Key="KumoBrushButtonPrimaryGradient" StartPoint="0,0" EndPoint="0,1">
-                <GradientStop Color="#2A83FF" Offset="0" />
-                <GradientStop Color="#056DFF" Offset="1" />
-            </LinearGradientBrush>
-            <LinearGradientBrush x:Key="KumoBrushButtonPrimaryGradientHover" StartPoint="0,0" EndPoint="0,1">
-                <GradientStop Color="#5099FF" Offset="0" />
-                <GradientStop Color="#056DFF" Offset="1" />
-            </LinearGradientBrush>
-            <SolidColorBrush x:Key="KumoBrushButtonPrimaryRing" Color="#0462E5" />
-            <LinearGradientBrush x:Key="KumoBrushButtonDangerGradient" StartPoint="0,0" EndPoint="0,1">
-                <GradientStop Color="#FC4B54" Offset="0" />
-                <GradientStop Color="#FB2C36" Offset="1" />
-            </LinearGradientBrush>
-            <LinearGradientBrush x:Key="KumoBrushButtonDangerGradientHover" StartPoint="0,0" EndPoint="0,1">
-                <GradientStop Color="#FC6B72" Offset="0" />
-                <GradientStop Color="#FB2C36" Offset="1" />
-            </LinearGradientBrush>
-            <SolidColorBrush x:Key="KumoBrushButtonDangerRing" Color="#E22831" />
+            <!-- Button emphasis gradients/rings are generated in Palette.axaml -->
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Dark">
@@ -51,6 +40,12 @@
             <SolidColorBrush x:Key="KumoBrushSwitchThumbOn" Color="{DynamicResource KumoColorBlue300}" />
             <SolidColorBrush x:Key="KumoBrushSwitchThumbOff" Color="{DynamicResource KumoColorNeutral800}" />
             <SolidColorBrush x:Key="KumoBrushSkeletonFill" Color="#0FFFFFFF" />
+            <BoxShadows x:Key="KumoBoxShadowXs">0 1 2 0 #0D000000</BoxShadows>
+            <BoxShadows x:Key="KumoBoxShadowNone">0 0 0 0 #00000000</BoxShadows>
+            <SolidColorBrush x:Key="KumoBrushButtonDisabledBg" Color="{DynamicResource KumoColorBase}" Opacity="0.5" />
+            <SolidColorBrush x:Key="KumoBrushButtonDisabledText" Color="{DynamicResource KumoColorTextDefault}" Opacity="0.7" />
+            <SolidColorBrush x:Key="KumoBrushBannerSecondaryBg" Color="{DynamicResource KumoColorContrast}" Opacity="0.05" />
+            <SolidColorBrush x:Key="KumoBrushBannerSecondaryText" Color="{DynamicResource KumoColorTextDefault}" Opacity="0.7" />
             <SolidColorBrush x:Key="KumoBrushToastBackdrop" Color="{DynamicResource KumoColorBase}" Opacity="0.9" />
         </ResourceDictionary>
 

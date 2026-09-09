@@ -1,0 +1,53 @@
+{
+  "fixture": "checkbox-unchecked",
+  "description": "Checkbox unchecked (16px box)",
+  "kumo_version": "2.13.1",
+  "keys": [
+    "background-color",
+    "ring-width",
+    "ring-color",
+    "border-radius",
+    "height",
+    "width"
+  ],
+  "vars": {},
+  "states": {
+    "default": {
+      "height": "16px",
+      "width": "16px",
+      "border-radius": "4px",
+      "border-width": "0px",
+      "background-color": "#FFFFFF",
+      "ring-width": "1px",
+      "ring-color": "#E9E9E9"
+    },
+    "hover": {
+      "height": "16px",
+      "width": "16px",
+      "border-radius": "4px",
+      "border-width": "0px",
+      "background-color": "#FFFFFF",
+      "ring-width": "1px",
+      "ring-color": "#E9E9E9"
+    },
+    "focus": {
+      "height": "16px",
+      "width": "16px",
+      "border-radius": "4px",
+      "border-width": "0px",
+      "background-color": "#FFFFFF",
+      "ring-width": "2px",
+      "ring-color": "#0B0B0B"
+    },
+    "checked": {
+      "height": "16px",
+      "width": "16px",
+      "border-radius": "4px",
+      "border-width": "0px",
+      "background-color": "#060606",
+      "ring-width": "1px",
+      "ring-color": "#060606",
+      "color": "#F5F5F5"
+    }
+  }
+}

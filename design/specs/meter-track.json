@@ -1,0 +1,19 @@
+{
+  "fixture": "meter-track",
+  "description": "Meter track",
+  "kumo_version": "2.13.1",
+  "keys": [
+    "background-color",
+    "border-radius",
+    "height"
+  ],
+  "vars": {},
+  "states": {
+    "default": {
+      "height": "8px",
+      "width": "100%",
+      "border-radius": "9999px",
+      "background-color": "#E5E5E5"
+    }
+  }
+}
