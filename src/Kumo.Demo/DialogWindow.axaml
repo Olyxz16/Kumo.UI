@@ -5,6 +5,9 @@
         mc:Ignorable="d"
         x:Class="Kumo.Demo.DialogWindow"
         Classes="dialog"
+        SystemDecorations="None"
+        TransparencyLevelHint="Transparent"
+        Background="Transparent"
         Title="Confirm action">
 
     <Border Classes="dialog-surface">

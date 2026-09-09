@@ -141,10 +141,44 @@ public class ThemeTests
         window.Content = button;
         window.Show();
 
-        var background = Assert.IsType<SolidColorBrush>(button.Background);
-        Assert.Equal(Color.Parse("#056DFF"), background.Color);
+        var background = Assert.IsType<LinearGradientBrush>(button.Background);
+        Assert.Equal(Color.Parse("#2A83FF"), background.GradientStops[0].Color);
+        Assert.Equal(Color.Parse("#056DFF"), background.GradientStops[1].Color);
         var foreground = Assert.IsType<SolidColorBrush>(button.Foreground);
         Assert.Equal(Color.Parse("#F5F5F5"), foreground.Color);
+    }
+
+    [AvaloniaFact]
+    public void Toast_cards_stack_behind_newest_with_slide_down_exit()
+    {
+        var window = new MainWindow();
+        var stack = new StackPanel();
+        var first = new NotificationCard { Content = new TextBlock { Text = "One" } };
+        var second = new NotificationCard { Content = new TextBlock { Text = "Two" } };
+        var third = new NotificationCard { Content = new TextBlock { Text = "Three" } };
+        stack.Children.Add(first);
+        stack.Children.Add(second);
+        stack.Children.Add(third);
+        window.Content = stack;
+        window.Show();
+
+        Assert.Equal(0, first.Margin.Bottom);
+        Assert.Equal(-34, second.Margin.Bottom);
+        Assert.Equal(-68, third.Margin.Bottom);
+        Assert.Equal(0.92, second.Opacity, 3);
+        Assert.Equal(0.84, third.Opacity, 3);
+    }
+
+    [AvaloniaFact]
+    public void Pagination_page_buttons_center_their_number()
+    {
+        var window = new MainWindow();
+        var page = new Button { Classes = { "page" }, Content = "2" };
+        window.Content = page;
+        window.Show();
+
+        Assert.Equal(HorizontalAlignment.Center, page.HorizontalContentAlignment);
+        Assert.Equal(VerticalAlignment.Center, page.VerticalContentAlignment);
     }
 
     [AvaloniaFact]
@@ -201,7 +235,9 @@ public class ThemeTests
         var transform = Assert.IsAssignableFrom<ITransform>(layoutRoot.RenderTransform);
         var matrix = transform.Value;
         Assert.Equal(1, matrix.M11);
-        Assert.Equal(0, matrix.M31, 3);
+        var first = Assert.IsType<TabItem>(tabControl.Items[0]!);
+        var expectedDx = first.Bounds.X - selected.Bounds.X;
+        Assert.Equal(expectedDx, matrix.M31, 3);
     }
 
     [AvaloniaFact]

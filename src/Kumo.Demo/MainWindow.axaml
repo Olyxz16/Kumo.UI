@@ -482,32 +482,45 @@
                 <StackPanel Spacing="12">
                     <TextBlock Text="Table" FontWeight="SemiBold"
                                Foreground="{DynamicResource KumoBrushTextStrong}" />
-                    <Border Classes="table" MaxWidth="520" HorizontalAlignment="Left">
-                        <StackPanel>
-                            <Grid ColumnDefinitions="*,120,110">
-                                <Border Classes="table-header-cell"><TextBlock Text="Region" /></Border>
-                                <Border Classes="table-header-cell" Grid.Column="1"><TextBlock Text="Status" /></Border>
-                                <Border Classes="table-header-cell" Grid.Column="2"><TextBlock Text="Requests" /></Border>
+                    <Border Classes="table" MaxWidth="560" HorizontalAlignment="Left">
+                        <StackPanel Name="DemoTableBody">
+                            <Grid ColumnDefinitions="36,*,120,110">
+                                <Border Classes="table-header-cell">
+                                    <CheckBox Name="TableSelectAll" IsChecked="True" VerticalAlignment="Center"
+                                              Margin="12,0,0,0" IsCheckedChanged="OnSelectAllRows" />
+                                </Border>
+                                <Border Classes="table-header-cell" Grid.Column="1"><TextBlock Text="Region" /></Border>
+                                <Border Classes="table-header-cell" Grid.Column="2"><TextBlock Text="Status" /></Border>
+                                <Border Classes="table-header-cell" Grid.Column="3"><TextBlock Text="Requests" /></Border>
                             </Grid>
-                            <Border Classes="table-row">
-                                <Grid ColumnDefinitions="*,120,110">
-                                    <Border Classes="table-cell"><TextBlock Text="North America" /></Border>
-                                    <Border Classes="table-cell" Grid.Column="1"><TextBlock Text="Healthy" /></Border>
-                                    <Border Classes="table-cell" Grid.Column="2"><TextBlock Classes="mono" Text="24.1M" /></Border>
+                            <Border Classes="table-row alt" Tapped="OnTableRowTapped">
+                                <Grid ColumnDefinitions="36,*,120,110">
+                                    <CheckBox Name="TableRowCheck1" IsChecked="false"
+                                              Margin="12,0,0,0" VerticalAlignment="Center"
+                                              IsCheckedChanged="OnRowCheckChanged" />
+                                    <Border Classes="table-cell" Grid.Column="1"><TextBlock Text="North America" /></Border>
+                                    <Border Classes="table-cell" Grid.Column="2"><TextBlock Text="Healthy" /></Border>
+                                    <Border Classes="table-cell" Grid.Column="3"><TextBlock Classes="mono" Text="24.1M" /></Border>
                                 </Grid>
                             </Border>
-                            <Border Classes="table-row alt">
-                                <Grid ColumnDefinitions="*,120,110">
-                                    <Border Classes="table-cell"><TextBlock Text="Europe" /></Border>
-                                    <Border Classes="table-cell" Grid.Column="1"><TextBlock Text="Degraded" /></Border>
-                                    <Border Classes="table-cell" Grid.Column="2"><TextBlock Classes="mono" Text="12.9M" /></Border>
+                            <Border Classes="table-row" Tapped="OnTableRowTapped">
+                                <Grid ColumnDefinitions="36,*,120,110">
+                                    <CheckBox Name="TableRowCheck2" IsChecked="false"
+                                              Margin="12,0,0,0" VerticalAlignment="Center"
+                                              IsCheckedChanged="OnRowCheckChanged" />
+                                    <Border Classes="table-cell" Grid.Column="1"><TextBlock Text="Europe" /></Border>
+                                    <Border Classes="table-cell" Grid.Column="2"><TextBlock Text="Degraded" /></Border>
+                                    <Border Classes="table-cell" Grid.Column="3"><TextBlock Classes="mono" Text="12.9M" /></Border>
                                 </Grid>
                             </Border>
-                            <Border Classes="table-row selected">
-                                <Grid ColumnDefinitions="*,120,110">
-                                    <Border Classes="table-cell"><TextBlock Text="Asia Pacific" /></Border>
-                                    <Border Classes="table-cell" Grid.Column="1"><TextBlock Text="Healthy" /></Border>
-                                    <Border Classes="table-cell" Grid.Column="2"><TextBlock Classes="mono" Text="8.4M" /></Border>
+                            <Border Classes="table-row selected" Tapped="OnTableRowTapped">
+                                <Grid ColumnDefinitions="36,*,120,110">
+                                    <CheckBox Name="TableRowCheck3" IsChecked="true"
+                                              Margin="12,0,0,0" VerticalAlignment="Center"
+                                              IsCheckedChanged="OnRowCheckChanged" />
+                                    <Border Classes="table-cell" Grid.Column="1"><TextBlock Text="Asia Pacific" /></Border>
+                                    <Border Classes="table-cell" Grid.Column="2"><TextBlock Text="Healthy" /></Border>
+                                    <Border Classes="table-cell" Grid.Column="3"><TextBlock Classes="mono" Text="8.4M" /></Border>
                                 </Grid>
                             </Border>
                         </StackPanel>

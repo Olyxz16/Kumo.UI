@@ -18,7 +18,7 @@ chunks shipped in the npm package (`dist/chunks/*.js`).
 
 | Kumo component | Avalonia mapping |
 | --- | --- |
-| Button | `Button` + `primary`/`danger`/`ghost`/`icon`/`icon-sm`/`icon-circle`/`breadcrumb`/`page` classes |
+| Button | `Button` + `primary`/`danger`/`ghost`/`icon`/`icon-sm`/`icon-circle`/`breadcrumb`/`page` classes; emphasis variants (primary/danger) use the upstream light gradient (`emphasis-bg` = token+white 30%, sheen = token+white 15% → token, ring = token+black 10%) as a top-to-bottom `LinearGradientBrush` with hover gradient collapse |
 | Input | `TextBox` (kumo input ring + focus) |
 | InputArea | `TextBox.multiline` |
 | SensitiveInput | `TextBox.password` (mask glyph, mono; reveal toggles `PasswordChar`) |
@@ -31,17 +31,17 @@ chunks shipped in the npm package (`dist/chunks/*.js`).
 | Label | `TextBlock.field-label` |
 | Badge | `Border.badge` + 14 variant classes |
 | Banner | `Border.banner` + status classes |
-| Toasty | `NotificationCard` ControlTheme + `WindowNotificationManager`; `Border.toast` presets |
+| Toasty | `NotificationCard` ControlTheme + `WindowNotificationManager`; deck stacking via `:nth-child` (older toasts tuck 34px behind the newest with stepped opacity), enter = slide-up 28px, exit = slide-down 56px + fade; `Border.toast` presets |
 | Collapsible | `Expander` (Kumo left-border content, expand fade/slide) |
 | Tabs | `TabControl`/`TabItem` segmented (recessed 2px-inset list, base indicator); sliding indicator via `KumoThemeSupport.TabSlide` attached behavior (200ms translate + initial scale pop-in, matching upstream `transition-all duration-200` + `data-[rendered=false]:scale-90`) |
 | Tooltip | `ToolTip` |
-| Dialog | `Window.dialog` + `Border.dialog-surface` (+ `.sm/.lg/.xl`, `dialog-title`/`dialog-description`) |
+| Dialog | `Window.dialog` + `Border.dialog-surface` (+ `.sm/.lg/.xl`, `dialog-title`/`dialog-description`); window chrome: `SystemDecorations=None` + transparent backdrop (set locally — direct properties can't be styled in Avalonia) |
 | Popover / DropdownMenu | `FlyoutPresenter` / `ContextMenu` / `MenuFlyoutPresenter` / `MenuItem` / `Separator` |
 | MenuBar (upstream deprecated) | `Border.menubar` + active-item styles (toolbar-style nav strip) |
 | Toolbar | `Border.toolbar` (internal dividers via `:nth-child(n+2)`, edge rounding on first/last child) |
 | Pagination | `Button.page` + `page-selected`, `TextBlock.pagination-info`, `Border.pagination-separator` |
 | Breadcrumbs | `Button.breadcrumb`, `TextBlock.breadcrumb-current`, inactive chevron separators |
-| Table | Composition presets: `Border.table`, `table-header-cell` (+ `compact`), `table-cell`, `table-row` (+ `alt`/`selected`, row hover) |
+| Table | Composition presets: `Border.table`, `table-header-cell` (+ `compact`), `table-cell`, `table-row` (+ `alt`/`selected`, row hover); row selection via checkbox column + click-to-toggle (demo wires `IsCheckedChanged` -> `selected` class) |
 | Meter | `ProgressBar.meter` (+ `success`/`warning`/`danger`/`info`) |
 | Progress | `ProgressBar` base + status classes |
 | Loader | `ContentControl.loader` (+ `loader-sm`/`loader-lg`) template: rotating arc + track, `TextElement.Foreground` for color |
@@ -96,6 +96,9 @@ chunks shipped in the npm package (`dist/chunks/*.js`).
 - Toolbar/menu bar dividers use `:nth-child(n+2)` left borders; upstream rounds only the outermost children — matched via `:nth-child(1)`/`:nth-last-child(1)`.
 - Loader is a rotating arc approximation of the upstream SMIL dash animation (2 s rotation, round caps, 15% track).
 - Link underline decoration color follows the text color (upstream uses 35% alpha `currentColor` underline via `color-mix`).
+- Emphasis buttons: the 1px inset top highlight (`inset 0 1px 0 0 emphasis-bg`) is folded into the gradient sheen; Avalonia has no inset shadows.
+- Toast deck overlap is fixed at 34px per older card (upstream overlaps by a fixed peek too); layout margin (not z-order) creates the stack.
+- Table child clipping: `Border.table` uses `Padding=1` + `ClipToBounds` so row backgrounds don't overpaint the rounded border at the corners.
 
 ## 5. Design-rule checklist (from https://kumo-ui.com/skill.md)
 

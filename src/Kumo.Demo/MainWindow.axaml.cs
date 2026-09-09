@@ -10,6 +10,7 @@ using Avalonia.Controls.Notifications;
 using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Media;
 using Avalonia.Styling;
+using Avalonia.VisualTree;
 
 namespace Kumo.Demo;
 
@@ -54,6 +55,72 @@ public partial class MainWindow : Window
 
         box.PasswordChar = box.PasswordChar == '\u2022' ? default : '\u2022';
     }
+
+    private void OnTableRowTapped(object? sender, Avalonia.Input.TappedEventArgs e)
+    {
+        if (sender is Border row)
+        {
+            var checkBox = row.GetVisualDescendants().OfType<CheckBox>().FirstOrDefault();
+            if (checkBox is not null)
+            {
+                checkBox.IsChecked = checkBox.IsChecked != true;
+            }
+        }
+    }
+
+    private void OnRowCheckChanged(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (sender is CheckBox checkBox)
+        {
+            var row = checkBox.GetVisualAncestors().OfType<Border>()
+                .FirstOrDefault(b => b.Classes.Contains("table-row"));
+            if (row is not null)
+            {
+                row.Classes.Set("selected", checkBox.IsChecked == true);
+            }
+
+            UpdateSelectAllState();
+        }
+    }
+
+    private void OnSelectAllRows(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (sender is not CheckBox selectAll)
+        {
+            return;
+        }
+
+        var body = this.FindControl<StackPanel>("DemoTableBody");
+        if (body is null)
+        {
+            return;
+        }
+
+        foreach (var rowCheck in RowChecks(body))
+        {
+            rowCheck.IsChecked = selectAll.IsChecked;
+        }
+    }
+
+    private void UpdateSelectAllState()
+    {
+        var body = this.FindControl<StackPanel>("DemoTableBody");
+        var selectAll = this.FindControl<CheckBox>("TableSelectAll");
+        if (body is null || selectAll is null)
+        {
+            return;
+        }
+
+        var boxes = RowChecks(body).ToList();
+        if (boxes.Count > 0)
+        {
+            selectAll.IsChecked = boxes.All(b => b.IsChecked == true);
+        }
+    }
+
+    private static IEnumerable<CheckBox> RowChecks(StackPanel body) =>
+        body.GetVisualDescendants().OfType<CheckBox>()
+            .Where(c => c.Name?.StartsWith("TableRowCheck", StringComparison.Ordinal) == true);
 
     private async void OnOpenDialog(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {

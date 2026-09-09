@@ -84,8 +84,6 @@ public class TabSlide
                 return;
             }
 
-            EnsureTransitions(border);
-
             var dx = 0.0;
             if (!initial && previous is not null && !ReferenceEquals(previous, tab))
             {
@@ -98,23 +96,20 @@ public class TabSlide
 
             var start = TransformOperations.Parse(
                 dx != 0 ? $"translateX({dx}px) scale(1)" : "translateX(0px) scale(0.9)");
+            var end = TransformOperations.Parse("translateX(0px) scale(1)");
+
+            // Detach transitions while planting the start value so the
+            // transition only animates the start -> end leg.
+            var transitions = EnsureTransitions(border);
+            border.Transitions = null;
             border.RenderTransform = start;
-            Dispatcher.UIThread.Post(() =>
-                border.RenderTransform = TransformOperations.Parse("translateX(0px) scale(1)"),
-                DispatcherPriority.Background);
+            border.Transitions = transitions;
+            Dispatcher.UIThread.Post(() => border.RenderTransform = end, DispatcherPriority.Background);
         }, DispatcherPriority.Loaded);
     }
 
-    private static void EnsureTransitions(Border border)
+    private static Transitions EnsureTransitions(Border border)
     {
-        var hasTransformTransition = border.Transitions is Transitions existing &&
-            existing.OfType<TransformOperationsTransition>()
-                .Any(t => t.Property == Visual.RenderTransformProperty);
-        if (hasTransformTransition)
-        {
-            return;
-        }
-
         var list = new Transitions();
         if (border.Transitions is Transitions current)
         {
@@ -124,12 +119,17 @@ public class TabSlide
             }
         }
 
-        list.Add(new TransformOperationsTransition
+        if (list.OfType<TransformOperationsTransition>()
+                .All(t => t.Property != Visual.RenderTransformProperty))
         {
-            Property = Visual.RenderTransformProperty,
-            Duration = TimeSpan.FromMilliseconds(200),
-            Easing = new CubicEaseOut(),
-        });
-        border.Transitions = list;
+            list.Add(new TransformOperationsTransition
+            {
+                Property = Visual.RenderTransformProperty,
+                Duration = TimeSpan.FromMilliseconds(200),
+                Easing = new CubicEaseOut(),
+            });
+        }
+
+        return list;
     }
 }

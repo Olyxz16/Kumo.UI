@@ -32,26 +32,27 @@
     </Style>
 
     <Style Selector="Button.primary">
-        <Setter Property="Background" Value="{DynamicResource KumoBrushBrand}" />
+        <Setter Property="Background" Value="{DynamicResource KumoBrushButtonPrimaryGradient}" />
         <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextInverse}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushButtonPrimaryRing}" />
     </Style>
     <Style Selector="Button.primary:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource KumoBrushBrandHover}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Background" Value="{DynamicResource KumoBrushButtonPrimaryGradientHover}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushButtonPrimaryRing}" />
     </Style>
     <Style Selector="Button.primary:pressed /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource KumoBrushBrandHover}" />
+        <Setter Property="Background" Value="{DynamicResource KumoBrushBrandPressed}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushButtonPrimaryRing}" />
     </Style>
 
     <Style Selector="Button.danger">
-        <Setter Property="Background" Value="{DynamicResource KumoBrushDanger}" />
+        <Setter Property="Background" Value="{DynamicResource KumoBrushButtonDangerGradient}" />
         <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextInverse}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushButtonDangerRing}" />
     </Style>
     <Style Selector="Button.danger:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource KumoBrushDanger}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Background" Value="{DynamicResource KumoBrushButtonDangerGradientHover}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushButtonDangerRing}" />
     </Style>
 
     <Style Selector="Button.ghost">
@@ -445,10 +446,10 @@
         </Setter>
 
         <ControlTheme.Animations>
-            <Animation Duration="0:0:0.35" Easing="CubicEaseOut" FillMode="Forward">
+            <Animation Duration="0:0:0.25" Easing="CubicEaseOut" FillMode="Forward">
                 <KeyFrame Cue="0%">
                     <Setter Property="Opacity" Value="0" />
-                    <Setter Property="TranslateTransform.Y" Value="16" />
+                    <Setter Property="TranslateTransform.Y" Value="28" />
                 </KeyFrame>
                 <KeyFrame Cue="100%">
                     <Setter Property="Opacity" Value="1" />
@@ -457,15 +458,32 @@
             </Animation>
         </ControlTheme.Animations>
 
+        <!-- Deck stacking: older toasts tuck behind the newest (newest is
+             nth-child(1) at the bottom in the reversed notification panel). -->
+        <Style Selector="^:nth-child(2)">
+            <Setter Property="Margin" Value="0,0,0,-34" />
+            <Setter Property="Opacity" Value="0.92" />
+        </Style>
+        <Style Selector="^:nth-child(3)">
+            <Setter Property="Margin" Value="0,0,0,-68" />
+            <Setter Property="Opacity" Value="0.84" />
+        </Style>
+        <Style Selector="^:nth-child(4)">
+            <Setter Property="Margin" Value="0,0,0,-102" />
+            <Setter Property="Opacity" Value="0.76" />
+        </Style>
+
         <Style Selector="^[IsClosing=true]">
             <Style.Animations>
-                <Animation Duration="0:0:1.25" Easing="QuadraticEaseOut" FillMode="Forward">
+                <Animation Duration="0:0:0.25" Easing="CubicEaseIn" FillMode="Forward">
                     <KeyFrame Cue="0%">
                         <Setter Property="Opacity" Value="1" />
+                        <Setter Property="TranslateTransform.Y" Value="0" />
                     </KeyFrame>
                     <KeyFrame Cue="100%">
                         <Setter Property="IsClosed" Value="True" />
                         <Setter Property="Opacity" Value="0" />
+                        <Setter Property="TranslateTransform.Y" Value="56" />
                     </KeyFrame>
                 </Animation>
             </Style.Animations>
@@ -1254,6 +1272,8 @@
     <!-- Pagination -->
     <Style Selector="Button.page">
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusMd}" />
@@ -1290,6 +1310,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushLine}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusLg}" />
+        <Setter Property="Padding" Value="1" />
         <Setter Property="ClipToBounds" Value="True" />
     </Style>
     <Style Selector="Border.table-header-cell">
@@ -1361,7 +1382,8 @@
         <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
     <Style Selector="Window.dialog">
-        <Setter Property="Background" Value="{DynamicResource KumoBrushRecessed}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="TransparencyLevelHint" Value="Transparent" />
         <Setter Property="ShowInTaskbar" Value="False" />
         <Setter Property="WindowStartupLocation" Value="CenterOwner" />
         <Setter Property="CanResize" Value="False" />
