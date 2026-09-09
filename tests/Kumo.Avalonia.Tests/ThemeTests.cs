@@ -162,15 +162,46 @@ public class ThemeTests
             Assert.IsType<SolidColorBrush>(onTrack.Background).Color);
 
         var knob = toggle.GetVisualDescendants()
-            .OfType<Ellipse>().First(e => e.Name == "SwitchKnobOn");
+            .OfType<Border>().First(b => b.Name == "SwitchKnobOn");
         Assert.Equal(Color.Parse("#FFFFFF"),
-            Assert.IsType<SolidColorBrush>(knob.Fill).Color);
+            Assert.IsType<SolidColorBrush>(knob.Background).Color);
+        Assert.Equal(16, knob.Width);
+        Assert.Equal(5, knob.CornerRadius.TopLeft);
 
         Application.Current.RequestedThemeVariant = ThemeVariant.Dark;
         Assert.Equal(Color.Parse("#155DFC"),
             Assert.IsType<SolidColorBrush>(onTrack.Background).Color);
         Assert.Equal(Color.Parse("#8EC5FF"),
-            Assert.IsType<SolidColorBrush>(knob.Fill).Color);
+            Assert.IsType<SolidColorBrush>(knob.Background).Color);
+    }
+
+    [AvaloniaFact]
+    public void Tabs_selected_indicator_is_inset_and_slides()
+    {
+        Application.Current!.RequestedThemeVariant = ThemeVariant.Light;
+        var window = new MainWindow();
+        var tabControl = new TabControl();
+        tabControl.Items.Add(new TabItem { Header = "One" });
+        tabControl.Items.Add(new TabItem { Header = "Two" });
+        tabControl.SelectedIndex = 0;
+        window.Content = tabControl;
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal(2, tabControl.Padding.Left);
+
+        tabControl.SelectedIndex = 1;
+        Dispatcher.UIThread.RunJobs();
+        var selected = Assert.IsType<TabItem>(tabControl.SelectedItem);
+        var layoutRoot = selected.GetVisualDescendants()
+            .OfType<Border>().First(b => b.Name == "PART_LayoutRoot");
+        Assert.Equal(6, layoutRoot.CornerRadius.TopLeft);
+        Assert.NotNull(layoutRoot.Transitions);
+
+        var transform = Assert.IsAssignableFrom<ITransform>(layoutRoot.RenderTransform);
+        var matrix = transform.Value;
+        Assert.Equal(1, matrix.M11);
+        Assert.Equal(0, matrix.M31, 3);
     }
 
     [AvaloniaFact]

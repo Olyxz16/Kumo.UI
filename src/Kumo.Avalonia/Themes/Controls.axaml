@@ -5,7 +5,7 @@
     <!-- Button -->
 
     <Style Selector="Button">
-        <Setter Property="Background" Value="{DynamicResource KumoBrushControl}" />
+        <Setter Property="Background" Value="{DynamicResource KumoBrushBase}" />
         <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
         <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushLine}" />
         <Setter Property="BorderThickness" Value="1" />
@@ -20,7 +20,7 @@
         <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusMd}" />
     </Style>
     <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource KumoBrushFillHover}" />
+        <Setter Property="Background" Value="{DynamicResource KumoBrushTint}" />
         <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushLine}" />
     </Style>
     <Style Selector="Button:pressed /template/ ContentPresenter#PART_ContentPresenter">
@@ -277,14 +277,19 @@
                             <Canvas x:Name="PART_SwitchKnob"
                                     Grid.Row="1"
                                     Width="18" Height="18"
+                                    Margin="1,0"
                                     HorizontalAlignment="Left">
                                 <Grid x:Name="PART_MovingKnobs" Width="18" Height="18">
-                                    <Ellipse x:Name="SwitchKnobOn"
-                                             Fill="{DynamicResource KumoBrushSwitchThumbOn}"
-                                             Width="18" Height="18" />
-                                    <Ellipse x:Name="SwitchKnobOff"
-                                             Fill="{DynamicResource KumoBrushSwitchThumbOff}"
-                                             Width="18" Height="18" />
+                                    <Border x:Name="SwitchKnobOn"
+                                            Background="{DynamicResource KumoBrushSwitchThumbOn}"
+                                            BoxShadow="{DynamicResource KumoBoxShadowSwitchThumb}"
+                                            Width="16" Height="16"
+                                            CornerRadius="5" />
+                                    <Border x:Name="SwitchKnobOff"
+                                            Background="{DynamicResource KumoBrushSwitchThumbOff}"
+                                            BoxShadow="{DynamicResource KumoBoxShadowSwitchThumb}"
+                                            Width="16" Height="16"
+                                            CornerRadius="5" />
                                 </Grid>
                             </Canvas>
                         </Grid>
@@ -559,8 +564,9 @@
         <Setter Property="Background" Value="{DynamicResource KumoBrushRecessed}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusLg}" />
-        <Setter Property="Padding" Value="16,12" />
+        <Setter Property="Padding" Value="2" />
         <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
+        <Setter Property="k:TabSlide.IsEnabled" Value="True" />
     </Style>
 
     <Style Selector="TabItem">
@@ -570,7 +576,7 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="MinHeight" Value="32" />
         <Setter Property="Padding" Value="10,0" />
-        <Setter Property="Margin" Value="2" />
+        <Setter Property="Margin" Value="0" />
         <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusMd}" />
         <Setter Property="Cursor" Value="Hand" />
     </Style>
@@ -579,7 +585,7 @@
         <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusMd}" />
     </Style>
     <Style Selector="TabItem:pointerover /template/ Border#PART_LayoutRoot">
-        <Setter Property="Background" Value="{DynamicResource KumoBrushRecessed}" />
+        <Setter Property="Background" Value="{DynamicResource KumoBrushTint}" />
     </Style>
     <Style Selector="TabItem:pointerover">
         <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
@@ -591,6 +597,7 @@
         <Setter Property="Background" Value="{DynamicResource KumoBrushBase}" />
         <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushLine}" />
         <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="6" />
         <Setter Property="BoxShadow" Value="{StaticResource KumoShadowSm}" />
     </Style>
     <Style Selector="TabItem:selected /template/ Border#PART_SelectedPipe">

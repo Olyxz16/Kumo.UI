@@ -20,6 +20,7 @@
             <SolidColorBrush x:Key="KumoBrushSkeletonFill" Color="#F3F4F6" />
             <SolidColorBrush x:Key="KumoBrushToastBackdrop" Color="{DynamicResource KumoColorBase}" Opacity="0.9" />
             <BoxShadows x:Key="KumoBoxShadowDialog">0 20 25 -5 #08000000, 0 8 10 -6 #08000000</BoxShadows>
+            <BoxShadows x:Key="KumoBoxShadowSwitchThumb">0 0 1 0 #66000000, 0 1 2 0 #1A000000</BoxShadows>
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Dark">

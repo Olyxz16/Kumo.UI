@@ -33,7 +33,7 @@ chunks shipped in the npm package (`dist/chunks/*.js`).
 | Banner | `Border.banner` + status classes |
 | Toasty | `NotificationCard` ControlTheme + `WindowNotificationManager`; `Border.toast` presets |
 | Collapsible | `Expander` (Kumo left-border content, expand fade/slide) |
-| Tabs | `TabControl`/`TabItem` segmented |
+| Tabs | `TabControl`/`TabItem` segmented (recessed 2px-inset list, base indicator); sliding indicator via `KumoThemeSupport.TabSlide` attached behavior (200ms translate + initial scale pop-in, matching upstream `transition-all duration-200` + `data-[rendered=false]:scale-90`) |
 | Tooltip | `ToolTip` |
 | Dialog | `Window.dialog` + `Border.dialog-surface` (+ `.sm/.lg/.xl`, `dialog-title`/`dialog-description`) |
 | Popover / DropdownMenu | `FlyoutPresenter` / `ContextMenu` / `MenuFlyoutPresenter` / `MenuItem` / `Separator` |
@@ -81,11 +81,12 @@ chunks shipped in the npm package (`dist/chunks/*.js`).
 | Chart tokens | https://kumo-ui.com/charts/colors — only needed if charts get themed. |
 | Motion tokens | `kumo-binding.css` — enter/exit animations exist for toast + collapsible; full token mapping optional (Kumo rule: no hover color transitions). |
 | Icon set | `@phosphor-icons/react` — no Avalonia equivalent; demo uses inline stroke paths. |
+| Size variants on Switch | Upstream `sm` (32×16) / `base` (36×18) / `lg` (40×20) tracks with matching square thumbs — only base implemented. |
 | Dialog scrim transparency | `Window.dialog` uses solid `KumoBrushRecessed`; true see-through scrim needs `TransparencyLevelHint` + acrylic — platform-dependent. |
 
 ## 4. Known approximations
 
-- Switch thumb is a circle (Avalonia Ellipse); upstream is a squircle (`corner-shape`).
+- Switch thumb is a 16px rounded-square (radius 5) inset 1px inside the 36×18 ring track; upstream thumb spans the ring-less track at full height with a `corner-shape:squircle` (10px radius when supported) — visually equivalent.
 - Dark-mode unchecked switch thumb: `neutral-850` does not exist in the compiled CSS — approximated with `neutral-800`.
 - `Border.badge.beta` uses a solid brand border; Avalonia `Border` cannot dash.
 - Checkbox/radio glyphs are paths instead of Phosphor bold check/minus.
