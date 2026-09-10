@@ -60,6 +60,14 @@ public partial class MainWindow : Window
     {
         if (sender is Border row)
         {
+            // Clicks on the row's own checkbox already toggle it; only
+            // elsewhere-on-row toggles by proxy.
+            if (e.Source is Avalonia.Visual v &&
+                v.GetVisualAncestors().OfType<CheckBox>().Any())
+            {
+                return;
+            }
+
             var checkBox = row.GetVisualDescendants().OfType<CheckBox>().FirstOrDefault();
             if (checkBox is not null)
             {
@@ -79,7 +87,10 @@ public partial class MainWindow : Window
                 row.Classes.Set("selected", checkBox.IsChecked == true);
             }
 
-            UpdateSelectAllState();
+            var body = this.FindControl<StackPanel>("DemoTableBody");
+            var selectAll = this.FindControl<CheckBox>("TableSelectAll");
+            var boxes = RowChecks(body!).ToList();
+            selectAll!.IsChecked = boxes.Count > 0 && boxes.All(b => b.IsChecked == true);
         }
     }
 
@@ -102,30 +113,18 @@ public partial class MainWindow : Window
         }
     }
 
-    private void UpdateSelectAllState()
-    {
-        var body = this.FindControl<StackPanel>("DemoTableBody");
-        var selectAll = this.FindControl<CheckBox>("TableSelectAll");
-        if (body is null || selectAll is null)
-        {
-            return;
-        }
-
-        var boxes = RowChecks(body).ToList();
-        if (boxes.Count > 0)
-        {
-            selectAll.IsChecked = boxes.All(b => b.IsChecked == true);
-        }
-    }
-
     private static IEnumerable<CheckBox> RowChecks(StackPanel body) =>
         body.GetVisualDescendants().OfType<CheckBox>()
             .Where(c => c.Name?.StartsWith("TableRowCheck", StringComparison.Ordinal) == true);
 
-    private async void OnOpenDialog(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private void OnOpenDialog(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        var dialog = new DialogWindow();
-        await dialog.ShowDialog(this);
+        ModalOverlay.IsVisible = true;
+    }
+
+    private void OnCloseModal(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        ModalOverlay.IsVisible = false;
     }
 
     private void OnToggleTheme(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -137,6 +136,67 @@ public partial class MainWindow : Window
 
         Application.Current.RequestedThemeVariant =
             ThemeToggle.IsChecked == true ? ThemeVariant.Dark : ThemeVariant.Light;
+    }
+
+    private const int PageCount = 13;
+
+    private int _currentPage = 1;
+
+    private void OnPageNav(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (sender is not Button { Tag: string action })
+        {
+            return;
+        }
+
+        _currentPage = action switch
+        {
+            "first" => 1,
+            "last" => PageCount,
+            "prev" => Math.Max(1, _currentPage - 1),
+            "next" => Math.Min(PageCount, _currentPage + 1),
+            _ => _currentPage,
+        };
+        SyncPageInput();
+    }
+
+    private void OnPageInputKeyDown(object? sender, Avalonia.Input.KeyEventArgs e)
+    {
+        if (e.Key == Avalonia.Input.Key.Enter)
+        {
+            CommitPageInput();
+            e.Handled = true;
+        }
+    }
+
+    private void OnPageInputLostFocus(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        CommitPageInput();
+    }
+
+    private void CommitPageInput()
+    {
+        var input = this.FindControl<TextBox>("PageInput");
+        if (input is null)
+        {
+            return;
+        }
+
+        if (int.TryParse(input.Text, out var page))
+        {
+            _currentPage = Math.Clamp(page, 1, PageCount);
+        }
+
+        SyncPageInput();
+    }
+
+    private void SyncPageInput()
+    {
+        var input = this.FindControl<TextBox>("PageInput");
+        if (input?.Text != _currentPage.ToString())
+        {
+            input!.Text = $"{_currentPage}";
+        }
     }
 
     private void OnShowToast(object? sender, Avalonia.Interactivity.RoutedEventArgs e)

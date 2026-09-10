@@ -25,7 +25,7 @@ dotnet run --project tests/Kumo.Avalonia.Tests
 
 ## Using the theme
 
-Reference the resources and styles after a base theme (Fluent) so controls keep their templates:
+The theme is fully self-contained — no base theme (Fluent/Simple) is needed:
 
 ```xml
 <Application xmlns="https://github.com/avaloniaui"
@@ -41,7 +41,6 @@ Reference the resources and styles after a base theme (Fluent) so controls keep 
     </Application.Resources>
 
     <Application.Styles>
-        <FluentTheme />
         <StyleInclude Source="avares://Kumo.Avalonia/Themes/Controls.axaml" />
     </Application.Styles>
 </Application>

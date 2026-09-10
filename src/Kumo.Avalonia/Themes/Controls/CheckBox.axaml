@@ -1,0 +1,319 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Styles.Resources>
+    <ResourceDictionary>
+
+    <!-- CheckBox: 16px box, hairline ring, contrast fill when checked, 2px focus ring -->
+    <ControlTheme x:Key="{x:Type CheckBox}" TargetType="CheckBox">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
+        <Setter Property="Padding" Value="8,0,0,0" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid ColumnDefinitions="Auto,*" Background="Transparent">
+                    <Panel VerticalAlignment="Top" Margin="0,2,0,0" Width="16" Height="16">
+                        <Border x:Name="Box"
+                                Width="16" Height="16"
+                                CornerRadius="4"
+                                Background="{DynamicResource KumoBrushBase}"
+                                BorderBrush="{DynamicResource KumoBrushHairline}"
+                                BorderThickness="1" />
+                        <Path x:Name="CheckGlyph"
+                              IsVisible="False"
+                              Data="M 3.5,8.5 L 6.5,11.5 L 12.5,4.5"
+                              Stroke="{DynamicResource KumoBrushTextInverse}"
+                              StrokeThickness="2"
+                              StrokeLineCap="Round"
+                              StrokeJoin="Round" />
+                        <Path x:Name="MinusGlyph"
+                              IsVisible="False"
+                              Data="M 3.5,8 L 12.5,8"
+                              Stroke="{DynamicResource KumoBrushTextInverse}"
+                              StrokeThickness="2"
+                              StrokeLineCap="Round" />
+                    </Panel>
+                    <ContentPresenter x:Name="PART_ContentPresenter"
+                                      Grid.Column="1"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Foreground="{TemplateBinding Foreground}"
+                                      RecognizesAccessKey="True"
+                                      Margin="{TemplateBinding Padding}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover /template/ Border#Box">
+            <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushHairline}" />
+        </Style>
+        <Style Selector="^:focus-visible /template/ Border#Box">
+            <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushFocus}" />
+            <Setter Property="BorderThickness" Value="2" />
+        </Style>
+        <Style Selector="^:focus:not(:focus-visible) /template/ Border#Box">
+            <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushFocus}" />
+            <Setter Property="BorderThickness" Value="2" />
+        </Style>
+        <Style Selector="^:checked /template/ Border#Box">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushContrast}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushContrast}" />
+        </Style>
+        <Style Selector="^:checked /template/ Path#CheckGlyph">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+        <Style Selector="^:indeterminate /template/ Border#Box">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushContrast}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushContrast}" />
+        </Style>
+        <Style Selector="^:indeterminate /template/ Path#MinusGlyph">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+        <Style Selector="^:disabled">
+            <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextInactive}" />
+            <Setter Property="Opacity" Value="0.5" />
+            <Setter Property="Cursor" Value="Arrow" />
+        </Style>
+
+        <Style Selector="^.error /template/ Border#Box">
+            <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushDanger}" />
+        </Style>
+    </ControlTheme>
+
+    <!-- ToggleSwitch: 36x18 squircle track, 18px thumb, blue-500/600 checked -->
+    <ControlTheme x:Key="{x:Type ToggleSwitch}" TargetType="ToggleSwitch">
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="KnobTransitions">
+            <Setter.Value>
+                <Transitions>
+                    <DoubleTransition Easing="CubicEaseOut" Property="Canvas.Left" Duration="0:0:0.1" />
+                </Transitions>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid Background="{TemplateBinding Background}" RowDefinitions="Auto,*">
+                        <ContentPresenter x:Name="PART_ContentPresenter"
+                                          Grid.Row="0"
+                                          VerticalAlignment="Top"
+                                          Margin="0,0,0,6"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        <Grid Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="6" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="6" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="12" MaxWidth="12" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid x:Name="SwitchAreaGrid"
+                                  Grid.RowSpan="3" Grid.ColumnSpan="3"
+                                  Background="Transparent"
+                                  Margin="0,5"
+                                  TemplatedControl.IsTemplateFocusTarget="True" />
+                            <ContentPresenter x:Name="PART_OffContentPresenter"
+                                              Grid.RowSpan="3" Grid.Column="2"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Content="{TemplateBinding OffContent}"
+                                              ContentTemplate="{TemplateBinding OffContentTemplate}" />
+                            <ContentPresenter x:Name="PART_OnContentPresenter"
+                                              Grid.RowSpan="3" Grid.Column="2"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Content="{TemplateBinding OnContent}"
+                                              ContentTemplate="{TemplateBinding OnContentTemplate}" />
+                            <Border x:Name="SwitchKnobBounds"
+                                    Grid.Row="1"
+                                    Width="36" Height="18"
+                                    CornerRadius="5"
+                                    BorderThickness="1"
+                                    Background="{DynamicResource KumoBrushSwitchTrackOff}"
+                                    BorderBrush="{DynamicResource KumoBrushSwitchTrackOffRing}" />
+                            <Canvas x:Name="PART_SwitchKnob"
+                                    Grid.Row="1"
+                                    Width="18" Height="18"
+                                    HorizontalAlignment="Left">
+                                <Grid x:Name="PART_MovingKnobs" Width="18" Height="18">
+                                    <Border x:Name="SwitchKnobOn"
+                                            Background="{DynamicResource KumoBrushSwitchThumbOn}"
+                                            BoxShadow="{DynamicResource KumoBoxShadowSwitchThumb}"
+                                            Width="16" Height="16"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            CornerRadius="5" />
+                                    <Border x:Name="SwitchKnobOff"
+                                            Background="{DynamicResource KumoBrushSwitchThumbOff}"
+                                            BoxShadow="{DynamicResource KumoBoxShadowSwitchThumb}"
+                                            Width="16" Height="16"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            CornerRadius="5" />
+                                </Grid>
+                            </Canvas>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Margin" Value="0,0,0,6" />
+        </Style>
+        <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter:empty">
+            <Setter Property="Margin" Value="0" />
+        </Style>
+        <Style Selector="^:checked /template/ Border#SwitchKnobBounds">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushSwitchTrackOn}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushSwitchTrackOnRing}" />
+        </Style>
+        <Style Selector="^:checked /template/ ContentPresenter#PART_OffContentPresenter">
+            <Setter Property="Opacity" Value="0" />
+        </Style>
+        <Style Selector="^:checked /template/ ContentPresenter#PART_OnContentPresenter">
+            <Setter Property="Opacity" Value="1" />
+        </Style>
+
+        <Style Selector="^:unchecked /template/ ContentPresenter#PART_OffContentPresenter">
+            <Setter Property="Opacity" Value="1" />
+        </Style>
+        <Style Selector="^:unchecked /template/ ContentPresenter#PART_OnContentPresenter">
+            <Setter Property="Opacity" Value="0" />
+        </Style>
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+
+    <!-- RadioButton: 16px circle, 2px line ring, contrast fill + dot when checked -->
+    <ControlTheme x:Key="{x:Type RadioButton}" TargetType="RadioButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
+        <Setter Property="Padding" Value="8,0,0,0" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid ColumnDefinitions="Auto,*" Background="Transparent">
+                    <Panel VerticalAlignment="Top" Margin="0,2,0,0" Width="16" Height="16">
+                        <Ellipse x:Name="Circle"
+                                 Width="16" Height="16"
+                                 Fill="{DynamicResource KumoBrushBase}"
+                                 Stroke="{DynamicResource KumoBrushLine}"
+                                 StrokeThickness="2" />
+                        <Ellipse x:Name="Dot"
+                                 IsVisible="False"
+                                 Width="6" Height="6"
+                                 Fill="{DynamicResource KumoBrushTextInverse}" />
+                    </Panel>
+                    <ContentPresenter x:Name="PART_ContentPresenter"
+                                      Grid.Column="1"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Foreground="{TemplateBinding Foreground}"
+                                      RecognizesAccessKey="True"
+                                      Margin="{TemplateBinding Padding}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover /template/ Ellipse#Circle">
+            <Setter Property="Stroke" Value="{DynamicResource KumoBrushHairline}" />
+        </Style>
+        <Style Selector="^:focus-visible /template/ Ellipse#Circle">
+            <Setter Property="Stroke" Value="{DynamicResource KumoBrushBrand}" />
+        </Style>
+        <Style Selector="^:checked /template/ Ellipse#Circle">
+            <Setter Property="Fill" Value="{DynamicResource KumoBrushContrast}" />
+            <Setter Property="Stroke" Value="{DynamicResource KumoBrushContrast}" />
+        </Style>
+        <Style Selector="^:checked /template/ Ellipse#Dot">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+        <Style Selector="^:disabled">
+            <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextInactive}" />
+            <Setter Property="Opacity" Value="0.5" />
+            <Setter Property="Cursor" Value="Arrow" />
+        </Style>
+
+        <Style Selector="^.error /template/ Ellipse#Circle">
+            <Setter Property="Stroke" Value="{DynamicResource KumoBrushDanger}" />
+        </Style>
+    </ControlTheme>
+
+    <!-- ToggleButton: secondary button that flips to brand when checked -->
+    <ControlTheme x:Key="{x:Type ToggleButton}" TargetType="ToggleButton">
+        <Setter Property="Background" Value="{DynamicResource KumoBrushBase}" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushLine}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusLg}" />
+        <Setter Property="Padding" Value="12,6" />
+        <Setter Property="MinHeight" Value="36" />
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <ContentPresenter x:Name="PART_ContentPresenter"
+                                  Background="{TemplateBinding Background}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  BorderThickness="{TemplateBinding BorderThickness}"
+                                  CornerRadius="{TemplateBinding CornerRadius}"
+                                  Content="{TemplateBinding Content}"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  Padding="{TemplateBinding Padding}"
+                                  Foreground="{TemplateBinding Foreground}"
+                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  BoxShadow="{DynamicResource KumoBoxShadowXs}" />
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushTint}" />
+        </Style>
+        <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushFill}" />
+        </Style>
+        <Style Selector="^:checked">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushContrast}" />
+            <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextInverse}" />
+        </Style>
+        <Style Selector="^:checked /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushContrast}" />
+            <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextInverse}" />
+        </Style>
+        <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushButtonDisabledBg}" />
+        </Style>
+    </ControlTheme>
+
+    </ResourceDictionary>
+    </Styles.Resources>
+</Styles>

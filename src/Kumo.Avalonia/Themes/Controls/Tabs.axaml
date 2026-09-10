@@ -1,0 +1,110 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:k="using:KumoThemeSupport" xmlns:kc="using:KumoThemeSupport.Controls">
+
+    <!-- TabControl (segmented): recessed track, native sliding indicator pill,
+         labels over the pill; KumoTabs turns the slide behavior on natively -->
+
+    <Styles.Resources>
+    <ResourceDictionary>
+
+    <ControlTheme x:Key="{x:Type TabControl}" TargetType="TabControl">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Background" Value="{DynamicResource KumoBrushRecessed}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusLg}" />
+        <Setter Property="Padding" Value="2" />
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
+        <Setter Property="k:TabSlide.IsEnabled" Value="True" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="ItemsPanel">
+            <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal" Spacing="4" />
+            </ItemsPanelTemplate>
+        </Setter>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Background="{TemplateBinding Background}"
+                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                    <DockPanel>
+                        <Panel Name="PART_TabsHost"
+                               MinHeight="32"
+                               DockPanel.Dock="{TemplateBinding TabStripPlacement}">
+                            <Canvas>
+                                <Border Name="PART_Indicator"
+                                        Width="0" Height="0"
+                                        IsVisible="False"
+                                        CornerRadius="{StaticResource KumoRadiusMd}"
+                                        Background="{DynamicResource KumoBrushBase}"
+                                        BorderBrush="{DynamicResource KumoBrushLine}"
+                                        BorderThickness="1" />
+                            </Canvas>
+                            <ItemsPresenter Name="PART_ItemsPresenter"
+                                            ItemsPanel="{TemplateBinding ItemsPanel}" />
+                        </Panel>
+                        <ContentPresenter Name="PART_SelectedContentHost"
+                                          Margin="8"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </DockPanel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^ /template/ Border#PART_Indicator">
+            <Setter Property="BoxShadow" Value="{StaticResource KumoShadowSm}" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type TabItem}" TargetType="TabItem">
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
+        <Setter Property="TextElement.FontWeight" Value="Normal" />
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushTextSubtle}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="MinHeight" Value="32" />
+        <Setter Property="MinWidth" Value="80" />
+        <Setter Property="Padding" Value="10,0" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusMd}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="PART_LayoutRoot"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        BorderThickness="0"
+                        CornerRadius="{StaticResource KumoRadiusMd}"
+                        Padding="{TemplateBinding Padding}">
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      Content="{TemplateBinding Header}"
+                                      ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                      RecognizesAccessKey="True" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover">
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        </Style>
+        <Style Selector="^:selected">
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+            <Setter Property="TextElement.FontWeight" Value="Medium" />
+        </Style>
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type kc:KumoTabs}" TargetType="kc:KumoTabs" BasedOn="{StaticResource {x:Type TabControl}}" />
+
+    </ResourceDictionary>
+    </Styles.Resources>
+</Styles>

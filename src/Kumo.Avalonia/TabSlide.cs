@@ -5,6 +5,7 @@ using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Animation.Easings;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Media.Transformation;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
@@ -12,8 +13,11 @@ using Avalonia.VisualTree;
 namespace KumoThemeSupport;
 
 /// <summary>
-/// Slides the segmented TabControl active indicator between tabs
-/// (Kumo tabs use a 200ms translate transition on the active surface).
+/// Slides the native segmented-tab indicator pill (PART_Indicator) between
+/// tabs: the pill positions itself over the selected tab and, on selection
+/// change, animates 200ms translate + scaleX between the source and target
+/// geometry (matching upstream `transition-all duration-200`), with a
+/// scale-0.9 pop-in on first render.
 /// </summary>
 public class TabSlide
 {
@@ -38,13 +42,21 @@ public class TabSlide
             if (e.NewValue is true)
             {
                 control.SelectionChanged += OnSelectionChanged;
-                Queue(control, control.SelectedItem as TabItem, initial: true);
+                control.TemplateApplied += OnTemplateApplied;
             }
             else
             {
                 control.SelectionChanged -= OnSelectionChanged;
+                control.TemplateApplied -= OnTemplateApplied;
+                States.Remove(control);
             }
         });
+    }
+
+    private static void OnTemplateApplied(object? sender, TemplateAppliedEventArgs e)
+    {
+        var control = (TabControl)sender!;
+        Queue(control, control.SelectedItem as TabItem, initial: true);
     }
 
     private static void OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
@@ -65,53 +77,68 @@ public class TabSlide
         var state = States.GetOrCreateValue(control);
         var previous = state.Previous;
         state.Previous = tab;
-        SlideWhenReady(tab, previous, initial);
+        SlideWhenReady(control, tab, previous, initial);
     }
 
-    private static void SlideWhenReady(TabItem tab, TabItem? previous, bool initial, int attempt = 0)
+    private static void SlideWhenReady(TabControl control, TabItem tab, TabItem? previous, bool initial, int attempt = 0)
     {
         Dispatcher.UIThread.Post(() =>
         {
-            var border = tab.GetVisualDescendants().OfType<Border>()
-                .FirstOrDefault(b => b.Name == "PART_LayoutRoot");
-            if (border is null)
+            var host = control.GetVisualDescendants().OfType<Panel>()
+                .FirstOrDefault(p => p.Name == "PART_TabsHost");
+            var indicator = control.GetVisualDescendants().OfType<Border>()
+                .FirstOrDefault(b => b.Name == "PART_Indicator");
+            var selectedTab = control.SelectedItem as TabItem;
+            if (host is null || indicator is null || selectedTab is null)
             {
                 if (attempt < 20)
                 {
-                    SlideWhenReady(tab, previous, initial, attempt + 1);
+                    SlideWhenReady(control, tab, previous, initial, attempt + 1);
                 }
 
                 return;
             }
 
-            var dx = 0.0;
-            if (!initial && previous is not null && !ReferenceEquals(previous, tab))
-            {
-                var parent = tab.GetVisualParent();
-                if (parent is not null && ReferenceEquals(previous.GetVisualParent(), parent))
-                {
-                    dx = previous.Bounds.X - tab.Bounds.X;
-                }
-            }
+            var target = Rect(selectedTab, host);
+            var source = previous is not null && !ReferenceEquals(previous, tab)
+                ? Rect(previous, host)
+                : target;
 
-            var start = TransformOperations.Parse(
-                dx != 0 ? $"translateX({dx}px) scale(1)" : "translateX(0px) scale(0.9)");
-            var end = TransformOperations.Parse("translateX(0px) scale(1)");
+            indicator.IsVisible = target is { Width: > 0 };
+            indicator.Width = target.Width;
+            indicator.Height = target.Height;
+            Canvas.SetLeft(indicator, target.X);
+            Canvas.SetTop(indicator, target.Y);
 
-            // Detach transitions while planting the start value so the
-            // transition only animates the start -> end leg.
-            var transitions = EnsureTransitions(border);
-            border.Transitions = null;
-            border.RenderTransform = start;
-            border.Transitions = transitions;
-            Dispatcher.UIThread.Post(() => border.RenderTransform = end, DispatcherPriority.Background);
+            var dx = source.X - target.X;
+            var scaleY = target.Height > 0 ? source.Height / target.Height : 1.0;
+            var scaleX = target.Width > 0 ? source.Width / target.Width : 1.0;
+
+            var start = dx != 0
+                ? TransformOperations.Parse($"translateX({dx}px) scaleX({scaleX:0.####}) scaleY({ScaleClamp(scaleY):0.####})")
+                : TransformOperations.Parse("scale(0.9)");
+            var end = TransformOperations.Parse("translateX(0px) scaleX(1) scaleY(1)");
+
+            var transitions = EnsureTransitions(indicator);
+            indicator.Transitions = null;
+            indicator.RenderTransform = start;
+            indicator.Transitions = transitions;
+            Dispatcher.UIThread.Post(() => indicator.RenderTransform = end, DispatcherPriority.Background);
         }, DispatcherPriority.Loaded);
     }
 
-    private static Transitions EnsureTransitions(Border border)
+    private static double ScaleClamp(double v) => double.IsFinite(v) ? v : 1.0;
+
+    private static Rect Rect(TabItem item, Visual host)
+    {
+        var origin = item.TranslatePoint(new Point(0, 0), host) ?? new Point(0, 0);
+        return new Rect(origin, new Size(Math.Max(0, item.Bounds.Width), item.Bounds.Height));
+    }
+
+    private static Transitions EnsureTransitions(Avalonia.Animation.Animatable target)
     {
         var list = new Transitions();
-        if (border.Transitions is Transitions current)
+        if (target.Transitions is Transitions current)
         {
             foreach (var transition in current)
             {

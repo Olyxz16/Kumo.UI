@@ -12,7 +12,6 @@
     </Application.Resources>
 
     <Application.Styles>
-        <FluentTheme />
         <StyleInclude Source="avares://Kumo.Avalonia/Themes/Controls.axaml" />
     </Application.Styles>
 </Application>

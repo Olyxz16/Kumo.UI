@@ -92,6 +92,7 @@ public class SpecTests
         ["*:focus-visible:font-weight"] = "layout stable on focus",
         ["*:focus-visible:opacity"] = "opacity unchanged on focus",
         ["toast-card:*:padding"] = "toast padding lives in the template presenter margin",
+        ["switch-base-thumb:*:width"] = "thumb inset 1px per side inside the ring track (16px vs upstream 18px ring-less)",
     };
 
     private static bool IsAccepted(string fixture, string state, string key)
@@ -141,9 +142,6 @@ public class SpecTests
     /// <summary>Fixtures we cannot probe yet; tracked as known gaps, not failures.</summary>
     private static readonly HashSet<string> Unprobed = new()
     {
-        "button-outline",        // variant not ported yet
-        "button-secondary-destructive", // variant not ported yet
-        "button-sm",             // size classes not ported
         "tooltip-content",       // ToolTip can't be opened headlessly
         "menu-item",             // IsHighlighted highlight bg verified in ThemeTests instead
     };
@@ -236,6 +234,12 @@ public class SpecTests
                 };
             case "button-ghost":
                 return new Button { Content = "Button", Classes = { "ghost" } };
+            case "button-outline":
+                return new Button { Content = "Button", Classes = { "outline" } };
+            case "button-secondary-destructive":
+                return new Button { Content = "Button", Classes = { "secondary-destructive" } };
+            case "button-sm":
+                return new Button { Content = "Song", Classes = { "sm" } };
             case "input-base":
             {
                 var input = new TextBox { Text = "Value", Width = 200 };
@@ -398,10 +402,8 @@ public class SpecTests
             }
             case "tabs-indicator":
             {
-                var selected = root.GetVisualDescendants().OfType<TabItem>()
-                    .FirstOrDefault(t => t.IsSelected);
-                return selected?.GetVisualDescendants().OfType<Border>()
-                    .FirstOrDefault(b => b.Name == "PART_LayoutRoot");
+                return root.GetVisualDescendants().OfType<Border>()
+                    .FirstOrDefault(b => b.Name == "PART_Indicator");
             }
             case "switch-base-thumb":
             {

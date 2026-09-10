@@ -1,11 +1,18 @@
 # Theme completeness audit
 
-Status: **registry coverage wave complete.** All 54 semantic tokens plus the
-component base colors are generated, the core interactive controls are themed,
-and the second registry wave (loader, links, code, empty, surface, text/field
-presets, toolbar, menubar, meter, input group, breadcrumbs, pagination, table,
-dialog, autocomplete, multiline/sensitive inputs) is styled and covered by
-headless tests.
+# Theme completeness audit
+
+Status: **self-contained.** All styling lives in per-control `ControlTheme`s
+under `src/Kumo.Avalonia/Themes/Controls/*` (one file per component family);
+`Controls.axaml` is a pure include registry. **The Fluent theme is no longer
+required or referenced** — `KumoTheme.axaml` + `Controls.axaml` provide every
+template. All 54 semantic tokens plus the component base colors are generated,
+and the interactive controls, presets and real `Kumo*` composition controls
+are themed and covered by headless tests (88 passing).
+
+| Kumo component | Avalonia mapping |
+| --- | --- |
+| KumoBadge | `Kumo.Avalonia.Controls.KumoBadge` (Variant property; all 14 variant palettes) |
 
 Audited against `@cloudflare/kumo` v2.13.1 (48 components in
 `https://kumo-ui.com/api/component-registry`). Component specs (colors,
@@ -14,11 +21,11 @@ chunks shipped in the npm package (`dist/chunks/*.js`).
 
 ## 1. Registry coverage matrix (48 components)
 
-### Themed as controls / style classes (Controls.axaml)
+### Themed as ControlThemes / style classes (Themes/Controls/*)
 
 | Kumo component | Avalonia mapping |
 | --- | --- |
-| Button | `Button` + `primary`/`danger`/`ghost`/`icon`/`icon-sm`/`icon-circle`/`breadcrumb`/`page` classes; emphasis variants (primary/danger) use the upstream light gradient (`emphasis-bg` = token+white 30%, sheen = token+white 15% → token, ring = token+black 10%) as a top-to-bottom `LinearGradientBrush` with hover gradient collapse |
+| Button | `Button` + `primary`/`danger`/`ghost`/`outline`/`secondary-destructive`/`sm`/`icon`/`icon-sm`/`icon-circle`/`breadcrumb`/`page` classes; emphasis variants (primary/danger) use the upstream light gradient (`emphasis-bg` = token+white 30%, sheen = token+white 15% → token, ring = token+black 10%) as a top-to-bottom `LinearGradientBrush` with hover gradient collapse |
 | Input | `TextBox` (kumo input ring + focus) |
 | InputArea | `TextBox.multiline` |
 | SensitiveInput | `TextBox.password` (mask glyph, mono; reveal toggles `PasswordChar`) |
@@ -33,13 +40,13 @@ chunks shipped in the npm package (`dist/chunks/*.js`).
 | Banner | `Border.banner` + status classes |
 | Toasty | `NotificationCard` ControlTheme + `WindowNotificationManager`; deck stacking via `:nth-child` (older toasts tuck 34px behind the newest with stepped opacity), enter = slide-up 28px, exit = slide-down 56px + fade; `Border.toast` presets |
 | Collapsible | `Expander` (Kumo left-border content, expand fade/slide) |
-| Tabs | `TabControl`/`TabItem` segmented (recessed 2px-inset list, base indicator); sliding indicator via `KumoThemeSupport.TabSlide` attached behavior (200ms translate + initial scale pop-in, matching upstream `transition-all duration-200` + `data-[rendered=false]:scale-90`) |
+| Tabs | `TabControl`/`TabItem` segmented (recessed track + labels on top); **native sliding indicator** `PART_Indicator` pill template element animated by `KumoThemeSupport.TabSlide` attached behavior — 200ms translate + scaleX morph between source/target geometry (matching upstream `transition-all duration-200`), scale-0.9 pop-in on first render; `KumoTabs` control turns the slide on natively |
 | Tooltip | `ToolTip` |
 | Dialog | `Window.dialog` + `Border.dialog-surface` (+ `.sm/.lg/.xl`, `dialog-title`/`dialog-description`); window chrome: `SystemDecorations=None` + transparent backdrop (set locally — direct properties can't be styled in Avalonia) |
 | Popover / DropdownMenu | `FlyoutPresenter` / `ContextMenu` / `MenuFlyoutPresenter` / `MenuItem` / `Separator` |
 | MenuBar (upstream deprecated) | `Border.menubar` + active-item styles (toolbar-style nav strip) |
 | Toolbar | `Border.toolbar` (internal dividers via `:nth-child(n+2)`, edge rounding on first/last child) |
-| Pagination | `Button.page` + `page-selected`, `TextBlock.pagination-info`, `Border.pagination-separator` |
+| Pagination | Upstream composition: `TextBlock.pagination-info`, `Border.pagination-separator`, and an input-group nav strip (`Button.icon` first/prev/next/last + centered page `TextBox` width 50); `Button.page`/`page-selected` presets kept for manual number lists (spec-locked) |
 | Breadcrumbs | `Button.breadcrumb`, `TextBlock.breadcrumb-current`, inactive chevron separators |
 | Table | Composition presets: `Border.table`, `table-header-cell` (+ `compact`), `table-cell`, `table-row` (+ `alt`/`selected`, row hover); row selection via checkbox column + click-to-toggle (demo wires `IsCheckedChanged` -> `selected` class) |
 | Meter | `ProgressBar.meter` (+ `success`/`warning`/`danger`/`info`) |
@@ -57,7 +64,8 @@ chunks shipped in the npm package (`dist/chunks/*.js`).
 | CloudflareLogo | Out of scope (brand asset) |
 | Charts (Chart, TimeseriesChart, BubbleMap, ChoroplethMap, SankeyChart) | N/A (ECharts wrappers; chart tokens not extracted) |
 | Sidebar / CommandPalette / TableOfContents | App-level compositions; building blocks (toolbar, menu items, badges, input group) are themed |
-| DatePicker / DateRangePicker | Remaining: needs a `Calendar*` ControlTheme redefinition (Fluent's is WinUI-style ring selection, not Kumo's solid accent fill) |
+| DatePicker / DateRangePicker | Remaining: needs a `Calendar*` ControlTheme redefinition (Fluent's is WinUI-style ring selection, not Kumo's solid accent fill). Note: no `Calendar*`/`DatePicker`/`Slider`/`DataGrid` ControlTheme is bundled — Fluent is gone, so controls outside the demo surface have no template. Add them on demand. |
+| Kumo controls (`Kumo*`) | `KumoBadge` (Variant × 14), `KumoAvatar` (initials + deterministic hue + xs/sm/base/lg), `KumoEmptyState` (icon/title/description/command slots), `KumoToolbar` (ring surface, leading/trailing slots), `KumoTabs` (native sliding indicator) — all with own ControlThemes in `Themes/Controls/Kumo.axaml` |
 
 ## 2. In place (verified)
 
@@ -67,8 +75,8 @@ chunks shipped in the npm package (`dist/chunks/*.js`).
 | Color tokens | 54/54 semantic tokens × Light/Dark (Color + Brush each) and 60+ primitives, applied via `ThemeDictionaries`. |
 | Non-color tokens (`Tokens.axaml`) | Font sizes 12–30 px, 4 px spacing scale, radii 4/6/8/12/full, shadows xs/sm/md/lg + card, stroke widths. |
 | Derived component brushes (`KumoTheme.axaml`) | Light/Dark pairs: switch track/thumb, focus ring 50%, danger ring 50%, skeleton fill, toast backdrop, dialog shadow, `KumoFontMono`. `ControlCornerRadius`/`OverlayCornerRadius` and ComboBox/AutoCompleteBox popup resources redefined to Kumo values. |
-| Headless tests | 21 passing: token counts/spot-checks, variant switching, per-control style resolution (button/switch/checkbox/combobox/tab/badge/toast/link/loader/input-group/meter/table/toolbar/empty/autocomplete/dialog). Run with `dotnet run --project tests/Kumo.Avalonia.Tests`. |
-| Demo app | Full showcase incl. palette grid, inputs, tabs, badges, banners, menus, collapsible, toasts, links & code, loaders & meters, toolbar & menubar, field/input-group/multiline/password/autocomplete, breadcrumbs & pagination, table, empty state, themed dialog window. |
+| Headless tests | 88 passing: token counts/spot-checks, variant switching, per-control spec diff (`design/specs/*.json`) and style resolution (button/switch/checkbox/combobox/tab/badge/toast/link/loader/input-group/meter/table/toolbar/empty/autocomplete/dialog/Kumo controls). Run with `dotnet run --project tests/Kumo.Avalonia.Tests`. |
+| Demo app | Full showcase incl. palette grid, inputs, tabs, badges, banners, menus, collapsible, toasts, links & code, loaders & meters, toolbar & menubar, field/input-group/multiline/password/autocomplete, breadcrumbs & pagination, table, empty state, themed dialog window, `Kumo*` control section. Fluent-free. |
 
 ## 3. Remaining for full parity
 

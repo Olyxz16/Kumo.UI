@@ -12,6 +12,7 @@ using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Media;
 using Avalonia.Styling;
 using Avalonia.VisualTree;
+using Avalonia.Media.Transformation;
 using AvaloniaPath = Avalonia.Controls.Shapes.Path;
 using Kumo.Demo;
 using Xunit;
@@ -199,7 +200,7 @@ public class ThemeTests
             .OfType<Border>().First(b => b.Name == "SwitchKnobOn");
         Assert.Equal(Color.Parse("#FFFFFF"),
             Assert.IsType<SolidColorBrush>(knob.Background).Color);
-        Assert.Equal(18, knob.Width);
+        Assert.Equal(16, knob.Width);
         Assert.Equal(5, knob.CornerRadius.TopLeft);
 
         Application.Current.RequestedThemeVariant = ThemeVariant.Dark;
@@ -227,12 +228,12 @@ public class ThemeTests
         tabControl.SelectedIndex = 1;
         Dispatcher.UIThread.RunJobs();
         var selected = Assert.IsType<TabItem>(tabControl.SelectedItem);
-        var layoutRoot = selected.GetVisualDescendants()
-            .OfType<Border>().First(b => b.Name == "PART_LayoutRoot");
-        Assert.Equal(6, layoutRoot.CornerRadius.TopLeft);
-        Assert.NotNull(layoutRoot.Transitions);
+        var indicator = tabControl.GetVisualDescendants().OfType<Border>()
+            .First(b => b.Name == "PART_Indicator");
+        Assert.Equal(6, indicator.CornerRadius.TopLeft);
+        Assert.NotNull(indicator.Transitions);
 
-        var transform = Assert.IsAssignableFrom<ITransform>(layoutRoot.RenderTransform);
+        var transform = Assert.IsAssignableFrom<TransformOperations>(indicator.RenderTransform);
         var matrix = transform.Value;
         Assert.Equal(1, matrix.M11);
         var first = Assert.IsType<TabItem>(tabControl.Items[0]!);
@@ -293,15 +294,15 @@ public class ThemeTests
         window.Content = tabControl;
         window.Show();
 
-        var selected = Assert.IsType<TabItem>(tabControl.SelectedItem);
-        var layoutRoot = selected.GetVisualDescendants()
-            .OfType<Border>().First(b => b.Name == "PART_LayoutRoot");
+        var indicator = tabControl.GetVisualDescendants().OfType<Border>()
+            .First(b => b.Name == "PART_Indicator");
         Assert.Equal(Color.Parse("#FFFFFF"),
-            Assert.IsType<SolidColorBrush>(layoutRoot.Background).Color);
+            Assert.IsAssignableFrom<ISolidColorBrush>(indicator.Background).Color);
         var expectedLine = Assert.IsType<SolidColorBrush>(
             PaletteDictionaries()[ThemeVariant.Light]["KumoBrushLine"]).Color;
         Assert.Equal(expectedLine,
-            Assert.IsType<SolidColorBrush>(layoutRoot.BorderBrush).Color);
+            Assert.IsAssignableFrom<ISolidColorBrush>(indicator.BorderBrush).Color);
+        Assert.Equal(1, indicator.BorderThickness.Left);
     }
 
     [AvaloniaFact]
@@ -551,5 +552,42 @@ public class ThemeTests
         var title = dialog.GetVisualDescendants().OfType<TextBlock>()
             .First(b => b.Classes.Contains("dialog-title"));
         Assert.Equal(16, title.FontSize);
+    }
+
+    [AvaloniaFact]
+    public void Kumo_controls_resolve_variants_and_native_slide()
+    {
+        Application.Current!.RequestedThemeVariant = ThemeVariant.Light;
+        var window = new MainWindow();
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        var badge = window.GetVisualDescendants()
+            .OfType<KumoThemeSupport.Controls.KumoBadge>()
+            .First(b => b.Variant == "error");
+        var badgeRoot = badge.GetVisualDescendants().OfType<Border>()
+            .First(b => b.Name == "Root");
+        var expectedDanger = Assert.IsType<SolidColorBrush>(
+            PaletteDictionaries()[ThemeVariant.Light]["KumoBrushDangerTint"]).Color;
+        Assert.Equal(expectedDanger, Assert.IsType<SolidColorBrush>(badgeRoot.Background).Color);
+
+        var avatar = window.GetVisualDescendants().OfType<KumoThemeSupport.Controls.KumoAvatar>().First();
+        Assert.Equal(32, avatar.Width);
+        Assert.NotEqual("?", avatar.Initials);
+        Assert.Contains(avatar.Hue,
+            new[] { "info", "warning", "danger", "success", "purple", "teal", "blue" });
+
+        var tabs = window.GetVisualDescendants().OfType<KumoThemeSupport.Controls.KumoTabs>().First();
+        Assert.IsType<TabItem>(tabs.SelectedItem);
+        Assert.Equal(2, tabs.Padding.Left);
+
+        var empty = window.GetVisualDescendants().OfType<KumoThemeSupport.Controls.KumoEmptyState>().First();
+        var emptyTitle = empty.GetVisualDescendants().OfType<TextBlock>()
+            .First(b => b.Classes.Contains("empty-title"));
+        Assert.True(emptyTitle.IsVisible);
+
+        var toolbars = window.GetVisualDescendants()
+            .OfType<KumoThemeSupport.Controls.KumoToolbar>().ToList();
+        Assert.Single(toolbars);
     }
 }

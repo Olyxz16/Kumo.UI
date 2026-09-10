@@ -1,0 +1,256 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:k="using:KumoThemeSupport.Controls">
+
+    <!-- ControlThemes for the Kumo* composition controls (KumoTab slide comes
+         from the TabControl theme; KumoTabs only turns the behavior on). -->
+
+    <Styles.Resources>
+    <ResourceDictionary>
+
+    <ControlTheme x:Key="{x:Type k:KumoBadge}" TargetType="k:KumoBadge">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusFull}" />
+        <Setter Property="Padding" Value="8,2" />
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeXs}" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextBadgeNeutralSubtle}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border x:Name="Root"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Padding="{TemplateBinding Padding}"
+                        TextElement.FontSize="{TemplateBinding FontSize}"
+                        TextElement.FontWeight="{TemplateBinding FontWeight}"
+                        TextElement.Foreground="{TemplateBinding Foreground}">
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      Content="{TemplateBinding Text}"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^[Variant=primary] /template/ Border#Root">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushBadgeInverted}" />
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushTextBadgeInverted}" />
+        </Style>
+        <Style Selector="^[Variant=info] /template/ Border#Root">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushInfoTint}" />
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushTextInfo}" />
+        </Style>
+        <Style Selector="^[Variant=success] /template/ Border#Root">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushSuccessTint}" />
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushTextSuccess}" />
+        </Style>
+        <Style Selector="^[Variant=warning] /template/ Border#Root">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushWarningTint}" />
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushTextWarning}" />
+        </Style>
+        <Style Selector="^[Variant=error] /template/ Border#Root">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushDangerTint}" />
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushTextDanger}" />
+        </Style>
+        <Style Selector="^[Variant=outline] /template/ Border#Root">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushBase}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushFill}" />
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        </Style>
+        <Style Selector="^[Variant=beta] /template/ Border#Root">
+            <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushBrand}" />
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushTextLink}" />
+        </Style>
+        <Style Selector="^[Variant=red] /template/ Border#Root">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushBadgeRed}" />
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushWhite}" />
+        </Style>
+        <Style Selector="^[Variant=green] /template/ Border#Root">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushBadgeGreen}" />
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushWhite}" />
+        </Style>
+        <Style Selector="^[Variant=neutral] /template/ Border#Root">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushBadgeNeutral}" />
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushWhite}" />
+        </Style>
+        <Style Selector="^[Variant=orange] /template/ Border#Root">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushBadgeOrange}" />
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushBlack}" />
+        </Style>
+        <Style Selector="^[Variant=purple] /template/ Border#Root">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushBadgePurple}" />
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushWhite}" />
+        </Style>
+        <Style Selector="^[Variant=teal] /template/ Border#Root">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushBadgeTeal}" />
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushWhite}" />
+        </Style>
+        <Style Selector="^[Variant=blue] /template/ Border#Root">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushBadgeBlue}" />
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushWhite}" />
+        </Style>
+    </ControlTheme>
+
+    <!-- Avatar: tinted circle with initials; hue class tint via Variant mapping -->
+    <ControlTheme x:Key="{x:Type k:KumoAvatar}" TargetType="k:KumoAvatar">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeSm}" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextInfo}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                    <Ellipse x:Name="Root"
+                             Fill="{TemplateBinding Background}"
+                             Stroke="{TemplateBinding BorderBrush}"
+                             StrokeThickness="0" />
+                    <TextBlock Text="{Binding Initials, RelativeSource={RelativeSource TemplatedParent}}"
+                               FontSize="{TemplateBinding FontSize}"
+                               FontWeight="{TemplateBinding FontWeight}"
+                               Foreground="{TemplateBinding Foreground}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^[Hue=info]">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushInfoTint}" />
+            <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextInfo}" />
+        </Style>
+        <Style Selector="^[Hue=success]">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushSuccessTint}" />
+            <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextSuccess}" />
+        </Style>
+        <Style Selector="^[Hue=warning]">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushWarningTint}" />
+            <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextWarning}" />
+        </Style>
+        <Style Selector="^[Hue=danger]">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushDangerTint}" />
+            <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDanger}" />
+        </Style>
+        <Style Selector="^[Hue=purple]">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushBadgePurple}" />
+            <Setter Property="Foreground" Value="{DynamicResource KumoBrushWhite}" />
+        </Style>
+        <Style Selector="^[Hue=teal]">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushBadgeTeal}" />
+        </Style>
+        <Style Selector="^[Hue=blue]">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushBadgeBlue}" />
+            <Setter Property="Foreground" Value="{DynamicResource KumoBrushWhite}" />
+        </Style>
+
+        <Style Selector="^[Size=xs]">
+            <Setter Property="Width" Value="20" />
+            <Setter Property="Height" Value="20" />
+            <Setter Property="FontSize" Value="{StaticResource KumoFontSizeXs}" />
+        </Style>
+        <Style Selector="^[Size=sm]">
+            <Setter Property="Width" Value="24" />
+            <Setter Property="Height" Value="24" />
+        </Style>
+        <Style Selector="^[Size=base]">
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Height" Value="32" />
+        </Style>
+        <Style Selector="^[Size=lg]">
+            <Setter Property="Width" Value="40" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
+        </Style>
+    </ControlTheme>
+
+    <!-- Empty state -->
+    <ControlTheme x:Key="{x:Type k:KumoEmptyState}" TargetType="k:KumoEmptyState">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="40,64" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <Border Padding="{TemplateBinding Padding}"
+                            HorizontalAlignment="Stretch">
+                        <StackPanel Spacing="16" HorizontalAlignment="Center">
+                            <ContentPresenter Name="IconHost"
+                                              HorizontalAlignment="Center"
+                                              Content="{TemplateBinding Icon}"
+                                              IsVisible="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                            <StackPanel Spacing="4" Name="TextHost">
+                                <TextBlock Classes="empty-title"
+                                           Name="TitleText"
+                                           Text="{TemplateBinding Title}">
+                                    <TextBlock.IsVisible>
+                                        <Binding RelativeSource="{RelativeSource TemplatedParent}"
+                                                 Path="!Title"
+                                                 Converter="{x:Static StringConverters.IsNullOrEmpty}" />
+                                    </TextBlock.IsVisible>
+                                </TextBlock>
+                                <TextBlock Classes="empty-description"
+                                           Name="DescriptionText"
+                                           Text="{TemplateBinding Description}">
+                                    <TextBlock.IsVisible>
+                                        <Binding RelativeSource="{RelativeSource TemplatedParent}"
+                                                 Path="!Description"
+                                                 Converter="{x:Static StringConverters.IsNullOrEmpty}" />
+                                    </TextBlock.IsVisible>
+                                </TextBlock>
+                            </StackPanel>
+                            <ContentPresenter Name="CommandHost"
+                                              HorizontalAlignment="Center"
+                                              Content="{TemplateBinding CommandContent}"
+                                              IsVisible="{Binding CommandContent, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                        </StackPanel>
+                    </Border>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^ /template/ Border">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushControl}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushFill}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusXl}" />
+        </Style>
+    </ControlTheme>
+
+    <!-- Toolbar: toolbar ring shadow with leading / center / trailing slots -->
+    <ControlTheme x:Key="{x:Type k:KumoToolbar}" TargetType="k:KumoToolbar">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="2,3" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}">
+                    <Grid ColumnDefinitions="Auto,*,Auto"
+                          Margin="{TemplateBinding Padding}">
+                        <ContentPresenter Name="LeadingHost"
+                                          Grid.Column="0"
+                                          Content="{TemplateBinding Leading}"
+                                          IsVisible="{Binding Leading, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          Grid.Column="1"
+                                          Content="{TemplateBinding Content}" />
+                        <ContentPresenter Name="TrailingHost"
+                                          Grid.Column="2"
+                                          Content="{TemplateBinding Trailing}"
+                                          IsVisible="{Binding Trailing, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^ /template/ Border">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushControl}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushLine}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusLg}" />
+            <Setter Property="BoxShadow" Value="{StaticResource KumoShadowXs}" />
+        </Style>
+    </ControlTheme>
+    </ResourceDictionary>
+    </Styles.Resources>
+</Styles>

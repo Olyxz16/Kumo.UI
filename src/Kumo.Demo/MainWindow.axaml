@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:kumo="using:KumoThemeSupport.Controls"
         mc:Ignorable="d" d:DesignWidth="860" d:DesignHeight="900"
         x:Class="Kumo.Demo.MainWindow"
         Title="Kumo for Avalonia"
@@ -10,7 +11,8 @@
         Foreground="{DynamicResource KumoBrushTextDefault}"
         FontSize="{StaticResource KumoFontSizeBase}">
 
-    <ScrollViewer>
+    <Panel>
+        <ScrollViewer>
         <StackPanel Margin="40,32" MaxWidth="800" Spacing="24">
 
             <Grid ColumnDefinitions="*,Auto">
@@ -170,6 +172,62 @@
                             <TextBlock Text="Logs content" />
                         </TabItem>
                     </TabControl>
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Kumo controls" FontWeight="SemiBold"
+                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <kumo:KumoBadge Text="Primary" Variant="primary" VerticalAlignment="Center" />
+                        <kumo:KumoBadge Text="Info" Variant="info" VerticalAlignment="Center" />
+                        <kumo:KumoBadge Text="Error" Variant="error" VerticalAlignment="Center" />
+                        <kumo:KumoBadge Text="Beta" Variant="beta" VerticalAlignment="Center" />
+                        <kumo:KumoBadge Text="Blue" Variant="blue" VerticalAlignment="Center" />
+                        <StackPanel Orientation="Horizontal" Spacing="6" Margin="16,0,0,0">
+                            <kumo:KumoAvatar DisplayName="Ada Lovelace" />
+                            <kumo:KumoAvatar DisplayName="Grace Hopper" />
+                            <kumo:KumoAvatar DisplayName="Alan" />
+                            <kumo:KumoAvatar DisplayName="Zhang Wei" Size="lg" />
+                        </StackPanel>
+                    </StackPanel>
+                    <kumo:KumoToolbar MaxWidth="420" HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Width="150" PlaceholderText="Invite member" BorderThickness="0" Background="Transparent" MinHeight="30" />
+                            <Button Classes="icon">
+                                <Path Width="16" Height="16" Stretch="Uniform"
+                                      Data="M12,5 L12,19 M5,12 L19,12"
+                                      Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
+                            </Button>
+                        </StackPanel>
+                        <kumo:KumoToolbar.Trailing>
+                            <TextBlock Text="4 members" Classes="pagination-info" VerticalAlignment="Center" Margin="8,0" />
+                        </kumo:KumoToolbar.Trailing>
+                    </kumo:KumoToolbar>
+                    <kumo:KumoEmptyState
+                        Title="No workers yet"
+                        Description="Create your first worker to deploy code across the Cloudflare network."
+                        MaxWidth="460" HorizontalAlignment="Left">
+                        <kumo:KumoEmptyState.Icon>
+                            <Path Width="40" Height="40" Stretch="Uniform" HorizontalAlignment="Center"
+                                  Data="M7,10 L17,10 M7,14 L13,14 M5,4 L19,4 A3,3 0 0 1 22,7 L22,17 A3,3 0 0 1 19,20 L5,20 A3,3 0 0 1 2,17 L2,7 A3,3 0 0 1 5,4 Z"
+                                  Stroke="{DynamicResource KumoBrushTextInactive}" StrokeThickness="1.5" />
+                        </kumo:KumoEmptyState.Icon>
+                        <kumo:KumoEmptyState.CommandContent>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Button Classes="primary" Content="Create worker" />
+                            </StackPanel>
+                        </kumo:KumoEmptyState.CommandContent>
+                    </kumo:KumoEmptyState>
+                    <kumo:KumoTabs>
+                        <TabItem Header="Settings">
+                            <TextBlock Text="Settings content" />
+                        </TabItem>
+                        <TabItem Header="Deployments">
+                            <TextBlock Text="Deployments content" />
+                        </TabItem>
+                    </kumo:KumoTabs>
                 </StackPanel>
             </Border>
 
@@ -458,22 +516,37 @@
                               Stroke="{DynamicResource KumoBrushTextInactive}" StrokeThickness="1.5" />
                         <TextBlock Classes="breadcrumb-current" Text="Kumo Avalonia" VerticalAlignment="Center" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-                        <TextBlock Classes="pagination-info" Text="1 &#8211; 10 of 128" VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" Spacing="0" VerticalAlignment="Center">
+                        <TextBlock Classes="pagination-info" Text="Showing 1 &#8211; 10 of 128" VerticalAlignment="Center" />
                         <Border Classes="pagination-separator" />
-                        <Button Classes="page icon">
-                            <Path Width="16" Height="16" Stretch="Uniform"
-                                  Data="M14.5,7 L9.5,12 L14.5,17"
-                                  Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
-                        </Button>
-                        <Button Classes="page" Content="1" />
-                        <Button Classes="page page-selected" Content="2" />
-                        <Button Classes="page" Content="3" />
-                        <Button Classes="page icon">
-                            <Path Width="16" Height="16" Stretch="Uniform"
-                                  Data="M9.5,7 L14.5,12 L9.5,17"
-                                  Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
-                        </Button>
+                        <Border Classes="input-group" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
+                                <Button Classes="icon" Tag="first" Click="OnPageNav" ToolTip.Tip="First page">
+                                    <Path Width="14" Height="14" Stretch="Uniform"
+                                          Data="M9.5,7 L14.5,12 L9.5,17 M4.5,7 L9.5,12 L4.5,17"
+                                          Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
+                                </Button>
+                                <Button Classes="icon" Tag="prev" Click="OnPageNav" ToolTip.Tip="Previous page">
+                                    <Path Width="14" Height="14" Stretch="Uniform"
+                                          Data="M9.5,7 L14.5,12 L9.5,17"
+                                          Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
+                                </Button>
+                                <TextBox Name="PageInput" Width="52" Text="1" TextAlignment="Center"
+                                         BorderThickness="0" Background="Transparent"
+                                         MinHeight="30" VerticalAlignment="Center"
+                                         KeyDown="OnPageInputKeyDown" LostFocus="OnPageInputLostFocus" />
+                                <Button Classes="icon" Tag="next" Click="OnPageNav" ToolTip.Tip="Next page">
+                                    <Path Width="14" Height="14" Stretch="Uniform"
+                                          Data="M14.5,7 L9.5,12 L14.5,17"
+                                          Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
+                                </Button>
+                                <Button Classes="icon" Tag="last" Click="OnPageNav" ToolTip.Tip="Last page">
+                                    <Path Width="14" Height="14" Stretch="Uniform"
+                                          Data="M14.5,7 L9.5,12 L14.5,17 M19.5,7 L14.5,12 L19.5,17"
+                                          Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
+                                </Button>
+                            </StackPanel>
+                        </Border>
                     </StackPanel>
                 </StackPanel>
             </Border>
@@ -571,5 +644,29 @@
             </Border>
 
         </StackPanel>
-    </ScrollViewer>
+        </ScrollViewer>
+
+        <!-- In-app modal (Dialog surface/scrim presets) hosted inside the
+             window: no separate OS window -> no window-manager frame shadow. -->
+        <Panel x:Name="ModalOverlay" Background="{DynamicResource KumoBrushDialogScrim}" IsVisible="False">
+            <Border Classes="dialog-surface" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Spacing="16">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Classes="dialog-title" Text="Delete zone?" />
+                        <Button Classes="icon ghost icon-sm" Grid.Column="1" Click="OnCloseModal">
+                            <Path Width="16" Height="16" Stretch="Uniform"
+                                  Data="M6,6 L18,18 M18,6 L6,18"
+                                  Stroke="{DynamicResource KumoBrushTextSubtle}" StrokeThickness="1.5" />
+                        </Button>
+                    </Grid>
+                    <TextBlock Classes="dialog-description"
+                               Text="This permanently removes example.com and all of its DNS records. This action cannot be undone." />
+                    <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+                        <Button Content="Cancel" Click="OnCloseModal" />
+                        <Button Classes="danger" Content="Delete zone" Click="OnCloseModal" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Panel>
+    </Panel>
 </Window>

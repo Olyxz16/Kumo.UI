@@ -1,0 +1,107 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Typography presets: titles, secondary text, field labels, mono/code -->
+
+    <!-- Base typography: 14px content text -->
+    <Style Selector="Window">
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
+    </Style>
+
+    <Style Selector="TextBlock.title">
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeLg}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+    </Style>
+    <Style Selector="TextBlock.title-xl">
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSize3xl}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+    </Style>
+    <Style Selector="TextBlock.title-lg">
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeXxl}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+    </Style>
+    <Style Selector="TextBlock.secondary">
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextSubtle}" />
+    </Style>
+    <Style Selector="TextBlock.danger">
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDanger}" />
+    </Style>
+    <Style Selector="TextBlock.mono">
+        <Setter Property="FontFamily" Value="{StaticResource KumoFontMono}" />
+    </Style>
+    <Style Selector="TextBlock.mono-secondary">
+        <Setter Property="FontFamily" Value="{StaticResource KumoFontMono}" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextSubtle}" />
+    </Style>
+
+    <!-- Field presets (Label / description / error) -->
+    <Style Selector="TextBlock.field-label">
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+    </Style>
+    <Style Selector="TextBlock.field-description">
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeSm}" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextSubtle}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+    <Style Selector="TextBlock.field-error">
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeSm}" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDanger}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+    <Style Selector="TextBlock.field-optional">
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeXs}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextSubtle}" />
+    </Style>
+
+    <!-- Code: inline mono + block container -->
+    <Style Selector="TextBlock.code">
+        <Setter Property="FontFamily" Value="{StaticResource KumoFontMono}" />
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeSm}" />
+        <Setter Property="LineHeight" Value="20" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextSubtle}" />
+    </Style>
+
+    <Style Selector="Border.code-block">
+        <Setter Property="Background" Value="{DynamicResource KumoBrushBase}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushFill}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusMd}" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="ClipToBounds" Value="True" />
+    </Style>
+    <Style Selector="Border.code-block > TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource KumoFontMono}" />
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeSm}" />
+        <Setter Property="LineHeight" Value="20" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+    <Style Selector="Border.code-block > SelectableTextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource KumoFontMono}" />
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeSm}" />
+        <Setter Property="LineHeight" Value="20" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <!-- Breadcrumb current / separator; pagination info -->
+    <Style Selector="TextBlock.breadcrumb-current">
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+    </Style>
+    <Style Selector="TextBlock.breadcrumb-separator">
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextInactive}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Padding" Value="2,0" />
+    </Style>
+    <Style Selector="TextBlock.pagination-info">
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeSm}" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextSubtle}" />
+    </Style>
+</Styles>
