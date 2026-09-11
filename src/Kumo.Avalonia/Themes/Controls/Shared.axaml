@@ -18,6 +18,99 @@
             </Setter>
         </ControlTheme>
 
+        <!-- UserControl: simple pass-through presenter (subclassed by
+             consumers all the time; without a theme it renders nothing) -->
+        <ControlTheme x:Key="{x:Type UserControl}" TargetType="UserControl">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <ContentPresenter x:Name="PART_ContentPresenter"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      Background="{TemplateBinding Background}"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}" />
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+
+        <!-- Label: Kumo field-label preset by default -->
+        <ControlTheme x:Key="{x:Type Label}" TargetType="Label">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <TextBlock Text="{TemplateBinding Content}"
+                               Classes="field-label"
+                               TemplatedControl.IsTemplateFocusTarget="False" />
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+
+        <!-- PathIcon: draws Geometry filled with Foreground -->
+        <ControlTheme x:Key="{x:Type PathIcon}" TargetType="PathIcon">
+            <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Grid>
+                        <Path Data="{TemplateBinding Data}"
+                              Fill="{TemplateBinding Foreground}"
+                              Stretch="Uniform"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Margin="{TemplateBinding Padding}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+
+        <!-- TransitioningContentControl (Avalonia 12 cross-fades between two
+             stacked presenters: content slot swaps to the idle presenter) -->
+        <ControlTheme x:Key="{x:Type TransitioningContentControl}" TargetType="TransitioningContentControl">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Panel>
+                        <ContentPresenter x:Name="PART_ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        <ContentPresenter x:Name="PART_ContentPresenter2"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Panel>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+
+        <!-- GroupBox: line ring container with header -->
+        <ControlTheme x:Key="{x:Type GroupBox}" TargetType="GroupBox">
+            <Setter Property="Padding" Value="12,10" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{DynamicResource KumoBrushBase}"
+                            BorderBrush="{DynamicResource KumoBrushLine}"
+                            BorderThickness="1"
+                            CornerRadius="{StaticResource KumoRadiusLg}"
+                            Padding="{TemplateBinding Padding}">
+                        <Grid RowDefinitions="Auto, *">
+                            <ContentPresenter x:Name="PART_Header"
+                                              Content="{TemplateBinding Header}"
+                                              HorizontalAlignment="Left"
+                                              TextElement.FontWeight="SemiBold"
+                                              TextBlock.Foreground="{DynamicResource KumoBrushTextStrong}"
+                                              Margin="0,0,0,10" />
+                            <ContentPresenter x:Name="PART_ContentPresenter"
+                                              Grid.Row="1"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+
         <!-- ItemsControl -->
         <ControlTheme x:Key="{x:Type ItemsControl}" TargetType="ItemsControl">
             <Setter Property="Template">

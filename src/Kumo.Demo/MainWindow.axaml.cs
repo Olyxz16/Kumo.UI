@@ -40,6 +40,7 @@ public partial class MainWindow : Window
         };
         Loaded += (_, _) =>
         {
+            SyncPageNav();
             BuildPaletteSections();
             _members.Add(MemberNames[0]);
             _members.Add(MemberNames[1]);
@@ -133,6 +134,37 @@ public partial class MainWindow : Window
         ModalOverlay.IsVisible = false;
     }
 
+    private static int _demoSpinnerCount = 42;
+
+    private void OnDemoSpin(object? sender, Avalonia.Controls.SpinEventArgs e)
+    {
+        _demoSpinnerCount = Math.Clamp(_demoSpinnerCount + (e.Direction == Avalonia.Controls.SpinDirection.Increase ? 1 : -1), 0, 999);
+        if (this.FindControl<TextBlock>("DemoSpinnerText") is { } text)
+        {
+            text.Text = $"{_demoSpinnerCount} instances";
+        }
+    }
+
+    private static readonly string[] TransitionMessages =
+    [
+        "TransitioningContentControl: swap content to see the 400ms fade",
+        "Second sample: the CrossFade transition runs on content changes",
+        "Third sample: followed by a soft fade back to the start",
+    ];
+
+    private int _transitionIndex;
+
+    private void OnNextTransitionDemo(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (this.FindControl<TransitioningContentControl>("DemoTransitioner") is not { } demo)
+        {
+            return;
+        }
+
+        _transitionIndex = (_transitionIndex + 1) % TransitionMessages.Length;
+        demo.Content = new TextBlock { Text = TransitionMessages[_transitionIndex], TextWrapping = TextWrapping.Wrap };
+    }
+
     private void OnToggleTheme(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         if (Application.Current is null)
@@ -164,6 +196,7 @@ public partial class MainWindow : Window
             _ => _currentPage,
         };
         SyncPageInput();
+        SyncPageNav();
     }
 
     private void OnPageInputKeyDown(object? sender, Avalonia.Input.KeyEventArgs e)
@@ -196,6 +229,27 @@ public partial class MainWindow : Window
         SyncPageInput();
     }
 
+    private void SyncPageNav()
+    {
+        TryPageButton(PageFirst, "first", _currentPage <= 1);
+        TryPageButton(PagePrev, "prev", _currentPage <= 1);
+        TryPageButton(PageNext, "next", _currentPage >= PageCount);
+        TryPageButton(PageLast, "last", _currentPage >= PageCount);
+    }
+
+    private void TryPageButton(Button? button, string tag, bool atLimit)
+    {
+        button.IsEnabled = !atLimit;
+        var strokeKey = atLimit ? "KumoBrushTextInactive" : "KumoBrushTextDefault";
+        foreach (var branch in button?.GetVisualDescendants() ?? [])
+        {
+            if (branch is Avalonia.Controls.Shapes.Path path)
+            {
+                path[!Avalonia.Controls.Shapes.Path.StrokeProperty] = new DynamicResourceExtension(strokeKey);
+            }
+        }
+    }
+
     private void SyncPageInput()
     {
         var input = this.FindControl<TextBox>("PageInput");
@@ -203,6 +257,7 @@ public partial class MainWindow : Window
         {
             input!.Text = $"{_currentPage}";
         }
+        SyncPageNav();
     }
 
     private void OnShowToast(object? sender, Avalonia.Interactivity.RoutedEventArgs e)

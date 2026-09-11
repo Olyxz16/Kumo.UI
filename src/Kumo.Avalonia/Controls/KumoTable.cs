@@ -294,12 +294,18 @@ public class KumoTable : TemplatedControl
 
         if (ShowSelectionColumn)
         {
+            // The row is the interactive unit (upstream table-row
+            // semantics); the checkbox is presentational, so it never
+            // takes focus — no lingering focus ring inside the table.
             var check = new CheckBox
             {
                 Margin = new Thickness(12, 0),
+                Focusable = false,
                 VerticalAlignment = VerticalAlignment.Center,
             };
-            check[!CheckBox.IsCheckedProperty] = row[!KumoTableRow.IsSelectedProperty];
+            // Two-way both ends: clicking a row checkbox must write back
+            // through KumoTableRow.IsSelected to drive the header state.
+            check[!!CheckBox.IsCheckedProperty] = row[!!KumoTableRow.IsSelectedProperty];
             inner.Children.Add(WrapBody(check, 0));
         }
 

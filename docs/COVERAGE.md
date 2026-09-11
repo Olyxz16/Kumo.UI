@@ -82,7 +82,7 @@ uses inline stroke paths), `CloudflareLogo` (brand asset).
 - `MaskedTextBox` — in `Themes/Controls/TextBox.axaml`, `BasedOn` the TextBox
   theme so it inherits the full kumo input treatment
 
-Smoke-verified in `tests/Kumo.Avalonia.Tests/MiscProbe.cs`.
+Smoke-verified in `tests/Kumo.Avalonia.Tests/MiscProbe.cs` and shown in the demo "Windowed controls" card.
 
 See also `docs/THEME-AUDIT.md` for the full 48-component Kumo registry
 matrix and design-rule checklist.

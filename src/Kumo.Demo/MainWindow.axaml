@@ -764,12 +764,12 @@
                         <Border Classes="pagination-separator" />
                         <Border Classes="input-group page-nav" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
-                                <Button Classes="icon" Tag="first" Click="OnPageNav" ToolTip.Tip="First page">
+                                <Button x:Name="PageFirst" Classes="icon" Tag="first" Click="OnPageNav" ToolTip.Tip="First page">
                                     <Path Width="14" Height="14" Stretch="Uniform"
                                           Data="M19,6 L13,12 L19,18 M11,6 L5,12 L11,18"
                                           Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.4" />
                                 </Button>
-                                <Button Classes="icon" Tag="prev" Click="OnPageNav" ToolTip.Tip="Previous page">
+                                <Button x:Name="PagePrev" Classes="icon" Tag="prev" Click="OnPageNav" ToolTip.Tip="Previous page">
                                     <Path Width="7" Height="14" Stretch="Uniform"
                                           Data="M15,18 L9,12 L15,6"
                                           Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.25" />
@@ -777,12 +777,12 @@
                                 <TextBox Name="PageInput" Width="52" Text="1" TextAlignment="Center"
                                          MinHeight="30" VerticalAlignment="Center"
                                          KeyDown="OnPageInputKeyDown" LostFocus="OnPageInputLostFocus" />
-                                <Button Classes="icon" Tag="next" Click="OnPageNav" ToolTip.Tip="Next page">
+                                <Button x:Name="PageNext" Classes="icon" Tag="next" Click="OnPageNav" ToolTip.Tip="Next page">
                                     <Path Width="7" Height="14" Stretch="Uniform"
                                           Data="M9,18 L15,12 L9,6"
                                           Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.25" />
                                 </Button>
-                                <Button Classes="icon" Tag="last" Click="OnPageNav" ToolTip.Tip="Last page">
+                                <Button x:Name="PageLast" Classes="icon" Tag="last" Click="OnPageNav" ToolTip.Tip="Last page">
                                     <Path Width="14" Height="14" Stretch="Uniform"
                                           Data="M5,6 L11,12 L5,18 M13,6 L19,12 L13,18"
                                           Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.4" />
@@ -876,6 +876,65 @@
 							   FontSize="{StaticResource KumoFontSizeSm}"
                                Foreground="{DynamicResource KumoBrushTextSubtle}" />
                     <Button Content="Open dialog" Click="OnOpenDialog" HorizontalAlignment="Left" />
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Text="Windowed controls" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource KumoBrushTextStrong}" />
+                        <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                    </Grid>
+                    <TextBlock Text="Avalonia controls themed to finish the surface: path icon, transitioning presenter, group box, drop-down button, spinner and masked input."
+                               FontSize="{StaticResource KumoFontSizeSm}"
+                               Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                    <StackPanel Spacing="10">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <PathIcon Width="16" Height="16" Foreground="{DynamicResource KumoBrushTextSubtle}"
+                                      Data="M12 2 L15 9 L22 9 L17 14 L19 21 L12 17 L5 21 L7 14 L2 9 L9 9 Z" />
+                            <PathIcon Width="16" Height="16" Foreground="{DynamicResource KumoBrushBlue700}"
+                                      Data="M4 4 L20 4 L20 20 L4 20 Z M4 4 L20 20 M20 4 L4 20" />
+                            <TextBlock Text="PathIcon — icon surface: fill from Foreground, geometry from Data" FontSize="{StaticResource KumoFontSizeSm}" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <DropDownButton Content="Services" HorizontalAlignment="Left">
+                            <DropDownButton.Flyout>
+                                <MenuFlyout>
+                                    <MenuItem Header="Compute" />
+                                    <MenuItem Header="Storage" />
+                                    <MenuItem Header="Networking" />
+                                </MenuFlyout>
+                            </DropDownButton.Flyout>
+                        </DropDownButton>
+                        <ButtonSpinner Name="DemoSpinner" ShowButtonSpinner="True" Width="220"
+                                       HorizontalAlignment="Left" Spin="OnDemoSpin">
+                            <Border Classes="field-label">
+                                <TextBlock Name="DemoSpinnerText" Text="42 instances" />
+                            </Border>
+                        </ButtonSpinner>
+                        <MaskedTextBox Mask="000000" Width="220" HorizontalAlignment="Left" PlaceholderText="040529" />
+                        <GroupBox Header="Zone settings" Width="320" HorizontalAlignment="Left">
+                            <StackPanel Spacing="10">
+                                <ToggleSwitch Content="Always Online" IsChecked="True" />
+                                <TextBlock Text="Serve cached content if your origin is down."
+                                           FontSize="{StaticResource KumoFontSizeSm}"
+                                           Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                            </StackPanel>
+                        </GroupBox>
+                        <Grid ColumnDefinitions="*" Width="220" HorizontalAlignment="Left">
+                            <TransitioningContentControl Name="DemoTransitioner">
+                                <TransitioningContentControl.PageTransition>
+                                    <CrossFade Duration="0:0:0.4" />
+                                </TransitioningContentControl.PageTransition>
+                                <TextBlock Text="TransitioningContentControl: swap content to see the 400ms fade" TextWrapping="Wrap" />
+                            </TransitioningContentControl>
+                        </Grid>
+                        <Button Classes="ghost icon icon-sm" Click="OnNextTransitionDemo">
+                            <Path Width="14" Height="14" Stretch="Uniform"
+                                  Data="M8,4 L16,12 L8,20"
+                                  Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
+                        </Button>
+                    </StackPanel>
                 </StackPanel>
             </Border>
 

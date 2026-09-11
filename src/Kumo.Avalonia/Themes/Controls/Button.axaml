@@ -288,6 +288,95 @@
         </Style>
     </ControlTheme>
 
+    <!-- DropDownButton: Button look + trailing chevron -->
+    <ControlTheme x:Key="{x:Type DropDownButton}" TargetType="DropDownButton"
+                  BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid>
+                    <Border x:Name="PART_Fill"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            BoxShadow="{DynamicResource KumoBoxShadowXs}" />
+                    <ContentPresenter x:Name="PART_ContentPresenter"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Margin="{TemplateBinding Padding}"
+                                      Foreground="{TemplateBinding Foreground}"
+                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      RecognizesAccessKey="True" />
+                    <Path Grid.Column="1" Width="12" Height="12"
+                          VerticalAlignment="Center" Margin="0,0,-4,0"
+                          HorizontalAlignment="Right"
+                          Data="M2 4 L6 8 L10 4"
+                          Stroke="{DynamicResource KumoBrushTextSubtle}" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+    <!-- ButtonSpinner: content + stacked Kumo chevron repeat buttons -->
+    <ControlTheme x:Key="{x:Type ButtonSpinner}" TargetType="ButtonSpinner">
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        <Setter Property="Background" Value="{DynamicResource KumoBrushControl}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushLine}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusLg}" />
+        <Setter Property="MinHeight" Value="36" />
+        <Setter Property="Padding" Value="12,6" />
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        BoxShadow="{DynamicResource KumoBoxShadowXs}">
+                    <Grid ColumnDefinitions="*, Auto" VerticalAlignment="Center">
+                        <ContentPresenter x:Name="PART_ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Center"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                        <StackPanel Grid.Column="1" Margin="0,0,1,0" IsVisible="{TemplateBinding ShowButtonSpinner}">
+                            <RepeatButton Name="PART_IncreaseButton" IsEnabled="{TemplateBinding AllowSpin}"
+                                          Height="16" Width="20" BorderThickness="0"
+                                          Background="Transparent"
+                                          HorizontalContentAlignment="Center"
+                                          VerticalContentAlignment="Center">
+                                <Path Width="10" Height="10" Data="M2 6 L5 3 L8 6"
+                                          Stroke="{DynamicResource KumoBrushTextSubtle}" StrokeThickness="1.5" />
+                            </RepeatButton>
+                            <Border Height="1" Background="{DynamicResource KumoBrushLine}" Margin="2,0" />
+                            <RepeatButton Name="PART_DecreaseButton" IsEnabled="{TemplateBinding AllowSpin}"
+                                          Height="16" Width="20" BorderThickness="0"
+                                          Background="Transparent"
+                                          HorizontalContentAlignment="Center"
+                                          VerticalContentAlignment="Center">
+                                <Path Width="10" Height="10" Data="M2 3 L5 6 L8 3"
+                                          Stroke="{DynamicResource KumoBrushTextSubtle}" StrokeThickness="1.5" />
+                            </RepeatButton>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^ /template/ RepeatButton">
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="FontWeight" Value="Medium" />
+        </Style>
+        <Style Selector="^ /template/ RepeatButton:disabled">
+            <Setter Property="Opacity" Value="0.4" />
+        </Style>
+    </ControlTheme>
+
     </ResourceDictionary>
     </Styles.Resources>
 </Styles>

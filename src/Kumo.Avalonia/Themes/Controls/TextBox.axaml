@@ -164,6 +164,13 @@
         </Style>
     </ControlTheme>
 
+    <!-- MaskedTextBox: same Kumo input look, full mask behavior -->
+    <ControlTheme x:Key="{x:Type MaskedTextBox}" TargetType="MaskedTextBox"
+                  BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="PromptChar" Value="_" />
+        <Setter Property="Focusable" Value="True" />
+    </ControlTheme>
+
     </ResourceDictionary>
     </Styles.Resources>
 </Styles>

@@ -7,6 +7,9 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using Avalonia.Headless.XUnit;
 using Avalonia.VisualTree;
+using Avalonia.Headless;
+using Avalonia.Headless.XUnit;
+using Avalonia.Input;
 using KS = KumoThemeSupport.Controls;
 using Xunit;
 
@@ -156,6 +159,71 @@ public class TableTests
             // Row 1 dark, row 2 light(--base), row 3 selected tint differs from base.
             Assert.NotEqual(bg(0), bg(1));
             Assert.NotEqual(bg(1), bg(2));
+        }
+        finally
+        {
+            host.Close();
+        }
+    }
+
+    [AvaloniaFact]
+    public void Header_select_all_follows_row_checkbox_clicks()
+    {
+        // Regression: the row checkbox binding was one-way, so clicking a
+        // row box never wrote back to KumoTableRow.IsSelected and the
+        // header checkbox never noticed.
+        var table = Build(true, out var host);
+        try
+        {
+            var all = table.GetVisualDescendants().OfType<CheckBox>().ToList();
+            var selectAll = all.First(c => c.Name == "PART_SelectAll");
+            var rowBoxes = all.Where(c => c.Name != "PART_SelectAll").ToList();
+
+            // Fixture state: row 3 starts selected -> header indeterminate.
+            Assert.Null(selectAll.IsChecked);
+
+            // Click row 3's box again -> nothing selected -> header unchecked.
+            rowBoxes[2].IsChecked = false;
+            Assert.False(selectAll.IsChecked ?? true);
+
+            // Click row 1's box -> header back to indeterminate.
+            rowBoxes[0].IsChecked = true;
+            Assert.True(table.Rows[0].IsSelected);
+            Assert.Null(selectAll.IsChecked);
+
+            // Click row 2's box -> 2 of 3 still indeterminate.
+            rowBoxes[1].IsChecked = true;
+            Assert.True(table.Rows[1].IsSelected);
+            Assert.Null(selectAll.IsChecked);
+
+            // Click row 3's box back -> everything selected -> header checked.
+            rowBoxes[2].IsChecked = true;
+            Assert.True(selectAll.IsChecked == true);
+        }
+        finally
+        {
+            host.Close();
+        }
+    }
+
+    [AvaloniaFact]
+    public void Row_checkbox_click_toggles_without_focusing()
+    {
+        var table = Build(true, out var host);
+        try
+        {
+            Dispatcher.UIThread.RunJobs();
+            var box = table.GetVisualDescendants().OfType<CheckBox>()
+                .First(c => c.Name != "PART_SelectAll");
+
+            // Real pointer click on the checkbox itself.
+            var point = box.TranslatePoint(new Point(box.Bounds.Width / 2, box.Bounds.Height / 2), host)!.Value;
+            host.MouseDown(point, MouseButton.Left);
+            host.MouseUp(point, MouseButton.Left, global::Avalonia.Input.RawInputModifiers.LeftMouseButton);
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.False(box.IsFocused);
+            Assert.True(table.Rows[0].IsSelected);
         }
         finally
         {
