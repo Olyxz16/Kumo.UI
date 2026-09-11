@@ -41,6 +41,10 @@ public partial class MainWindow : Window
         Loaded += (_, _) =>
         {
             BuildPaletteSections();
+            _members.Add(MemberNames[0]);
+            _members.Add(MemberNames[1]);
+            _members.Add(MemberNames[2]);
+            RefreshMemberList();
             EnvAutocomplete.ItemsSource = Environments;
         };
     }
@@ -56,66 +60,68 @@ public partial class MainWindow : Window
         box.PasswordChar = box.PasswordChar == '\u25CF' ? default : '\u25CF';
     }
 
-    private void OnTableRowTapped(object? sender, Avalonia.Input.TappedEventArgs e)
-    {
-        if (sender is Border row)
-        {
-            // Clicks on the row's own checkbox already toggle it; only
-            // elsewhere-on-row toggles by proxy.
-            if (e.Source is Avalonia.Visual v &&
-                v.GetVisualAncestors().OfType<CheckBox>().Any())
-            {
-                return;
-            }
+    private int _seedMember;
 
-            var checkBox = row.GetVisualDescendants().OfType<CheckBox>().FirstOrDefault();
-            if (checkBox is not null)
-            {
-                checkBox.IsChecked = checkBox.IsChecked != true;
-            }
-        }
+    private static readonly string[] MemberNames =
+    [
+        "Ada Lovelace",
+        "Grace Hopper",
+        "Alan Zhang",
+        "Zhang Wei",
+        "Alan Kay",
+        "Margaret Hamilton",
+        "Radia Perlman",
+        "Barbara Liskov",
+    ];
+
+    private readonly List<string> _members = [];
+
+    private void OnMemberFilterChanged(object? sender, Avalonia.Controls.TextChangedEventArgs e)
+    {
+        RefreshMemberList();
     }
 
-    private void OnRowCheckChanged(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private void OnToolbarFilterMenu(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        if (sender is CheckBox checkBox)
-        {
-            var row = checkBox.GetVisualAncestors().OfType<Border>()
-                .FirstOrDefault(b => b.Classes.Contains("table-row"));
-            if (row is not null)
-            {
-                row.Classes.Set("selected", checkBox.IsChecked == true);
-            }
-
-            var body = this.FindControl<StackPanel>("DemoTableBody");
-            var selectAll = this.FindControl<CheckBox>("TableSelectAll");
-            var boxes = RowChecks(body!).ToList();
-            selectAll!.IsChecked = boxes.Count > 0 && boxes.All(b => b.IsChecked == true);
-        }
-    }
-
-    private void OnSelectAllRows(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        if (sender is not CheckBox selectAll)
+        if (sender is not Button button)
         {
             return;
         }
+        var flyout = new MenuFlyout();
+        foreach (var option in new[] { "All", "Team", "Guest" })
+        {
+            var item = new MenuItem { Header = option, Tag = option };
+            item.Click += (_, _) => { RefreshMemberList(); };
+            flyout.Items.Add(item);
+        }
+        flyout.ShowAt(button);
+    }
 
-        var body = this.FindControl<StackPanel>("DemoTableBody");
-        if (body is null)
+    private void OnAddMember(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        _members.Add("New member " + _seedMember++);
+        RefreshMemberList();
+    }
+
+    private void OnInviteMember(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        var name = MemberNames[(_members.Count + 3) % MemberNames.Length] + " (invited)";
+        RefreshMemberList();
+        _toasts.Show(new Notification("Invite sent", $"Link for {name} copied to clipboard."));
+    }
+
+    private void RefreshMemberList()
+    {
+        if (MemberList is null || _members.Count == 0)
         {
             return;
         }
-
-        foreach (var rowCheck in RowChecks(body))
-        {
-            rowCheck.IsChecked = selectAll.IsChecked;
-        }
+        var filter = MemberFilter?.Text ?? "";
+        MemberList.ItemsSource = _members
+            .Where(m => m.Contains(filter, StringComparison.OrdinalIgnoreCase))
+            .Select(name => new TextBlock { Text = name })
+            .ToList();
     }
-
-    private static IEnumerable<CheckBox> RowChecks(StackPanel body) =>
-        body.GetVisualDescendants().OfType<CheckBox>()
-            .Where(c => c.Name?.StartsWith("TableRowCheck", StringComparison.Ordinal) == true);
 
     private void OnOpenDialog(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {

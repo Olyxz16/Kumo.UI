@@ -217,36 +217,118 @@
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
                     <Grid ColumnDefinitions="*,Auto">
-                                <TextBlock Text="Kumo controls" FontWeight="SemiBold"
-                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
-                                <Border Classes="badge neutral" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="planned" /></Border>
-                            </Grid>
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <kumo:KumoBadge Text="Primary" Variant="primary" VerticalAlignment="Center" />
-                        <kumo:KumoBadge Text="Info" Variant="info" VerticalAlignment="Center" />
-                        <kumo:KumoBadge Text="Error" Variant="error" VerticalAlignment="Center" />
-                        <kumo:KumoBadge Text="Beta" Variant="beta" VerticalAlignment="Center" />
-                        <kumo:KumoBadge Text="Blue" Variant="blue" VerticalAlignment="Center" />
-                        <StackPanel Orientation="Horizontal" Spacing="6" Margin="16,0,0,0">
-                            <kumo:KumoAvatar DisplayName="Ada Lovelace" />
-                            <kumo:KumoAvatar DisplayName="Grace Hopper" />
-                            <kumo:KumoAvatar DisplayName="Alan" />
-                            <kumo:KumoAvatar DisplayName="Zhang Wei" Size="lg" />
-                        </StackPanel>
-                    </StackPanel>
-                    <kumo:KumoToolbar MaxWidth="420" HorizontalAlignment="Left">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox Width="150" PlaceholderText="Invite member" BorderThickness="0" Background="Transparent" MinHeight="30" />
-                            <Button Classes="icon">
+                        <TextBlock Text="KumoTabs" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource KumoBrushTextStrong}" />
+                        <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                    </Grid>
+                    <TextBlock Text="TabControl subclass with the sliding indicator pill (translate + scaleX morph) enabled out of the box." FontSize="{StaticResource KumoFontSizeXs}"
+                               Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                    <kumo:KumoTabs MaxWidth="420" HorizontalAlignment="Left">
+                        <TabItem Header="Settings">
+                            <TextBlock Text="Settings content" />
+                        </TabItem>
+                        <TabItem Header="Deployments">
+                            <TextBlock Text="Deployments content" />
+                        </TabItem>
+                    </kumo:KumoTabs>
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Text="KumoToolbar" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource KumoBrushTextStrong}" />
+                        <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                    </Grid>
+                    <TextBlock Text="Toolbar surface (ring + shadow); content sits between the leading and trailing edges." FontSize="{StaticResource KumoFontSizeXs}"
+                               Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                    <kumo:KumoToolbar MaxWidth="480" HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal" Spacing="2">
+                            <Button Classes="icon" Click="OnToolbarFilterMenu">
+                                <Path Width="16" Height="16" Stretch="Uniform"
+                                      Data="M4,6 L20,6 M4,12 L16,12 M4,18 L14,18"
+                                      Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
+                            </Button>
+                            <Border Classes="divider" />
+                            <TextBox Name="MemberFilter" Width="150" PlaceholderText="Filter members"
+                                     BorderThickness="0" Background="Transparent" MinHeight="30"
+                                     TextChanged="OnMemberFilterChanged" />
+                            <Border Classes="divider" />
+                            <Button Classes="icon" Click="OnAddMember">
                                 <Path Width="16" Height="16" Stretch="Uniform"
                                       Data="M12,5 L12,19 M5,12 L19,12"
                                       Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
                             </Button>
                         </StackPanel>
                         <kumo:KumoToolbar.Trailing>
-                            <TextBlock Text="4 members" Classes="pagination-info" VerticalAlignment="Center" Margin="8,0" />
+                            <Button Classes="primary sm" Content="Invite" Margin="6,0,4,0" Click="OnInviteMember" />
                         </kumo:KumoToolbar.Trailing>
                     </kumo:KumoToolbar>
+                    <ItemsControl Name="MemberList" HorizontalAlignment="Left">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" Spacing="6" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Text="KumoAvatar" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource KumoBrushTextStrong}" />
+                        <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                    </Grid>
+                    <TextBlock Text="Deterministic fallback hue + initials from DisplayName; sizes xs-lg." FontSize="{StaticResource KumoFontSizeXs}"
+                               Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                    <StackPanel Orientation="Horizontal" Spacing="32" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <kumo:KumoAvatar DisplayName="Ada Lovelace" />
+                            <kumo:KumoAvatar DisplayName="Grace Hopper" />
+                            <kumo:KumoAvatar DisplayName="Alan" />
+                            <kumo:KumoAvatar DisplayName="Zhang Wei" Size="lg" />
+                        </StackPanel>
+                        <kumo:KumoAvatarGroup
+                            Names="Ada Lovelace, Grace Hopper, Alan Zhang, Zhang Wei, Alan Kay, Margaret Hamilton"
+                            Max="4" />
+                        <kumo:KumoAvatarGroup Direction="back"
+                            Names="Ada Lovelace, Grace Hopper, Alan Zhang, Zhang Wei, Alan Kay, Margaret Hamilton"
+                            Max="4" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Text="KumoBadge" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource KumoBrushTextStrong}" />
+                        <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                    </Grid>
+                    <TextBlock Text="One Variant property maps to the pill + palette (primary, info, error, beta, blue)." FontSize="{StaticResource KumoFontSizeXs}"
+                               Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <kumo:KumoBadge Text="Primary" Variant="primary" VerticalAlignment="Center" />
+                        <kumo:KumoBadge Text="Info" Variant="info" VerticalAlignment="Center" />
+                        <kumo:KumoBadge Text="Error" Variant="error" VerticalAlignment="Center" />
+                        <kumo:KumoBadge Text="Beta" Variant="beta" VerticalAlignment="Center" />
+                        <kumo:KumoBadge Text="Blue" Variant="blue" VerticalAlignment="Center" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border Classes="layer-card">
+                <StackPanel Spacing="12">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Text="KumoEmptyState" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource KumoBrushTextStrong}" />
+                        <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                    </Grid>
+                    <TextBlock Text="Typed Icon / Title / Description / CommandContent slots with upstream paddings built in." FontSize="{StaticResource KumoFontSizeXs}"
+                               Foreground="{DynamicResource KumoBrushTextSubtle}" />
                     <kumo:KumoEmptyState
                         Title="No workers yet"
                         Description="Create your first worker to deploy code across the Cloudflare network."
@@ -262,21 +344,13 @@
                             </StackPanel>
                         </kumo:KumoEmptyState.CommandContent>
                     </kumo:KumoEmptyState>
-                    <kumo:KumoTabs>
-                        <TabItem Header="Settings">
-                            <TextBlock Text="Settings content" />
-                        </TabItem>
-                        <TabItem Header="Deployments">
-                            <TextBlock Text="Deployments content" />
-                        </TabItem>
-                    </kumo:KumoTabs>
                 </StackPanel>
             </Border>
 
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
                     <Grid ColumnDefinitions="*,Auto">
-                                <TextBlock Text="Badges" FontWeight="SemiBold"
+                        <TextBlock Text="Badges" FontWeight="SemiBold"
                                            Foreground="{DynamicResource KumoBrushTextStrong}" />
                                 <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
                             </Grid>
@@ -722,53 +796,38 @@
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
                     <Grid ColumnDefinitions="*,Auto">
-                                <TextBlock Text="Table" FontWeight="SemiBold"
-                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
-                                <Border Classes="badge neutral" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="planned" /></Border>
-                            </Grid>
-                    <Border Classes="table" MaxWidth="560" HorizontalAlignment="Left">
-                        <StackPanel Name="DemoTableBody">
-                            <Grid ColumnDefinitions="36,*,120,110">
-                                <Border Classes="table-header-cell">
-                                    <CheckBox Name="TableSelectAll" IsChecked="True" VerticalAlignment="Center"
-                                              Margin="12,0,0,0" IsCheckedChanged="OnSelectAllRows" />
-                                </Border>
-                                <Border Classes="table-header-cell" Grid.Column="1"><TextBlock Text="Region" /></Border>
-                                <Border Classes="table-header-cell" Grid.Column="2"><TextBlock Text="Status" /></Border>
-                                <Border Classes="table-header-cell" Grid.Column="3"><TextBlock Text="Requests" /></Border>
-                            </Grid>
-                            <Border Classes="table-row alt" Tapped="OnTableRowTapped">
-                                <Grid ColumnDefinitions="36,*,120,110">
-                                    <CheckBox Name="TableRowCheck1" IsChecked="false"
-                                              Margin="12,0,0,0" VerticalAlignment="Center"
-                                              IsCheckedChanged="OnRowCheckChanged" />
-                                    <Border Classes="table-cell" Grid.Column="1"><TextBlock Text="North America" /></Border>
-                                    <Border Classes="table-cell" Grid.Column="2"><TextBlock Text="Healthy" /></Border>
-                                    <Border Classes="table-cell" Grid.Column="3"><TextBlock Classes="mono" Text="24.1M" /></Border>
-                                </Grid>
-                            </Border>
-                            <Border Classes="table-row" Tapped="OnTableRowTapped">
-                                <Grid ColumnDefinitions="36,*,120,110">
-                                    <CheckBox Name="TableRowCheck2" IsChecked="false"
-                                              Margin="12,0,0,0" VerticalAlignment="Center"
-                                              IsCheckedChanged="OnRowCheckChanged" />
-                                    <Border Classes="table-cell" Grid.Column="1"><TextBlock Text="Europe" /></Border>
-                                    <Border Classes="table-cell" Grid.Column="2"><TextBlock Text="Degraded" /></Border>
-                                    <Border Classes="table-cell" Grid.Column="3"><TextBlock Classes="mono" Text="12.9M" /></Border>
-                                </Grid>
-                            </Border>
-                            <Border Classes="table-row selected" Tapped="OnTableRowTapped">
-                                <Grid ColumnDefinitions="36,*,120,110">
-                                    <CheckBox Name="TableRowCheck3" IsChecked="true"
-                                              Margin="12,0,0,0" VerticalAlignment="Center"
-                                              IsCheckedChanged="OnRowCheckChanged" />
-                                    <Border Classes="table-cell" Grid.Column="1"><TextBlock Text="Asia Pacific" /></Border>
-                                    <Border Classes="table-cell" Grid.Column="2"><TextBlock Text="Healthy" /></Border>
-                                    <Border Classes="table-cell" Grid.Column="3"><TextBlock Classes="mono" Text="8.4M" /></Border>
-                                </Grid>
-                            </Border>
-                        </StackPanel>
-                    </Border>
+                        <TextBlock Text="Table" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource KumoBrushTextStrong}" />
+                        <Border Classes="badge neutral" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                    </Grid>
+                    <kumo:KumoTable MaxWidth="560" HorizontalAlignment="Left">
+                        <kumo:KumoTable.Columns>
+                            <kumo:KumoTableColumn Header="Region" />
+                            <kumo:KumoTableColumn Header="Status" Width="120" />
+                            <kumo:KumoTableColumn Header="Requests" Width="110" AlignRight="True" Mono="True" />
+                        </kumo:KumoTable.Columns>
+                        <kumo:KumoTable.Rows>
+                            <kumo:KumoTableRow Cells="North America,Healthy,24.1M" />
+                            <kumo:KumoTableRow Cells="Europe,Degraded,12.9M" />
+                            <kumo:KumoTableRow Cells="Asia Pacific,Healthy,8.4M" IsSelected="True" />
+                        </kumo:KumoTable.Rows>
+                    </kumo:KumoTable>
+                    <TextBlock Text="Same component without the selection column — column alignment is unchanged because header and body share one grid:"
+                               FontSize="{StaticResource KumoFontSizeXs}"
+                               Foreground="{DynamicResource KumoBrushTextSubtle}"
+                               MaxWidth="560" />
+                    <kumo:KumoTable MaxWidth="560" HorizontalAlignment="Left" ShowSelectionColumn="False">
+                        <kumo:KumoTable.Columns>
+                            <kumo:KumoTableColumn Header="Region" />
+                            <kumo:KumoTableColumn Header="Status" Width="120" />
+                            <kumo:KumoTableColumn Header="Requests" Width="110" AlignRight="True" Mono="True" />
+                        </kumo:KumoTable.Columns>
+                        <kumo:KumoTable.Rows>
+                            <kumo:KumoTableRow Cells="North America,Healthy,24.1M" />
+                            <kumo:KumoTableRow Cells="Europe,Degraded,12.9M" />
+                            <kumo:KumoTableRow Cells="Asia Pacific,Healthy,8.4M" />
+                        </kumo:KumoTable.Rows>
+                    </kumo:KumoTable>
                 </StackPanel>
             </Border>
 
@@ -777,7 +836,7 @@
                     <Grid ColumnDefinitions="*,Auto">
                                 <TextBlock Text="Empty state" FontWeight="SemiBold"
                                            Foreground="{DynamicResource KumoBrushTextStrong}" />
-                                <Border Classes="badge warning" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="polish" /></Border>
+                                <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
                             </Grid>
                     <Border Classes="empty empty-sm" MaxWidth="520" HorizontalAlignment="Left">
                         <StackPanel Spacing="16" HorizontalAlignment="Center">

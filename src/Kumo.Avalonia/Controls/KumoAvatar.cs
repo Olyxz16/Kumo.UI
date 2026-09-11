@@ -41,6 +41,16 @@ public class KumoAvatar : TemplatedControl
         set => SetValue(HueProperty, value);
     }
 
+    public static readonly StyledProperty<double> StrokeWidthProperty =
+        AvaloniaProperty.Register<KumoAvatar, double>(nameof(StrokeWidth), defaultValue: 0);
+
+    /// <summary>Separation ring width in px (0 = ring off).</summary>
+    public double StrokeWidth
+    {
+        get => GetValue(StrokeWidthProperty);
+        set => SetValue(StrokeWidthProperty, value);
+    }
+
     public KumoAvatar()
     {
         this.GetObservable(DisplayNameProperty).Subscribe(new AnonymousObserver<string>(UpdateHue));

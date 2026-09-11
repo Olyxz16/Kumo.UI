@@ -164,6 +164,13 @@
         <Setter Property="MinWidth" Value="26" />
     </Style>
 
+    <!-- Toolbar divider: hairline separator between toolbar slots -->
+    <Style Selector="Border.divider">
+        <Setter Property="Width" Value="1" />
+        <Setter Property="Margin" Value="2,7" />
+        <Setter Property="Background" Value="{DynamicResource KumoBrushLine}" />
+    </Style>
+
     <!-- Toolbar: grouped controls with internal dividers -->
     <Style Selector="Border.toolbar">
         <Setter Property="Background" Value="{DynamicResource KumoBrushControl}" />
