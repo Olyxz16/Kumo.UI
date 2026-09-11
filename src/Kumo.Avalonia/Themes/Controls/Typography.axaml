@@ -67,8 +67,33 @@
         <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextSubtle}" />
     </Style>
 
+    <!-- Inline code: recessed pill around mono text. Compose with
+         <InlineUIContainer><Border Classes="code-inline">…</Border></InlineUIContainer>
+         inside a TextBlock. The pill is exactly the running line height and is
+         baseline-offset via margin so it sits centered on the text; the seam
+         alignment marks `code-inline.lg` (14px) for standalone use. -->
+    <Style Selector="Border.code-inline">
+        <Setter Property="Background" Value="{DynamicResource KumoBrushRecessed}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushFill}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusSm}" />
+        <Setter Property="Padding" Value="4,2" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,0,2,-4" />
+    </Style>
+    <Style Selector="Border.code-inline > TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource KumoFontMono}" />
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeXs}" />
+        <Setter Property="LineHeight" Value="14" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextSubtle}" />
+    </Style>
+    <Style Selector="Border.code-inline.lg > TextBlock">
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
+        <Setter Property="LineHeight" Value="20" />
+    </Style>
+
     <Style Selector="Border.code-block">
-        <Setter Property="Background" Value="{DynamicResource KumoBrushBase}" />
+        <Setter Property="Background" Value="{DynamicResource KumoBrushRecessed}" />
         <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushFill}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusMd}" />

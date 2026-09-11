@@ -1,5 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:k="using:KumoThemeSupport.Controls">
 
     <!-- NotificationCard live toast + WindowNotificationManager deck -->
 
@@ -12,34 +13,34 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <ReversibleStackPanel Name="PART_Items" />
+                    <k:ToastDeck Name="PART_Items" Peek="34" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
 
-        <Style Selector="^:topleft /template/ ReversibleStackPanel#PART_Items">
+        <Style Selector="^:topleft /template/ #PART_Items" x:SetterTargetType="k:ToastDeck">
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="HorizontalAlignment" Value="Left" />
         </Style>
-        <Style Selector="^:topright /template/ ReversibleStackPanel#PART_Items">
+        <Style Selector="^:topright /template/ #PART_Items" x:SetterTargetType="k:ToastDeck">
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="HorizontalAlignment" Value="Right" />
         </Style>
-        <Style Selector="^:topcenter /template/ ReversibleStackPanel#PART_Items">
+        <Style Selector="^:topcenter /template/ #PART_Items" x:SetterTargetType="k:ToastDeck">
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="HorizontalAlignment" Value="Center" />
         </Style>
-        <Style Selector="^:bottomleft /template/ ReversibleStackPanel#PART_Items">
+        <Style Selector="^:bottomleft /template/ #PART_Items" x:SetterTargetType="k:ToastDeck">
             <Setter Property="ReverseOrder" Value="True" />
             <Setter Property="VerticalAlignment" Value="Bottom" />
             <Setter Property="HorizontalAlignment" Value="Left" />
         </Style>
-        <Style Selector="^:bottomright /template/ ReversibleStackPanel#PART_Items">
+        <Style Selector="^:bottomright /template/ #PART_Items" x:SetterTargetType="k:ToastDeck">
             <Setter Property="ReverseOrder" Value="True" />
             <Setter Property="VerticalAlignment" Value="Bottom" />
             <Setter Property="HorizontalAlignment" Value="Right" />
         </Style>
-        <Style Selector="^:bottomcenter /template/ ReversibleStackPanel#PART_Items">
+        <Style Selector="^:bottomcenter /template/ #PART_Items" x:SetterTargetType="k:ToastDeck">
             <Setter Property="ReverseOrder" Value="True" />
             <Setter Property="VerticalAlignment" Value="Bottom" />
             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -90,19 +91,6 @@
                 </KeyFrame>
             </Animation>
         </ControlTheme.Animations>
-
-        <Style Selector="^:nth-child(2)">
-            <Setter Property="Margin" Value="0,0,0,-34" />
-            <Setter Property="Opacity" Value="0.92" />
-        </Style>
-        <Style Selector="^:nth-child(3)">
-            <Setter Property="Margin" Value="0,0,0,-68" />
-            <Setter Property="Opacity" Value="0.84" />
-        </Style>
-        <Style Selector="^:nth-child(4)">
-            <Setter Property="Margin" Value="0,0,0,-102" />
-            <Setter Property="Opacity" Value="0.76" />
-        </Style>
 
         <Style Selector="^[IsClosing=true]">
             <Style.Animations>

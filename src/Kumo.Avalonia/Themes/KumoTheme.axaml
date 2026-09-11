@@ -56,7 +56,15 @@
         </ResourceDictionary>
 
     </ResourceDictionary.ThemeDictionaries>
-    <FontFamily x:Key="KumoFontMono">JetBrains Mono, Cascadia Code, Consolas, Menlo, monospace</FontFamily>
+    <!-- Input width contract (app-configurable via resource override):
+         inputs never shrink below MinWidth and never grow past MaxWidth.
+         Text beyond the box is clipped, never wrapped or resized around. -->
+    <x:Double x:Key="KumoInputMinWidth">240</x:Double>
+    <x:Double x:Key="KumoInputMaxWidth">320</x:Double>
+    <!-- Docked corner radii (RadiusLg=8 on the rounded side only) -->
+    <CornerRadius x:Key="KumoRadiusDockedTop">8,8,0,0</CornerRadius>
+    <CornerRadius x:Key="KumoRadiusDockedBottom">0,0,8,8</CornerRadius>
+    <FontFamily x:Key="KumoFontMono">JetBrains Mono, Cascadia Code, Consolas, Menlo, DejaVu Sans Mono, monospace</FontFamily>
 
     <!-- Shared structural chrome (usable via DynamicResource from any template) -->
     <CornerRadius x:Key="ControlCornerRadius">6,6,6,6</CornerRadius>

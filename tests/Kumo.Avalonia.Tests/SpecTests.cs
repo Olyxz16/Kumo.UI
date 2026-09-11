@@ -434,8 +434,8 @@ public class SpecTests
         {
             TextBox => root.GetVisualDescendants().OfType<Border>()
                 .First(b => b.Name == "PART_BorderElement"),
-            Button => root.GetVisualDescendants().OfType<ContentPresenter>()
-                .First(p => p.Name == "PART_ContentPresenter"),
+            Button => root.GetVisualDescendants().OfType<Border>()
+                .First(p => p.Name == "PART_Fill"),
             TabItem => root.GetVisualDescendants().OfType<Border>()
                 .First(b => b.Name == "PART_LayoutRoot"),
             TabControl tc => tc,
@@ -466,7 +466,7 @@ public class SpecTests
             {
                 if (root is Button button)
                 {
-                    var brush = BackgroundTarget(root, state) is ContentPresenter { Background: LinearGradientBrush pres }
+                    var brush = BackgroundTarget(root, state) is Border { Background: LinearGradientBrush pres }
                         ? pres
                         : button.Background;
                     if (brush is LinearGradientBrush lg)
@@ -538,7 +538,7 @@ public class SpecTests
                 {
                     return BrushToHex(layoutBorder.BorderBrush);
                 }
-                var (_, brushTarget) = BorderTargets(root, state);
+                var (brushTarget, _) = BorderTargets(root, state);
                 return BrushToHex(ReadBorderBrush(brushTarget));
             }
             case "border-width":
@@ -564,7 +564,7 @@ public class SpecTests
                 {
                     return BrushToHex(layoutBorder.BorderBrush);
                 }
-                var (_, brushTarget) = BorderTargets(root, state);
+                var (brushTarget, _) = BorderTargets(root, state);
                 return BrushToHex(ReadBorderBrush(brushTarget));
             }
             case "padding-top": return Px(Padding(root, state).Top);

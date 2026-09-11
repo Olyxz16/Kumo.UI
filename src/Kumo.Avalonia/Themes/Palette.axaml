@@ -205,6 +205,7 @@
                 <GradientStop Color="#056DFF" Offset="1" />
             </LinearGradientBrush>
 
+            <SolidColorBrush x:Key="KumoBrushButtonPrimarySheen" Color="#619EFF" />
             <SolidColorBrush x:Key="KumoBrushButtonPrimaryRing" Color="#045EDE" />
             <LinearGradientBrush x:Key="KumoBrushButtonDangerGradient" StartPoint="0,0" EndPoint="0,1">
                 <GradientStop Color="#FF5B57" Offset="0" />
@@ -216,6 +217,7 @@
                 <GradientStop Color="#FB2C36" Offset="1" />
             </LinearGradientBrush>
 
+            <SolidColorBrush x:Key="KumoBrushButtonDangerSheen" Color="#FF7D75" />
             <SolidColorBrush x:Key="KumoBrushButtonDangerRing" Color="#DA252E" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
@@ -338,6 +340,7 @@
                 <GradientStop Color="#045EDE" Offset="1" />
             </LinearGradientBrush>
 
+            <SolidColorBrush x:Key="KumoBrushButtonPrimarySheen" Color="#5C92EC" />
             <SolidColorBrush x:Key="KumoBrushButtonPrimaryRing" Color="#0351C1" />
             <LinearGradientBrush x:Key="KumoBrushButtonDangerGradient" StartPoint="0,0" EndPoint="0,1">
                 <GradientStop Color="#F04C3F" Offset="0" />
@@ -349,6 +352,7 @@
                 <GradientStop Color="#E7000B" Offset="1" />
             </LinearGradientBrush>
 
+            <SolidColorBrush x:Key="KumoBrushButtonDangerSheen" Color="#F87263" />
             <SolidColorBrush x:Key="KumoBrushButtonDangerRing" Color="#C90008" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>

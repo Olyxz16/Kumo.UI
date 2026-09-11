@@ -99,10 +99,9 @@
                                     </ScrollViewer>
                                 </DockPanel>
                                 <ContentPresenter Grid.Column="2"
-                                                  Grid.ColumnSpan="1"
-                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                                   Content="{TemplateBinding InnerRightContent}" />
-                            </Grid>
+                                                            </Grid>
                         </Border>
                     </Panel>
                 </DataValidationErrors>
@@ -115,8 +114,9 @@
             <Setter Property="CornerRadius" Value="{TemplateBinding CornerRadius}" />
         </Style>
         <Style Selector="^:focus /template/ Border#PART_BorderElement">
+            <!-- Focus is a fine line at the resting border width, never a halo -->
             <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushFocusRing}" />
-            <Setter Property="BorderThickness" Value="1.5" />
+            <Setter Property="BorderThickness" Value="1" />
         </Style>
         <Style Selector="^:focus">
             <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
@@ -126,7 +126,7 @@
         </Style>
         <Style Selector="^.error:focus /template/ Border#PART_BorderElement">
             <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushDanger}" />
-            <Setter Property="BorderThickness" Value="1.5" />
+            <Setter Property="BorderThickness" Value="1" />
         </Style>
         <Style Selector="^:disabled">
             <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextInactive}" />
@@ -155,10 +155,11 @@
             <Setter Property="MinHeight" Value="72" />
             <Setter Property="VerticalContentAlignment" Value="Top" />
         </Style>
+        
 
         <!-- sensitive input: masked mono -->
         <Style Selector="^.password">
-            <Setter Property="PasswordChar" Value="•" />
+            <Setter Property="PasswordChar" Value="●" />
             <Setter Property="FontFamily" Value="{StaticResource KumoFontMono}" />
         </Style>
     </ControlTheme>

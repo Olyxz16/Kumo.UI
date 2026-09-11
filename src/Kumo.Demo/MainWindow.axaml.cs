@@ -53,7 +53,7 @@ public partial class MainWindow : Window
             return;
         }
 
-        box.PasswordChar = box.PasswordChar == '\u2022' ? default : '\u2022';
+        box.PasswordChar = box.PasswordChar == '\u25CF' ? default : '\u25CF';
     }
 
     private void OnTableRowTapped(object? sender, Avalonia.Input.TappedEventArgs e)

@@ -136,6 +136,21 @@
         <Style Selector="^.meter.info">
             <Setter Property="Foreground" Value="{DynamicResource KumoBrushInfo}" />
         </Style>
+
+        <!-- Docked edges: flush against a sibling container below (or above).
+             Only the corner facing away from the seam keeps its rounding; the
+             seam corner radius is 0 so the two surfaces integrate. Pair with
+             `docked-bottom` on the container (variant-independent via tokens). -->
+        <Style Selector="^.docked-top">
+            <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusDockedTop}" />
+        </Style>
+        <Style Selector="^.docked-bottom">
+            <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusDockedBottom}" />
+        </Style>
+        <!-- The seam-facing fill is a flat slab: only the outer shell rounds. -->
+        <Style Selector="^.docked-top /template/ Border#PART_Indicator, ^.docked-bottom /template/ Border#PART_Indicator">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
     </ControlTheme>
 
     </ResourceDictionary>

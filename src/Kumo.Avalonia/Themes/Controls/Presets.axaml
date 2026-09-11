@@ -282,40 +282,67 @@
         <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusLg}" />
         <Setter Property="MinHeight" Value="36" />
     </Style>
-    <Style Selector="Border.input-group:focus-within">
-        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushFocusRing}" />
-    </Style>
-    <Style Selector="Border.input-group.invalid">
-        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushDanger}" />
-    </Style>
-    <Style Selector="Border.input-group TextBox">
+        <Style Selector="Border.input-group TextBox">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="CornerRadius" Value="0" />
-        <Setter Property="MinHeight" Value="34" />
     </Style>
     <Style Selector="Border.input-group Button">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="CornerRadius" Value="0" />
-        <Setter Property="MinHeight" Value="34" />
     </Style>
-    <Style Selector="Border.input-group Button /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="Border.input-group Button /template/ Border#PART_Fill">
         <Setter Property="CornerRadius" Value="0" />
+        <!-- Embedded buttons carry no card shadow inside the group -->
+        <Setter Property="BoxShadow" Value="{DynamicResource KumoBoxShadowNone}" />
+    </Style>
+    <Style Selector="Border.input-group Button:nth-child(n+2) /template/ Border#PART_Fill">
+        <Setter Property="BorderThickness" Value="1,0,0,0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushHairline}" />
+    </Style>
+    <Style Selector="Border.input-group TextBox /template/ Border#PART_BorderElement">
+        <Setter Property="BorderThickness" Value="1,0,1,0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushHairline}" />
+    </Style>
+    <Style Selector="Border.input-group Button:nth-child(1) /template/ Border#PART_Fill">
+        <Setter Property="CornerRadius" Value="7,0,0,7" />
+    </Style>
+    <Style Selector="Border.input-group Button:nth-last-child(1) /template/ Border#PART_Fill">
+        <Setter Property="CornerRadius" Value="0,7,7,0" />
+    </Style>
+    <Style Selector="Border.input-group.invalid">
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushDanger}" />
+    </Style>
+    <Style Selector="Border.input-group:focus-within">
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushFocusRing}" />
+    </Style>
+    <Style Selector="Border.input-group TextBox:focus /template/ Border#PART_BorderElement, Border.input-group TextBox:error:focus /template/ Border#PART_BorderElement">
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style Selector="Border.input-group.page-nav:focus-within">
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushLine}" />
+    </Style>
+    <Style Selector="Border.input-group.page-nav TextBox">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Border.input-group.page-nav TextBox:focus /template/ Border#PART_BorderElement">
+        <Setter Property="BorderThickness" Value="1,0,1,0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushHairline}" />
     </Style>
     <Style Selector="Border.input-group TextBox:nth-child(1) /template/ Border#PART_BorderElement">
-        <Setter Property="CornerRadius" Value="6,0,0,6" />
-    </Style>
-    <Style Selector="Border.input-group Button:nth-child(1) /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="CornerRadius" Value="6,0,0,6" />
+        <Setter Property="CornerRadius" Value="7,0,0,7" />
+        <!-- no seam on the outer (left) edge of a leading field -->
+        <Setter Property="BorderThickness" Value="0,0,1,0" />
     </Style>
     <Style Selector="Border.input-group TextBox:nth-last-child(1) /template/ Border#PART_BorderElement">
-        <Setter Property="CornerRadius" Value="0,6,6,0" />
+        <Setter Property="CornerRadius" Value="0,7,7,0" />
+        <!-- no seam on the outer (right) edge of a trailing field -->
+        <Setter Property="BorderThickness" Value="1,0,0,0" />
     </Style>
-    <Style Selector="Border.input-group Button:nth-last-child(1) /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="CornerRadius" Value="0,6,6,0" />
-    </Style>
-
     <!-- Breadcrumbs -->
     <Style Selector="TextBlock.breadcrumb-current">
         <Setter Property="FontWeight" Value="Medium" />

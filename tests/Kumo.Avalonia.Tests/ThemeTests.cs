@@ -65,7 +65,7 @@ public class ThemeTests
         {
             var brushKeys = dictionary.Keys.OfType<string>()
                 .Where(k => k.StartsWith("KumoBrush")).ToList();
-            Assert.Equal(60, brushKeys.Count);
+            Assert.Equal(62, brushKeys.Count);
             var colorKeys = dictionary.Keys.OfType<string>()
                 .Where(k => k.StartsWith("KumoColor")).ToList();
             Assert.Equal(54, colorKeys.Count);
@@ -150,24 +150,21 @@ public class ThemeTests
     }
 
     [AvaloniaFact]
-    public void Toast_cards_stack_behind_newest_with_slide_down_exit()
+    public void Toast_cards_stack_neatly_without_overlapping()
     {
         var window = new MainWindow();
         var stack = new StackPanel();
         var first = new NotificationCard { Content = new TextBlock { Text = "One" } };
         var second = new NotificationCard { Content = new TextBlock { Text = "Two" } };
-        var third = new NotificationCard { Content = new TextBlock { Text = "Three" } };
         stack.Children.Add(first);
         stack.Children.Add(second);
-        stack.Children.Add(third);
         window.Content = stack;
         window.Show();
 
+        // No fake-deck tuck: margins stay 0 so cards never drag each other around.
         Assert.Equal(0, first.Margin.Bottom);
-        Assert.Equal(-34, second.Margin.Bottom);
-        Assert.Equal(-68, third.Margin.Bottom);
-        Assert.Equal(0.92, second.Opacity, 3);
-        Assert.Equal(0.84, third.Opacity, 3);
+        Assert.Equal(0, second.Margin.Bottom);
+        Assert.Equal(1.0, second.Opacity, 3);
     }
 
     [AvaloniaFact]
@@ -315,12 +312,61 @@ public class ThemeTests
 
         var semantic = Assert.IsType<WrapPanel>(
             window.FindControl<WrapPanel>("SemanticSwatches")!);
-        Assert.Equal(60, semantic.Children.Count);
+        Assert.Equal(62, semantic.Children.Count);
 
         var badge = window.GetVisualDescendants().OfType<Border>()
             .First(b => b.Classes.Contains("badge") && b.Classes.Contains("primary"));
         Assert.NotNull(badge.Background);
         Assert.IsType<SolidColorBrush>(badge.Background);
+    }
+
+    [AvaloniaFact]
+    public void Input_width_contract_holds_min_and_max_resources()
+    {
+        Assert.True(Application.Current!.Resources.TryGetResource("KumoInputMinWidth", null, out var min));
+        Assert.True(Application.Current!.Resources.TryGetResource("KumoInputMaxWidth", null, out var max));
+        Assert.Equal(240d, min);
+        Assert.Equal(320d, max);
+
+        Application.Current!.RequestedThemeVariant = ThemeVariant.Light;
+        var window = new MainWindow();
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var input = window.GetVisualDescendants().OfType<TextBox>()
+            .First(t => t.PlaceholderText == "Worker name");
+        Assert.Equal(240d, input.MinWidth);
+        Assert.Equal(320d, input.MaxWidth);
+    }
+
+    [AvaloniaFact]
+    public void Pagination_input_keeps_flat_page_field_and_group_rings()
+    {
+        Application.Current!.RequestedThemeVariant = ThemeVariant.Light;
+        var window = new MainWindow();
+        window.RequestedThemeVariant = ThemeVariant.Light;
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var input = window.FindControl<TextBox>("PageInput")!;
+        input.Focus();
+        Dispatcher.UIThread.RunJobs();
+        var border = input.GetVisualDescendants().OfType<Border>()
+            .First(b => b.Name == "PART_BorderElement");
+        // The page field stays flat (the heavy focus ring never appears) and
+        // keeps its seam dividers while focused; the `page-nav` strip keeps a
+        // hairline ring rather than the heavy focus color.
+        Assert.Equal(1, border.BorderThickness.Left);
+        Assert.Equal(1, border.BorderThickness.Right);
+        var group = input.GetVisualAncestors().OfType<Border>()
+            .First(b => b.Classes.Contains("input-group"));
+        // page-nav: the strip keeps its hairline ring when the field focuses.
+        var ring = Assert.IsType<SolidColorBrush>(group.BorderBrush);
+        Assert.True(Application.Current!.Resources.TryGetResource(
+            "KumoBrushLine", ThemeVariant.Light, out var lineRes));
+        Assert.Equal(Assert.IsType<SolidColorBrush>(lineRes).Color, ring.Color);
+        window.Content = null;
+        Dispatcher.UIThread.RunJobs();
+        window.Close();
+        Dispatcher.UIThread.RunJobs();
     }
 
     [AvaloniaFact]
@@ -444,6 +490,20 @@ public class ThemeTests
         var expectedWarning = Assert.IsType<SolidColorBrush>(
             PaletteDictionaries()[ThemeVariant.Light]["KumoBrushWarning"]).Color;
         Assert.Equal(expectedWarning, Assert.IsType<SolidColorBrush>(warning.Foreground).Color);
+    }
+
+    [AvaloniaFact]
+    public void Progress_docked_classes_round_only_the_away_edge()
+    {
+        Application.Current!.RequestedThemeVariant = ThemeVariant.Light;
+        var window = new MainWindow();
+        var top = new ProgressBar { Classes = { "meter", "docked-top" }, Value = 50 };
+        var bottom = new ProgressBar { Classes = { "meter", "docked-bottom" }, Value = 50 };
+        window.Content = new StackPanel { Children = { top, bottom } };
+        window.Show();
+
+        Assert.Equal(new CornerRadius(8, 8, 0, 0), top.CornerRadius);
+        Assert.Equal(new CornerRadius(0, 0, 8, 8), bottom.CornerRadius);
     }
 
     [AvaloniaFact]

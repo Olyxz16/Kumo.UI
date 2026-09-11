@@ -2,6 +2,8 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Controls.Primitives;
+using KumoThemeSupport.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
@@ -30,7 +32,7 @@ public class PopupProbe
         Assert.True(screens.Count > 0, "toast card not rendered");
         var items = wnm.GetVisualDescendants().OfType<Panel>()
             .First(p => p.Name == "PART_Items");
-        Assert.IsType<ReversibleStackPanel>(items);
+        Assert.IsType<ToastDeck>(items);
         Assert.Equal(1, items.Children.OfType<NotificationCard>().Count());
     }
 
@@ -75,5 +77,27 @@ public class PopupProbe
         Dispatcher.UIThread.RunJobs();
         Dispatcher.UIThread.RunJobs();
         Assert.False(menu.IsOpen, "context menu should close on outside click");
+    }
+
+    [AvaloniaFact]
+    public void Menu_flyout_surface_applies_vertical_padding()
+    {
+        var window = new Window();
+        var target = new Button { Content = "Open" };
+        target.Flyout = new MenuFlyout { Items = { new MenuItem { Header = "Deploy" } } };
+        window.Content = target;
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        target.Flyout!.ShowAt(target);
+        Dispatcher.UIThread.RunJobs();
+
+        var presenter = window.GetVisualDescendants().OfType<MenuFlyoutPresenter>().First();
+        var border = presenter.GetVisualDescendants().OfType<Border>()
+            .First(b => b.Name == "LayoutRoot");
+        Assert.Equal(new Thickness(0, 6, 0, 6), border.Padding);
+        window.Content = null;
+        Dispatcher.UIThread.RunJobs();
+        window.Close();
+        Dispatcher.UIThread.RunJobs();
     }
 }

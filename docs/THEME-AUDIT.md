@@ -8,7 +8,7 @@ under `src/Kumo.Avalonia/Themes/Controls/*` (one file per component family);
 required or referenced** — `KumoTheme.axaml` + `Controls.axaml` provide every
 template. All 54 semantic tokens plus the component base colors are generated,
 and the interactive controls, presets and real `Kumo*` composition controls
-are themed and covered by headless tests (88 passing).
+are themed and covered by headless tests (91 passing).
 
 | Kumo component | Avalonia mapping |
 | --- | --- |
@@ -38,7 +38,7 @@ chunks shipped in the npm package (`dist/chunks/*.js`).
 | Label | `TextBlock.field-label` |
 | Badge | `Border.badge` + 14 variant classes |
 | Banner | `Border.banner` + status classes |
-| Toasty | `NotificationCard` ControlTheme + `WindowNotificationManager`; deck stacking via `:nth-child` (older toasts tuck 34px behind the newest with stepped opacity), enter = slide-up 28px, exit = slide-down 56px + fade; `Border.toast` presets |
+| Toasty | `NotificationCard` ControlTheme + `WindowNotificationManager`; deck stacking via measure-based `ToastDeck` panel (older toasts tucked 34px behind the newest with stepped opacity), enter = slide-up 28px, exit = slide-down 56px + fade; `Border.toast` presets |
 | Collapsible | `Expander` (Kumo left-border content, expand fade/slide) |
 | Tabs | `TabControl`/`TabItem` segmented (recessed track + labels on top); **native sliding indicator** `PART_Indicator` pill template element animated by `KumoThemeSupport.TabSlide` attached behavior — 200ms translate + scaleX morph between source/target geometry (matching upstream `transition-all duration-200`), scale-0.9 pop-in on first render; `KumoTabs` control turns the slide on natively |
 | Tooltip | `ToolTip` |
@@ -75,7 +75,7 @@ chunks shipped in the npm package (`dist/chunks/*.js`).
 | Color tokens | 54/54 semantic tokens × Light/Dark (Color + Brush each) and 60+ primitives, applied via `ThemeDictionaries`. |
 | Non-color tokens (`Tokens.axaml`) | Font sizes 12–30 px, 4 px spacing scale, radii 4/6/8/12/full, shadows xs/sm/md/lg + card, stroke widths. |
 | Derived component brushes (`KumoTheme.axaml`) | Light/Dark pairs: switch track/thumb, focus ring 50%, danger ring 50%, skeleton fill, toast backdrop, dialog shadow, `KumoFontMono`. `ControlCornerRadius`/`OverlayCornerRadius` and ComboBox/AutoCompleteBox popup resources redefined to Kumo values. |
-| Headless tests | 88 passing: token counts/spot-checks, variant switching, per-control spec diff (`design/specs/*.json`) and style resolution (button/switch/checkbox/combobox/tab/badge/toast/link/loader/input-group/meter/table/toolbar/empty/autocomplete/dialog/Kumo controls). Run with `dotnet run --project tests/Kumo.Avalonia.Tests`. |
+| Headless tests | 91 passing: token counts/spot-checks, variant switching, per-control spec diff (`design/specs/*.json`) and style resolution (button/switch/checkbox/combobox/tab/badge/toast/link/loader/input-group/meter/table/toolbar/empty/autocomplete/dialog/Kumo controls). Run with `dotnet run --project tests/Kumo.Avalonia.Tests`. |
 | Demo app | Full showcase incl. palette grid, inputs, tabs, badges, banners, menus, collapsible, toasts, links & code, loaders & meters, toolbar & menubar, field/input-group/multiline/password/autocomplete, breadcrumbs & pagination, table, empty state, themed dialog window, `Kumo*` control section. Fluent-free. |
 
 ## 3. Remaining for full parity
@@ -90,7 +90,7 @@ chunks shipped in the npm package (`dist/chunks/*.js`).
 | Motion tokens | `kumo-binding.css` — enter/exit animations exist for toast + collapsible; full token mapping optional (Kumo rule: no hover color transitions). |
 | Icon set | `@phosphor-icons/react` — no Avalonia equivalent; demo uses inline stroke paths. |
 | Size variants on Switch | Upstream `sm` (32×16) / `base` (36×18) / `lg` (40×20) tracks with matching square thumbs — only base implemented. |
-| Dialog scrim transparency | `Window.dialog` uses solid `KumoBrushRecessed`; true see-through scrim needs `TransparencyLevelHint` + acrylic — platform-dependent. |
+| Dialog scrim (OS-window) | Resolved for the demo: the modal renders as an in-app overlay (`KumoBrushDialogScrim` + `dialog-surface`, no OS window involved). A see-through scrim on a real `Window.dialog` child window still needs `TransparencyLevelHint` + acrylic — platform-dependent. |
 
 ## 4. Known approximations
 
@@ -104,7 +104,7 @@ chunks shipped in the npm package (`dist/chunks/*.js`).
 - Toolbar/menu bar dividers use `:nth-child(n+2)` left borders; upstream rounds only the outermost children — matched via `:nth-child(1)`/`:nth-last-child(1)`.
 - Loader is a rotating arc approximation of the upstream SMIL dash animation (2 s rotation, round caps, 15% track).
 - Link underline decoration color follows the text color (upstream uses 35% alpha `currentColor` underline via `color-mix`).
-- Emphasis buttons: the 1px inset top highlight (`inset 0 1px 0 0 emphasis-bg`) is folded into the gradient sheen; Avalonia has no inset shadows.
+- Emphasis buttons: the `inset 0 1px 0 0 emphasis-bg` highlight is rendered as a `PART_TopSheen` 1px top-edge overlay (solid `emphasis-bg` per variant); gradient from = `white 15%` mix, hover starts at `white 30%`. Buttons get a `loading` class (spinning arc on `PART_Loading`, label hidden, hit-testing disabled).
 - Toast deck overlap is fixed at 34px per older card (upstream overlaps by a fixed peek too); layout margin (not z-order) creates the stack.
 - Table child clipping: `Border.table` uses `Padding=1` + `ClipToBounds` so row backgrounds don't overpaint the rounded border at the corners.
 

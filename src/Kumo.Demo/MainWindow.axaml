@@ -32,8 +32,11 @@
 
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Surfaces" FontWeight="SemiBold"
-                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Surfaces" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
+                                <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                            </Grid>
                     <UniformGrid Columns="6" Rows="1">
                         <StackPanel Spacing="4">
                             <Border Height="56" CornerRadius="8" Background="{DynamicResource KumoBrushCanvas}" BorderBrush="{DynamicResource KumoBrushHairline}" BorderThickness="1" />
@@ -65,8 +68,11 @@
 
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Palette" FontWeight="SemiBold"
-                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Palette" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
+                                <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                            </Grid>
                     <TextBlock Text="54 semantic tokens, one chip per KumoBrush resource. Chips re-resolve when you toggle dark mode."
                                FontSize="{StaticResource KumoFontSizeSm}"
                                Foreground="{DynamicResource KumoBrushTextSubtle}" />
@@ -76,8 +82,11 @@
 
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Status" FontWeight="SemiBold"
-                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Status" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
+                                <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                            </Grid>
                     <UniformGrid Columns="4" Rows="1">
                         <Border Margin="0,0,8,0" Padding="12,8" CornerRadius="8" Background="{DynamicResource KumoBrushInfoTint}">
                             <StackPanel Orientation="Horizontal" Spacing="8">
@@ -109,8 +118,11 @@
 
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Buttons" FontWeight="SemiBold"
-                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Buttons" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
+                                <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                            </Grid>
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <Button Classes="primary" Content="Primary" ToolTip.Tip="Primary action" />
                         <Button Content="Secondary" />
@@ -118,14 +130,38 @@
                         <Button Classes="ghost" Content="Ghost" />
                         <Button Content="Disabled" IsEnabled="False" />
                     </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button>
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <Path Width="14" Height="14" Stretch="Uniform" VerticalAlignment="Center"
+                                      Data="M7,1 L7,13 M1,7 L13,7"
+                                      Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
+                                <TextBlock Text="Create Worker" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                        <Button Classes="primary">
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <Path Width="14" Height="14" Stretch="Uniform" VerticalAlignment="Center"
+                                      Data="M7,1 L7,13 M1,7 L13,7"
+                                      Stroke="{DynamicResource KumoBrushWhite}" StrokeThickness="1.5" />
+                                <TextBlock Text="Create Worker" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
                 </StackPanel>
             </Border>
 
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Inputs" FontWeight="SemiBold"
-                               Foreground="{DynamicResource KumoBrushTextStrong}" />
-                    <TextBox PlaceholderText="Worker name" MaxWidth="320" HorizontalAlignment="Left" />
+                    <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Inputs" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
+                                <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="polish" /></Border>
+                            </Grid>
+                    <TextBox PlaceholderText="Worker name"
+                             MinWidth="{StaticResource KumoInputMinWidth}"
+                             MaxWidth="{StaticResource KumoInputMaxWidth}"
+                             HorizontalAlignment="Left" />
                     <StackPanel Orientation="Horizontal" Spacing="24">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <CheckBox Content="Enable observability" IsChecked="True" />
@@ -154,8 +190,11 @@
 
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Tabs" FontWeight="SemiBold"
-                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Tabs" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
+                                <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                            </Grid>
                     <TabControl>
                         <TabItem Header="Overview">
                             <StackPanel Spacing="8">
@@ -177,8 +216,11 @@
 
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Kumo controls" FontWeight="SemiBold"
-                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Kumo controls" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
+                                <Border Classes="badge neutral" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="planned" /></Border>
+                            </Grid>
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <kumo:KumoBadge Text="Primary" Variant="primary" VerticalAlignment="Center" />
                         <kumo:KumoBadge Text="Info" Variant="info" VerticalAlignment="Center" />
@@ -233,8 +275,11 @@
 
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Badges" FontWeight="SemiBold"
-                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Badges" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
+                                <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                            </Grid>
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <Border Classes="badge primary"><TextBlock Text="Primary" /></Border>
                         <Border Classes="badge secondary"><TextBlock Text="Secondary" /></Border>
@@ -259,26 +304,56 @@
 
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Banners and progress" FontWeight="SemiBold"
-                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Banners and progress" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
+                                <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                            </Grid>
                     <Border Classes="banner info">
                         <TextBlock Text="Scheduled maintenance on Sunday, 02:00 UTC." TextWrapping="Wrap" />
                     </Border>
                     <Border Classes="banner warning">
                         <TextBlock Text="Your certificate expires in 7 days." TextWrapping="Wrap" />
                     </Border>
+                    <Border Classes="banner secondary">
+                        <TextBlock Text="Secondary tone banner — neutral text on a subtle surface." TextWrapping="Wrap" />
+                    </Border>
                     <StackPanel Orientation="Horizontal" Spacing="24" Margin="0,4,0,0">
                         <ProgressBar Value="65" MinWidth="220" />
                         <ProgressBar Classes="success" Value="100" MinWidth="220" />
                     </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="24" Margin="0,4,0,0">
+                        <ProgressBar Classes="meter warning" Minimum="0" Maximum="80" Value="64" MinWidth="220" MinHeight="8" />
+                        <ProgressBar Classes="meter info" Value="30" MinWidth="220" MinHeight="8" />
+                    </StackPanel>
                     <ProgressBar IsIndeterminate="True" MinWidth="220" HorizontalAlignment="Left" />
+                    <TextBlock Text="Flush integration: the meter caps a surface and only rounds the away-edge."
+                               FontSize="{StaticResource KumoFontSizeSm}"
+                               Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                    <StackPanel Spacing="0" HorizontalAlignment="Stretch">
+                        <ProgressBar Classes="docked-top meter info" Value="70" />
+                        <Border Background="{DynamicResource KumoBrushBase}"
+                                BorderBrush="{DynamicResource KumoBrushHairline}"
+                                BorderThickness="1"
+                                CornerRadius="{StaticResource KumoRadiusDockedBottom}"
+                                ClipToBounds="True">
+                            <StackPanel Spacing="6" Margin="16,12">
+                                <TextBlock Text="api.cloudflare.com — propagation sweep" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
+                                <TextBlock Text="Rolling 20 regional deployments" Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
                 </StackPanel>
             </Border>
 
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Menus" FontWeight="SemiBold"
-                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Text="Menus" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource KumoBrushTextStrong}" />
+                        <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                    </Grid>
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <Button Content="Actions">
                             <Button.Flyout>
@@ -317,8 +392,11 @@
 
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Collapsible" FontWeight="SemiBold"
-                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Collapsible" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
+                                <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                            </Grid>
                     <Expander Header="How do I rotate an API token?" IsExpanded="True">
                         <TextBlock Text="Tokens can be rotated from the dashboard under My Profile, or with the API."
                                    TextWrapping="Wrap" FontWeight="Normal"
@@ -329,8 +407,11 @@
 
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Toasts" FontWeight="SemiBold"
-                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Toasts" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
+                                <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                            </Grid>
                     <TextBlock Text="Live notifications at the bottom-right corner. Auto-dismiss after 4 seconds."
                                FontSize="{StaticResource KumoFontSizeSm}"
                                Foreground="{DynamicResource KumoBrushTextSubtle}" />
@@ -345,8 +426,11 @@
 
             <Border Classes="layer-card" Background="{DynamicResource KumoBrushElevated}">
                 <StackPanel Spacing="4">
-                    <TextBlock Text="Text scale" FontWeight="SemiBold"
-                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Text scale" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
+                                <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                            </Grid>
                     <TextBlock Text="3xl heading, 30px" FontSize="{StaticResource KumoFontSize3xl}" Foreground="{DynamicResource KumoBrushTextStrong}" />
                     <TextBlock Text="xxl heading, 24px" FontSize="{StaticResource KumoFontSizeXxl}" FontWeight="SemiBold" Foreground="{DynamicResource KumoBrushTextStrong}" />
                     <TextBlock Text="lg subheading, 16px" FontSize="{StaticResource KumoFontSizeLg}" Foreground="{DynamicResource KumoBrushTextDefault}" />
@@ -359,29 +443,105 @@
 
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Links &amp; code" FontWeight="SemiBold"
-                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Links &amp; code" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
+                                <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                            </Grid>
                     <StackPanel Orientation="Horizontal" Spacing="16">
                         <HyperlinkButton Content="Read the docs" NavigateUri="https://kumo-ui.com" />
                         <HyperlinkButton Classes="plain" Content="Plain link" NavigateUri="https://kumo-ui.com" />
                         <TextBlock Classes="link" Text="Current-color link" VerticalAlignment="Center" />
                     </StackPanel>
-                    <TextBlock Foreground="{DynamicResource KumoBrushTextDefault}">
-                        <Run Text="Inline code, e.g. configure in " />
-                        <Run Text="wrangler.toml" FontFamily="{StaticResource KumoFontMono}"
-                             Foreground="{DynamicResource KumoBrushTextSubtle}" />
-                        <Run Text=" then deploy." />
+                    <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource KumoBrushTextDefault}">
+                        <Run Text="Deploy with " />
+                        <InlineUIContainer>
+                            <Border Classes="code-inline">
+                                <TextBlock Text="npx wrangler deploy" />
+                            </Border>
+                        </InlineUIContainer>
+                        <Run Text=" in " />
+                        <InlineUIContainer>
+                            <Border Classes="code-inline">
+                                <TextBlock Text="wrangler.toml" />
+                            </Border>
+                        </InlineUIContainer>
+                        <Run Text=" The variable " />
+                        <InlineUIContainer>
+                            <Border Classes="code-inline">
+                                <TextBlock Text="WRANGLER_ENV" />
+                            </Border>
+                        </InlineUIContainer>
+                        <Run Text=" must equal " />
+                        <InlineUIContainer>
+                            <Border Classes="code-inline">
+                                <TextBlock Text="production" />
+                            </Border>
+                        </InlineUIContainer>
+                        <Run Text=" or the build is skipped." />
                     </TextBlock>
-                    <Border Classes="code-block" MaxWidth="420" HorizontalAlignment="Left">
-                        <SelectableTextBlock Text="npx wrangler deploy --env production" />
+                    <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource KumoBrushTextDefault}">
+                        <Run Text="The path " />
+                        <InlineUIContainer>
+                            <Border Classes="code-inline">
+                                <TextBlock Text="src/workers/sources/producer.ts" />
+                            </Border>
+                        </InlineUIContainer>
+                        <Run Text=" exports " />
+                        <InlineUIContainer>
+                            <Border Classes="code-inline">
+                                <TextBlock Text="onInboundRequest()" />
+                            </Border>
+                        </InlineUIContainer>
+                        <Run Text=", dispatched as " />
+                        <InlineUIContainer>
+                            <Border Classes="code-inline">
+                                <TextBlock Text="fetch" />
+                            </Border>
+                        </InlineUIContainer>
+                        <Run Text=" in the docs, follows response codes " />
+                        <InlineUIContainer>
+                            <Border Classes="code-inline">
+                                <TextBlock Text="204" />
+                            </Border>
+                        </InlineUIContainer>
+                        <Run Text=" and " />
+                        <InlineUIContainer>
+                            <Border Classes="code-inline">
+                                <TextBlock Text="503" />
+                            </Border>
+                        </InlineUIContainer>
+                        <Run Text="." />
+                    </TextBlock>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <TextBlock Classes="secondary" Text="Section path" VerticalAlignment="Center" />
+                            <Border Classes="code-inline lg">
+                                <TextBlock Text="webpack.config.dev.js" />
+                            </Border>
+                        </StackPanel>
+                        <TextBlock Classes="code" Text="v2.13.1" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <TextBlock Foreground="{DynamicResource KumoBrushTextDefault}">
+                        <Run Text="Secondary mono for data: " />
+                        <Run Text="worker-a7f3c2" FontFamily="{StaticResource KumoFontMono}"
+                             Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                        <Run Text="; strong mono outside code: " />
+                        <Run Text="export NODE_ENV=production" FontFamily="{StaticResource KumoFontMono}" />
+                    </TextBlock>
+                    <Border Classes="code-block" MaxWidth="460" HorizontalAlignment="Left">
+                        <SelectableTextBlock Text="# deploy to production&#10;$ npx wrangler deploy --env production&#10;Uploading 12 files...&#10;+ Deployed to https://kumo-demo.workers.dev" />
                     </Border>
                 </StackPanel>
             </Border>
 
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Loaders &amp; meters" FontWeight="SemiBold"
-                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Loaders &amp; meters" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
+                                <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                            </Grid>
                     <StackPanel Orientation="Horizontal" Spacing="20" VerticalAlignment="Center">
                         <Panel Classes="loader loader-sm" />
                         <Panel Classes="loader" />
@@ -414,8 +574,11 @@
 
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Toolbar &amp; menubar" FontWeight="SemiBold"
-                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Toolbar &amp; menubar" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
+                                <Border Classes="badge neutral" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="planned" /></Border>
+                            </Grid>
                     <Border Classes="toolbar" HorizontalAlignment="Left">
                         <StackPanel Orientation="Horizontal">
                             <Button Classes="icon">
@@ -460,8 +623,11 @@
 
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Field, input group &amp; special inputs" FontWeight="SemiBold"
-                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Field, input group &amp; special inputs" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
+                                <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                            </Grid>
                     <StackPanel Spacing="6" MaxWidth="420" HorizontalAlignment="Left">
                         <TextBlock Foreground="{DynamicResource KumoBrushTextDefault}">
                             <Run Text="API token" FontWeight="Medium" />
@@ -478,7 +644,7 @@
                                      Background="Transparent" />
                             <Button Classes="icon">
                                 <Path Width="16" Height="16" Stretch="Uniform"
-                                      Data="M10.5,4 A6.5,6.5 0 1 0 10.51,4 Z M15.3,15.3 L20,20"
+                                      Data="M11,3 A8,8 0 1 0 11.01,3 Z M16,16 L20,20"
                                       Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
                             </Button>
                         </StackPanel>
@@ -493,7 +659,7 @@
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <TextBox Name="SensitiveInput" Classes="password" Text="hunter2-secret-value" Width="240" />
                         <Button Classes="icon ghost" Click="OnToggleReveal">
-                            <Path Width="18" Height="18" Stretch="Uniform"
+                            <Path x:Name="EyeGlyph" Width="20" Height="11" Stretch="Uniform" Margin="0,3,0,0"
                                   Data="M2,12 C5,6.5 19,6.5 22,12 C19,17.5 5,17.5 2,12 M12,9 A3,3 0 1 0 12.01,9"
                                   Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
                         </Button>
@@ -503,8 +669,11 @@
 
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Breadcrumbs &amp; pagination" FontWeight="SemiBold"
-                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Breadcrumbs &amp; pagination" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
+                                <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                            </Grid>
                     <StackPanel Orientation="Horizontal" Spacing="2" VerticalAlignment="Center">
                         <Button Classes="breadcrumb" Content="Dashboard" />
                         <Path Width="14" Height="14" Stretch="Uniform" VerticalAlignment="Center"
@@ -519,31 +688,30 @@
                     <StackPanel Orientation="Horizontal" Spacing="0" VerticalAlignment="Center">
                         <TextBlock Classes="pagination-info" Text="Showing 1 &#8211; 10 of 128" VerticalAlignment="Center" />
                         <Border Classes="pagination-separator" />
-                        <Border Classes="input-group" VerticalAlignment="Center">
+                        <Border Classes="input-group page-nav" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
                                 <Button Classes="icon" Tag="first" Click="OnPageNav" ToolTip.Tip="First page">
                                     <Path Width="14" Height="14" Stretch="Uniform"
-                                          Data="M9.5,7 L14.5,12 L9.5,17 M4.5,7 L9.5,12 L4.5,17"
-                                          Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
+                                          Data="M19,6 L13,12 L19,18 M11,6 L5,12 L11,18"
+                                          Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.4" />
                                 </Button>
                                 <Button Classes="icon" Tag="prev" Click="OnPageNav" ToolTip.Tip="Previous page">
-                                    <Path Width="14" Height="14" Stretch="Uniform"
-                                          Data="M9.5,7 L14.5,12 L9.5,17"
-                                          Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
+                                    <Path Width="7" Height="14" Stretch="Uniform"
+                                          Data="M15,18 L9,12 L15,6"
+                                          Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.25" />
                                 </Button>
                                 <TextBox Name="PageInput" Width="52" Text="1" TextAlignment="Center"
-                                         BorderThickness="0" Background="Transparent"
                                          MinHeight="30" VerticalAlignment="Center"
                                          KeyDown="OnPageInputKeyDown" LostFocus="OnPageInputLostFocus" />
                                 <Button Classes="icon" Tag="next" Click="OnPageNav" ToolTip.Tip="Next page">
-                                    <Path Width="14" Height="14" Stretch="Uniform"
-                                          Data="M14.5,7 L9.5,12 L14.5,17"
-                                          Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
+                                    <Path Width="7" Height="14" Stretch="Uniform"
+                                          Data="M9,18 L15,12 L9,6"
+                                          Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.25" />
                                 </Button>
                                 <Button Classes="icon" Tag="last" Click="OnPageNav" ToolTip.Tip="Last page">
                                     <Path Width="14" Height="14" Stretch="Uniform"
-                                          Data="M14.5,7 L9.5,12 L14.5,17 M19.5,7 L14.5,12 L19.5,17"
-                                          Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.5" />
+                                          Data="M5,6 L11,12 L5,18 M13,6 L19,12 L13,18"
+                                          Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.4" />
                                 </Button>
                             </StackPanel>
                         </Border>
@@ -553,8 +721,11 @@
 
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Table" FontWeight="SemiBold"
-                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Table" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
+                                <Border Classes="badge neutral" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="planned" /></Border>
+                            </Grid>
                     <Border Classes="table" MaxWidth="560" HorizontalAlignment="Left">
                         <StackPanel Name="DemoTableBody">
                             <Grid ColumnDefinitions="36,*,120,110">
@@ -603,8 +774,11 @@
 
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Empty state" FontWeight="SemiBold"
-                               Foreground="{DynamicResource KumoBrushTextStrong}" />
+                    <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Empty state" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
+                                <Border Classes="badge warning" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="polish" /></Border>
+                            </Grid>
                     <Border Classes="empty empty-sm" MaxWidth="520" HorizontalAlignment="Left">
                         <StackPanel Spacing="16" HorizontalAlignment="Center">
                             <Path Width="40" Height="40" Stretch="Uniform" HorizontalAlignment="Center"
@@ -634,16 +808,19 @@
 
             <Border Classes="layer-card">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Dialog" FontWeight="SemiBold"
-                               Foreground="{DynamicResource KumoBrushTextStrong}" />
-                    <TextBlock Text="Themed modal window with backdrop, surface shadow and dialog typography."
-                               FontSize="{StaticResource KumoFontSizeSm}"
+                    <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Dialog" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource KumoBrushTextStrong}" />
+                                <Border Classes="badge success" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="done" /></Border>
+                            </Grid>
+                    <TextBlock Text="In-app modal overlay: subtle scrim + centered dialog surface with ring shadow and dialog typography."
+							   FontSize="{StaticResource KumoFontSizeSm}"
                                Foreground="{DynamicResource KumoBrushTextSubtle}" />
                     <Button Content="Open dialog" Click="OnOpenDialog" HorizontalAlignment="Left" />
                 </StackPanel>
             </Border>
 
-        </StackPanel>
+                    </StackPanel>
         </ScrollViewer>
 
         <!-- In-app modal (Dialog surface/scrim presets) hosted inside the

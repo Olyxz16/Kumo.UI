@@ -330,6 +330,8 @@ def emit_axaml(tokens: list[Token], primitives: dict[str, RGBA]) -> str:
                                          _rgba_to_hex(e["sheen"]), _rgba_to_hex(e["end"])))
             lines.append(_gradient_brush(f"KumoBrushButton{label}GradientHover",
                                          _rgba_to_hex(e["bg"]), _rgba_to_hex(e["end"])))
+            lines.append(f'            <SolidColorBrush x:Key="KumoBrushButton{label}Sheen" '
+                         f'Color="{_rgba_to_hex(e["bg"])}" />')
             lines.append(f'            <SolidColorBrush x:Key="KumoBrushButton{label}Ring" '
                          f'Color="{_rgba_to_hex(e["ring"])}" />')
         lines.append("        </ResourceDictionary>")

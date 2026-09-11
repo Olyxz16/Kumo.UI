@@ -23,27 +23,53 @@
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Template">
             <ControlTemplate>
-                <ContentPresenter x:Name="PART_ContentPresenter"
-                                  Background="{TemplateBinding Background}"
-                                  BorderBrush="{TemplateBinding BorderBrush}"
-                                  BorderThickness="{TemplateBinding BorderThickness}"
-                                  CornerRadius="{TemplateBinding CornerRadius}"
-                                  Content="{TemplateBinding Content}"
-                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                  Padding="{TemplateBinding Padding}"
-                                  Foreground="{TemplateBinding Foreground}"
-                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                  BoxShadow="{DynamicResource KumoBoxShadowXs}"
-                                  RecognizesAccessKey="True" />
+                <Grid>
+                    <Border x:Name="PART_Fill"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            BoxShadow="{DynamicResource KumoBoxShadowXs}" />
+                    <ContentPresenter x:Name="PART_ContentPresenter"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Padding="{TemplateBinding Padding}"
+                                      Foreground="{TemplateBinding Foreground}"
+                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      RecognizesAccessKey="True" />
+                    <!-- Upstream emphasis buttons carry an `inset 0 1px 0 0`
+                         top highlight (emphasis-bg); reproduced as a 1px
+                         top-edge overlay. -->
+                    <Border Name="PART_TopSheen"
+                            IsHitTestVisible="False"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            BorderThickness="0,1,0,0"
+                            BorderBrush="Transparent" />
+                    <!-- .loading state: centered spinner arc -->
+                    <Panel Name="PART_Loading"
+                           IsHitTestVisible="False"
+                           IsVisible="False"
+                           Width="16" Height="16"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           RenderTransform="rotate(0)">
+                        <Path Stroke="{TemplateBinding Foreground}"
+                              StrokeThickness="2.4" StrokeLineCap="Round" Opacity="0.25"
+                              Data="M 8,1 A 7,7 0 1 1 7.99,1 Z" />
+                        <Path Stroke="{TemplateBinding Foreground}"
+                              StrokeThickness="2.4" StrokeLineCap="Round"
+                              Data="M 8,1 A 7,7 0 1 1 1,8" />
+                    </Panel>
+                </Grid>
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="^:pointerover /template/ Border#PART_Fill">
             <Setter Property="Background" Value="{DynamicResource KumoBrushTint}" />
             <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushLine}" />
         </Style>
-        <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="^:pressed /template/ Border#PART_Fill">
             <Setter Property="Background" Value="{DynamicResource KumoBrushFill}" />
         </Style>
         <Style Selector="^:disabled">
@@ -51,7 +77,7 @@
             <Setter Property="Foreground" Value="{DynamicResource KumoBrushButtonDisabledText}" />
             <Setter Property="Cursor" Value="No" />
         </Style>
-        <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="^:disabled /template/ Border#PART_Fill">
             <Setter Property="Background" Value="{DynamicResource KumoBrushButtonDisabledBg}" />
         </Style>
         <Style Selector="^.primary:disabled, ^.danger:disabled">
@@ -61,38 +87,71 @@
         </Style>
 
         <!-- primary emphasis (gradient + sheen) -->
-        <Style Selector="^.primary /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="^.primary /template/ Border#PART_Fill">
             <Setter Property="Background" Value="{DynamicResource KumoBrushButtonPrimaryGradient}" />
+        </Style>
+        <Style Selector="^.primary /template/ Border#PART_TopSheen">
+            <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushButtonPrimarySheen}" />
         </Style>
         <Style Selector="^.primary">
             <Setter Property="Background" Value="{DynamicResource KumoBrushButtonPrimaryGradient}" />
             <Setter Property="Foreground" Value="{DynamicResource KumoBrushWhite}" />
             <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushButtonPrimaryRing}" />
         </Style>
-        <Style Selector="^.primary:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="^.primary:pointerover /template/ Border#PART_Fill">
             <Setter Property="Background" Value="{DynamicResource KumoBrushButtonPrimaryGradientHover}" />
         </Style>
-        <Style Selector="^.primary:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="^.primary:pressed /template/ Border#PART_TopSheen">
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+        <Style Selector="^.primary:pressed /template/ Border#PART_Fill">
             <Setter Property="Background" Value="{DynamicResource KumoBrushBrandHover}" />
         </Style>
 
         <!-- danger emphasis -->
+        <Style Selector="^.danger /template/ Border#PART_TopSheen">
+            <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushButtonDangerSheen}" />
+        </Style>
         <Style Selector="^.danger">
             <Setter Property="Background" Value="{DynamicResource KumoBrushButtonDangerGradient}" />
             <Setter Property="Foreground" Value="{DynamicResource KumoBrushWhite}" />
             <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushButtonDangerRing}" />
         </Style>
-        <Style Selector="^.danger /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="^.danger /template/ Border#PART_Fill">
             <Setter Property="Background" Value="{DynamicResource KumoBrushButtonDangerGradient}" />
         </Style>
-        <Style Selector="^.danger:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="^.danger:pointerover /template/ Border#PART_Fill">
             <Setter Property="Background" Value="{DynamicResource KumoBrushButtonDangerGradientHover}" />
         </Style>
         <Style Selector="^.danger:pressed">
             <Setter Property="Opacity" Value="0.85" />
         </Style>
-        <Style Selector="^.danger:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="^.danger:pressed /template/ Border#PART_TopSheen">
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+        <Style Selector="^.danger:pressed /template/ Border#PART_Fill">
             <Setter Property="Background" Value="{DynamicResource KumoBrushDanger}" />
+        </Style>
+
+        <!-- loading state: hide the label, spin the arc -->
+        <Style Selector="^.loading">
+            <Setter Property="IsHitTestVisible" Value="False" />
+        </Style>
+        <Style Selector="^.loading /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Opacity" Value="0" />
+        </Style>
+        <Style Selector="^.loading /template/ Panel#PART_Loading">
+            <Setter Property="IsVisible" Value="True" />
+            <Style.Animations>
+                <Animation Duration="0:0:1.5" IterationCount="Infinite">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="RotateTransform.Angle" Value="0" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="RotateTransform.Angle" Value="360" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
         </Style>
 
         <!-- ghost -->
@@ -100,11 +159,11 @@
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderBrush" Value="Transparent" />
         </Style>
-        <Style Selector="^.ghost /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="^.ghost /template/ Border#PART_Fill">
             <Setter Property="BoxShadow" Value="{DynamicResource KumoBoxShadowNone}" />
             <Setter Property="Background" Value="Transparent" />
         </Style>
-        <Style Selector="^.ghost:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="^.ghost:pointerover /template/ Border#PART_Fill">
             <Setter Property="Background" Value="{DynamicResource KumoBrushTint}" />
             <Setter Property="BorderBrush" Value="Transparent" />
         </Style>
@@ -115,7 +174,7 @@
             <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
             <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushLine}" />
         </Style>
-        <Style Selector="^.outline /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="^.outline /template/ Border#PART_Fill">
             <Setter Property="BoxShadow" Value="{DynamicResource KumoBoxShadowNone}" />
             <Setter Property="Background" Value="Transparent" />
         </Style>
@@ -130,8 +189,10 @@
             <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDanger}" />
             <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushLine}" />
         </Style>
-        <Style Selector="^.secondary-destructive /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="^.secondary-destructive /template/ Border#PART_Fill">
             <Setter Property="Background" Value="{DynamicResource KumoBrushBase}" />
+        </Style>
+        <Style Selector="^.secondary-destructive /template/ ContentPresenter#PART_ContentPresenter">
             <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDanger}" />
         </Style>
         <Style Selector="^.secondary-destructive:pointerover">
@@ -145,7 +206,7 @@
             <Setter Property="FontSize" Value="{StaticResource KumoFontSizeXs}" />
             <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusMd}" />
         </Style>
-        <Style Selector="^.sm /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="^.sm /template/ Border#PART_Fill">
             <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusMd}" />
         </Style>
 
@@ -164,7 +225,7 @@
         <Style Selector="^.icon-circle">
             <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusFull}" />
         </Style>
-        <Style Selector="^.icon-circle /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="^.icon-circle /template/ Border#PART_Fill">
             <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusFull}" />
         </Style>
 
@@ -178,12 +239,12 @@
             <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
             <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextSubtle}" />
         </Style>
-        <Style Selector="^.breadcrumb /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="^.breadcrumb /template/ Border#PART_Fill">
             <Setter Property="BoxShadow" Value="{DynamicResource KumoBoxShadowNone}" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusMd}" />
         </Style>
-        <Style Selector="^.breadcrumb:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="^.breadcrumb:pointerover /template/ Border#PART_Fill">
             <Setter Property="Background" Value="{DynamicResource KumoBrushTint}" />
         </Style>
         <Style Selector="^.breadcrumb:disabled">
@@ -203,12 +264,12 @@
             <Setter Property="Padding" Value="8,2" />
             <Setter Property="FontSize" Value="{StaticResource KumoFontSizeXs}" />
         </Style>
-        <Style Selector="^.page /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="^.page /template/ Border#PART_Fill">
             <Setter Property="BoxShadow" Value="{DynamicResource KumoBoxShadowNone}" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="CornerRadius" Value="0" />
         </Style>
-        <Style Selector="^.page:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="^.page:pointerover /template/ Border#PART_Fill">
             <Setter Property="Background" Value="{DynamicResource KumoBrushTint}" />
         </Style>
         <Style Selector="^.page-selected">
@@ -216,14 +277,14 @@
             <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushLine}" />
             <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
         </Style>
-        <Style Selector="^.page-selected /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="^.page-selected /template/ Border#PART_Fill">
             <Setter Property="Background" Value="{DynamicResource KumoBrushBase}" />
         </Style>
 
         <!-- focus ring -->
-        <Style Selector="^:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="^:focus-visible /template/ Border#PART_Fill">
             <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushBrand}" />
-            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="BorderThickness" Value="1" />
         </Style>
     </ControlTheme>
 
