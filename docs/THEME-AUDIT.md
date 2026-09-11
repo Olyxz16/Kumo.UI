@@ -8,7 +8,16 @@ under `src/Kumo.Avalonia/Themes/Controls/*` (one file per component family);
 required or referenced** — `KumoTheme.axaml` + `Controls.axaml` provide every
 template. All 54 semantic tokens plus the component base colors are generated,
 and the interactive controls, presets and real `Kumo*` composition controls
-are themed and covered by headless tests (91 passing).
+are themed and covered by headless tests (99 passing).
+
+The exact set of Avalonia-templated controls that still render without a
+Kumo theme is enforced empirically by
+`tests/Kumo.Avalonia.Tests/CoverageInventory.cs`: it enumerates every public
+concrete `TemplatedControl` in the referenced Avalonia assemblies and diffs
+each against the app resources. Consumer-facing controls that are missing
+are listed in that test's `KnownUnthemed` allowlist — that list **is** the
+work queue; the test fails if anything is added or if a planned control
+becomes themed without pruning.
 
 | Kumo component | Avalonia mapping |
 | --- | --- |
@@ -75,10 +84,22 @@ chunks shipped in the npm package (`dist/chunks/*.js`).
 | Color tokens | 54/54 semantic tokens × Light/Dark (Color + Brush each) and 60+ primitives, applied via `ThemeDictionaries`. |
 | Non-color tokens (`Tokens.axaml`) | Font sizes 12–30 px, 4 px spacing scale, radii 4/6/8/12/full, shadows xs/sm/md/lg + card, stroke widths. |
 | Derived component brushes (`KumoTheme.axaml`) | Light/Dark pairs: switch track/thumb, focus ring 50%, danger ring 50%, skeleton fill, toast backdrop, dialog shadow, `KumoFontMono`. `ControlCornerRadius`/`OverlayCornerRadius` and ComboBox/AutoCompleteBox popup resources redefined to Kumo values. |
-| Headless tests | 91 passing: token counts/spot-checks, variant switching, per-control spec diff (`design/specs/*.json`) and style resolution (button/switch/checkbox/combobox/tab/badge/toast/link/loader/input-group/meter/table/toolbar/empty/autocomplete/dialog/Kumo controls). Run with `dotnet run --project tests/Kumo.Avalonia.Tests`. |
+| Headless tests | 99 passing: token counts/spot-checks, variant switching, per-control spec diff (`design/specs/*.json`), style resolution (button/switch/checkbox/combobox/tab/badge/toast/link/loader/input-group/meter/table/toolbar/empty/autocomplete/dialog/table/Kumo controls) and the unthemed-control coverage guard. Run with `dotnet run --project tests/Kumo.Avalonia.Tests`. |
 | Demo app | Full showcase incl. palette grid, inputs, tabs, badges, banners, menus, collapsible, toasts, links & code, loaders & meters, toolbar & menubar, field/input-group/multiline/password/autocomplete, breadcrumbs & pagination, table, empty state, themed dialog window, `Kumo*` control section. Fluent-free. |
 
 ## 3. Remaining for full parity
+
+### 3a. Exact unthemed-control work queue (from CoverageInventory)
+
+See `docs/COVERAGE.md` — the canonical, test-enforced list of remaining
+Avalonia controls (35) that currently render blank, grouped by family.
+`tests/Kumo.Avalonia.Tests/CoverageInventory.cs` fails when the real
+inventory and the planned list diverge in either direction.
+
+Floated out of the queue as accepted-unthemed: Avalonia base classes
+(`TemplatedControl`, `SelectingItemsControl`, `Headered*Control`,
+`TabStrip*`, `TextSelectionHandle`, `WindowBase`), the Avalonia 12 Page
+navigation types, `NativeMenuBar`, `OverlayPopupHost`, `UserControl`.
 
 | Item | Notes |
 | --- | --- |

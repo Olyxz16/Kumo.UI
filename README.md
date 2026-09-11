@@ -27,6 +27,11 @@ dotnet run --project tests/Kumo.Avalonia.Tests
 
 The theme is fully self-contained — no base theme (Fluent/Simple) is needed:
 
+> **Note on coverage**: every templated control in the hosted demo is themed.
+> Some edge-of-surface Avalonia controls (DatePicker, Slider, TreeView, …)
+> do not have a Kumo `ControlTheme` yet and would render blank — see
+> `docs/COVERAGE.md` for the exact, test-enforced list.
+
 ```xml
 <Application xmlns="https://github.com/avaloniaui"
              x:Class="MyApp.App"
