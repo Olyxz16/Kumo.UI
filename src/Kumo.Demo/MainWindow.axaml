@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:kumo="using:KumoThemeSupport.Controls"
         xmlns:ksup="using:KumoThemeSupport"
+        xmlns:kd="using:Kumo.Demo"
         mc:Ignorable="d" d:DesignWidth="860" d:DesignHeight="900"
         x:Class="Kumo.Demo.MainWindow"
         Title="Kumo for Avalonia"
@@ -1018,6 +1019,18 @@
                                        FontSize="{StaticResource KumoFontSizeSm}"
                                        Foreground="{DynamicResource KumoBrushTextSubtle}" />
                         </StackPanel>
+                        <TextBlock Text="Table" FontSize="{StaticResource KumoFontSizeSm}"
+                                   Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                        <TableView x:Name="DemoTable" Height="168" HorizontalAlignment="Left" Width="520">
+                            <TableView.Columns>
+                                <TableViewColumn Header="Region" Width="*" Binding="{Binding Region}" />
+                                <TableViewColumn Header="Instances" Width="120" Binding="{Binding Instances}" />
+                                <TableViewColumn Header="Status" Width="110" Binding="{Binding Status}" />
+                            </TableView.Columns>
+                            <TableView.ItemsSource>
+                                <kd:DemoServerRows />
+                            </TableView.ItemsSource>
+                        </TableView>
                         <TextBlock Text="Split buttons" FontSize="{StaticResource KumoFontSizeSm}"
                                    Foreground="{DynamicResource KumoBrushTextSubtle}" />
                         <StackPanel Orientation="Horizontal" Spacing="16">

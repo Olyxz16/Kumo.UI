@@ -421,3 +421,17 @@ public partial class MainWindow : Window
         }
     }
 }
+
+
+public record DemoServerRow(string Region, int Instances, string Status);
+
+public class DemoServerRows : System.Collections.ObjectModel.ObservableCollection<DemoServerRow>
+{
+    public DemoServerRows()
+    {
+        Add(new DemoServerRow("us-east-1", 12, "healthy"));
+        Add(new DemoServerRow("eu-central-1", 6, "healthy"));
+        Add(new DemoServerRow("ap-south-1", 4, "paused"));
+        Add(new DemoServerRow("us-west-2", 9, "healthy"));
+    }
+}

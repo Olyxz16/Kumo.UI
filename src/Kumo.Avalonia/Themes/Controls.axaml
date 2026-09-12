@@ -23,6 +23,7 @@
     <StyleInclude Source="avares://Kumo.Avalonia/Themes/Controls/TreeView.axaml" />
     <StyleInclude Source="avares://Kumo.Avalonia/Themes/Controls/PipsPager.axaml" />
     <StyleInclude Source="avares://Kumo.Avalonia/Themes/Controls/Carousel.axaml" />
+    <StyleInclude Source="avares://Kumo.Avalonia/Themes/Controls/TableView.axaml" />
     <StyleInclude Source="avares://Kumo.Avalonia/Themes/Controls/Scroll.axaml" />
     <StyleInclude Source="avares://Kumo.Avalonia/Themes/Controls/PopupChrome.axaml" />
     <StyleInclude Source="avares://Kumo.Avalonia/Themes/Controls/Toast.axaml" />

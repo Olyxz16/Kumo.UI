@@ -38,7 +38,7 @@ test or from the debugger.
   base classes, the Avalonia 12 Page navigation stack, `NativeMenuBar`,
   `OverlayPopupHost`).
 
-## Remaining work queue (13 controls)
+## Remaining work queue (9 controls)
 
 Consumer-facing controls that currently render blank. Grouped by family;
 owning file will be `Themes/Controls/<family>.axaml`.
@@ -49,7 +49,7 @@ owning file will be `Themes/Controls/<family>.axaml`.
 | Date/time | `Calendar`, `CalendarItem`, `CalendarButton`, `CalendarDayButton`, `CalendarDatePicker`, `DatePicker`, `DatePickerPresenter`, `TimePicker`, `TimePickerPresenter` | biggest chunk; solid accent-fill selection per Kumo, not WinUI ring; `DatePicker`/`TimePicker` share the button + popup pattern |
 
 | Lists/containers | - | (`Carousel` stage + rounded corner, `RefreshContainer`/`RefreshVisualizer` brand circular-arrow glyph, `PipsPager` grey/brand pips + ghost nav chevrons — done 2026-09-13) |
-| Data grid | `TableView`, `TableViewCell`, `TableViewColumnHeader`, `TableViewRow` | Avalonia 12's new table; decide vs. keep `KumoTable` composition |
+| Data grid | - | (`TableView` family done 2026-09-13: sticky hairline header row, 12px cells w/ resizer thumb, hover tint + Fill-tint selected rows; both Avalonia-native `TableView` and the `KumoTable` composition ship) |
 | Text | - | (`MaskedTextBox`, `PathIcon` themes done) |
 
 ## Deliberately unthemed (accepted)
