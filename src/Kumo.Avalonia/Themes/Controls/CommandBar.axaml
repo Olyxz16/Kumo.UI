@@ -1,0 +1,223 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- CommandBar strip: toolbar-like surface, right-aligned primary
+         commands + overflow popup. CommandBarButton/CommandBarToggleButton
+         get the flat toolbar-button look (icon/label stacking). -->
+
+    <Styles.Resources>
+    <ResourceDictionary>
+
+    <ControlTheme x:Key="{x:Type CommandBarButton}" TargetType="CommandBarButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="MinHeight" Value="36" />
+        <Setter Property="MinWidth" Value="56" />
+        <Setter Property="Padding" Value="8,6" />
+        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusMd}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border x:Name="PART_Border"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Padding="{TemplateBinding Padding}">
+                    <Panel>
+                        <ContentPresenter x:Name="PART_ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        <StackPanel x:Name="PART_LayoutRoot"
+                                    Spacing="4"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                            <ContentPresenter x:Name="PART_IconPresenter"
+                                              Content="{TemplateBinding Icon}"
+                                              HorizontalAlignment="Center"
+                                              Foreground="{TemplateBinding Foreground}" />
+                            <TextBlock Name="PART_Label"
+                                       Text="{TemplateBinding Label}"
+                                       FontSize="{StaticResource KumoFontSizeSm}"
+                                       HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Panel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover /template/ Border#PART_Border">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushFill}" />
+        </Style>
+        <Style Selector="^:pressed /template/ Border#PART_Border">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushTint}" />
+        </Style>
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.4" />
+        </Style>
+        <Style Selector="^[LabelPosition=Right] /template/ StackPanel#PART_LayoutRoot">
+            <Setter Property="Orientation" Value="Horizontal" />
+        </Style>
+        <Style Selector="^[LabelPosition=Right] /template/ ContentPresenter#PART_IconPresenter">
+            <Setter Property="Margin" Value="0,0,8,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style Selector="^[LabelPosition=Right] /template/ TextBlock#PART_Label">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type CommandBarToggleButton}" TargetType="CommandBarToggleButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="MinHeight" Value="36" />
+        <Setter Property="MinWidth" Value="56" />
+        <Setter Property="Padding" Value="8,6" />
+        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusMd}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border x:Name="PART_Border"
+                        Background="{TemplateBinding Background}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        BorderBrush="Transparent"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Padding="{TemplateBinding Padding}">
+                    <Panel>
+                        <ContentPresenter x:Name="PART_ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        <StackPanel x:Name="PART_LayoutRoot"
+                                    Spacing="4"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                            <ContentPresenter x:Name="PART_IconPresenter"
+                                              Content="{TemplateBinding Icon}"
+                                              HorizontalAlignment="Center"
+                                              Foreground="{TemplateBinding Foreground}" />
+                            <TextBlock Name="PART_Label"
+                                       Text="{TemplateBinding Label}"
+                                       FontSize="{StaticResource KumoFontSizeSm}"
+                                       HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Panel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover /template/ Border#PART_Border">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushFill}" />
+        </Style>
+        <Style Selector="^:checked /template/ Border#PART_Border">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushFill}" />
+        </Style>
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.4" />
+        </Style>
+        <Style Selector="^[LabelPosition=Right] /template/ StackPanel#PART_LayoutRoot">
+            <Setter Property="Orientation" Value="Horizontal" />
+        </Style>
+        <Style Selector="^[LabelPosition=Right] /template/ ContentPresenter#PART_IconPresenter">
+            <Setter Property="Margin" Value="0,0,8,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style Selector="^[LabelPosition=Right] /template/ TextBlock#PART_Label">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type CommandBarSeparator}" TargetType="CommandBarSeparator">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Width="1" Height="20" VerticalAlignment="Center"
+                        Background="{DynamicResource KumoBrushLine}" />
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type CommandBar}" TargetType="CommandBar">
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        <Setter Property="Background" Value="{DynamicResource KumoBrushBase}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushLine}" />
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
+        <Setter Property="MinHeight" Value="40" />
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusLg}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Padding="{TemplateBinding Padding}"
+                        MinHeight="{TemplateBinding MinHeight}"
+                        BoxShadow="{DynamicResource KumoBoxShadowXs}">
+                    <Panel>
+                        <DockPanel KeyboardNavigation.TabNavigation="Cycle">
+                            <Button x:Name="PART_OverflowButton"
+                                    DockPanel.Dock="Right"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Padding="10,0"
+                                    MinWidth="40"
+                                    VerticalAlignment="Stretch"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    IsVisible="{TemplateBinding IsOverflowButtonVisible}">
+                                <Path Width="16" Height="16"
+                                      Stretch="Uniform"
+                                      Data="M9.5,6 A1.6,1.6 0 1 0 9.5001,6.001 M15,6 A1.6,1.6 0 1 0 15.0001,6.001 M3,6 A1.6,1.6 0 1 0 3.0001,6.001"
+                                      Stroke="{TemplateBinding Foreground}"
+                                      StrokeThickness="1.5" />
+                            </Button>
+
+                            <ContentPresenter x:Name="PART_ContentPresenter"
+                                              Content="{TemplateBinding Content}"
+                                              DockPanel.Dock="Left"
+                                              VerticalAlignment="Center" />
+
+                            <ItemsControl x:Name="PART_PrimaryCommands"
+                                          ItemsSource="{Binding VisiblePrimaryCommands, RelativeSource={RelativeSource TemplatedParent}}"
+                                          HorizontalAlignment="Right"
+                                          VerticalAlignment="Stretch"
+                                          ClipToBounds="True">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" Spacing="2" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </DockPanel>
+
+                        <Popup x:Name="PART_OverflowPopup"
+                               IsOpen="{TemplateBinding IsOpen, Mode=TwoWay}"
+                               PlacementTarget="{Binding #PART_OverflowButton}"
+                               Placement="Bottom"
+                               IsLightDismissEnabled="True"
+                               WindowManagerAddShadowHint="False">
+                            <Border Background="{DynamicResource KumoBrushBase}"
+                                    BorderBrush="{DynamicResource KumoBrushLine}"
+                                    BorderThickness="1"
+                                    Padding="4"
+                                    CornerRadius="{DynamicResource OverlayCornerRadius}"
+                                    BoxShadow="{StaticResource KumoShadowLg}">
+                                <ItemsControl x:Name="PART_OverflowPresenter"
+                                              ItemsSource="{Binding OverflowItems, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Spacing="2" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </Border>
+                        </Popup>
+                    </Panel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+    </ResourceDictionary>
+    </Styles.Resources>
+</Styles>

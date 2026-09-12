@@ -313,6 +313,78 @@
         </Setter>
     </ControlTheme>
 
+    <!-- Top-level Menu: kumo menubar strip. -->
+    <ControlTheme x:Key="KumoTopLevelMenuItem" TargetType="MenuItem">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
+        <Setter Property="Padding" Value="12,6" />
+        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusMd}" />
+        <Setter Property="Margin" Value="2,0" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="Transparent">
+                    <Panel>
+                        <ContentPresenter Name="PART_HeaderPresenter"
+                                          Margin="{TemplateBinding Padding}"
+                                          Content="{TemplateBinding Header}"
+                                          ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                          VerticalAlignment="Center" />
+                        <Popup Name="PART_Popup"
+                               IsLightDismissEnabled="False"
+                               OverlayInputPassThroughElement="{Binding $parent[Menu]}"
+                               IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}"
+                               Placement="BottomEdgeAlignedLeft">
+                            <Border Background="{DynamicResource KumoBrushBase}"
+                                    BorderBrush="{DynamicResource KumoBrushLine}"
+                                    BorderThickness="1"
+                                    Padding="6,4"
+                                    MaxWidth="640"
+                                    CornerRadius="{DynamicResource OverlayCornerRadius}"
+                                    BoxShadow="{StaticResource KumoShadowLg}">
+                                <ScrollViewer>
+                                    <ItemsPresenter Name="PART_ItemsPresenter"
+                                                    Margin="0,4"
+                                                    ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                    Grid.IsSharedSizeScope="True" />
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+                    </Panel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:selected /template/ Border">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushFill}" />
+        </Style>
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.4" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type Menu}" TargetType="Menu">
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
+        <Setter Property="ItemContainerTheme" Value="{StaticResource KumoTopLevelMenuItem}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Padding="{TemplateBinding Padding}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}">
+                    <ItemsPresenter Name="PART_ItemsPresenter"
+                                    ItemsPanel="{TemplateBinding ItemsPanel}"
+                                    KeyboardNavigation.TabNavigation="Continue" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^ /template/ MenuItem#root">
+            <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        </Style>
+    </ControlTheme>
     </ResourceDictionary>
     </Styles.Resources>
+
 </Styles>

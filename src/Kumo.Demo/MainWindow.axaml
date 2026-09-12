@@ -3,6 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:kumo="using:KumoThemeSupport.Controls"
+        xmlns:ksup="using:KumoThemeSupport"
         mc:Ignorable="d" d:DesignWidth="860" d:DesignHeight="900"
         x:Class="Kumo.Demo.MainWindow"
         Title="Kumo for Avalonia"
@@ -692,6 +693,18 @@
                             </Button>
                         </StackPanel>
                     </Border>
+                    <Menu HorizontalAlignment="Left">
+                        <MenuItem Header="Edit">
+                            <MenuItem Header="Undo" />
+                            <MenuItem Header="Redo" />
+                            <Separator />
+                            <MenuItem Header="Select all" />
+                        </MenuItem>
+                        <MenuItem Header="View">
+                            <MenuItem Header="Toggle dark mode" />
+                            <MenuItem Header="Zoom in" />
+                        </MenuItem>
+                    </Menu>
                 </StackPanel>
             </Border>
 
@@ -890,6 +903,103 @@
                                FontSize="{StaticResource KumoFontSizeSm}"
                                Foreground="{DynamicResource KumoBrushTextSubtle}" />
                     <StackPanel Spacing="10">
+                        <TextBlock Text="Panes" FontSize="{StaticResource KumoFontSizeSm}"
+                                   Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                        <StackPanel Spacing="12">
+                            <Border Classes="layer-card" Height="180" Width="600" HorizontalAlignment="Left">
+                                <SplitView DisplayMode="Inline" IsPaneOpen="True" OpenPaneLength="140"
+                                          PaneBackground="{DynamicResource KumoBrushRecessed}">
+                                    <SplitView.Pane>
+                                        <StackPanel Spacing="4" Margin="8">
+                                            <TextBlock Text="Side pane" FontSize="{StaticResource KumoFontSizeSm}" />
+                                        </StackPanel>
+                                    </SplitView.Pane>
+                                    <Grid ColumnDefinitions="*, Auto, *">
+                                        <TextBlock Text="Content" FontSize="{StaticResource KumoFontSizeSm}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        <GridSplitter Grid.Column="1" Width="8" />
+                                        <Border Grid.Column="2" Background="{DynamicResource KumoBrushRecessed}" />
+                                    </Grid>
+                                </SplitView>
+                            </Border>
+                            <Border Classes="layer-card" Height="180" Width="600" HorizontalAlignment="Left">
+                                <!-- Fixed: no splitter, pane keeps its width; a
+                                     Slider below drives OpenPaneLength so the
+                                     mid value splits the card evenly -->
+                                <SplitView x:Name="DemoFixedSplit" DisplayMode="Inline" IsPaneOpen="True" OpenPaneLength="140"
+                                          PaneBackground="{DynamicResource KumoBrushRecessed}">
+                                    <SplitView.Pane>
+                                        <StackPanel Spacing="4" Margin="8">
+                                            <TextBlock Text="Fixed pane" FontSize="{StaticResource KumoFontSizeSm}" />
+                                        </StackPanel>
+                                    </SplitView.Pane>
+                                    <TextBlock Text="Content" FontSize="{StaticResource KumoFontSizeSm}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </SplitView>
+                            </Border>
+                            <StackPanel Spacing="6" Width="600" HorizontalAlignment="Left">
+                                <Slider x:Name="DemoFixedSplitSize"
+                                        Minimum="0" Maximum="560"
+                                        Value="{Binding OpenPaneLength, ElementName=DemoFixedSplit, Mode=TwoWay}"
+                                        HorizontalAlignment="Stretch" />
+                                <TextBlock Text="Drag to resize the fixed pane (mid = even split)"
+                                           FontSize="{StaticResource KumoFontSizeSm}"
+                                           Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                            </StackPanel>
+                        </StackPanel>
+                        <TextBlock Text="Split buttons" FontSize="{StaticResource KumoFontSizeSm}"
+                                   Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                        <StackPanel Orientation="Horizontal" Spacing="16">
+                            <SplitButton Width="200" Content="Allocate quota">
+                                <SplitButton.Flyout>
+                                    <MenuFlyout>
+                                        <MenuItem Header="Same as this team" />
+                                        <MenuItem Header="Same as last quarter" />
+                                    </MenuFlyout>
+                                </SplitButton.Flyout>
+                            </SplitButton>
+                            <ToggleSplitButton x:Name="DemoPreflightToggle" Width="220" Content="Expand preflight"
+                                               ksup:SplitChevronToggle.IsEnabled="True"
+                                               IsCheckedChanged="OnDemoPreflightChecked" />
+                        </StackPanel>
+                        <TextBlock x:Name="DemoPreflightState" Text="Toggle: switch pinned state on click (no flyout)"
+                                   FontSize="{StaticResource KumoFontSizeSm}"
+                                   Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                        <TextBlock Text="Command strip" FontSize="{StaticResource KumoFontSizeSm}"
+                                   Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                        <CommandBar Background="{DynamicResource KumoBrushBase}"
+                                    HorizontalAlignment="Left" MaxWidth="420">
+                            <CommandBar.PrimaryCommands>
+                                <CommandBarButton Label="Copy">
+                                    <CommandBarButton.Icon>
+                                        <Path Width="14" Height="14" Stretch="Uniform"
+                                              Data="M8,8 L14,8 L14,14 L8,14 Z M4,4 L10,4"
+                                              Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.4" />
+                                    </CommandBarButton.Icon>
+                                </CommandBarButton>
+                                <CommandBarSeparator IsVisible="True" />
+                                <CommandBarToggleButton Label="Pin">
+                                    <CommandBarToggleButton.Icon>
+                                        <Path Width="14" Height="14" Stretch="Uniform"
+                                              Data="M9,9 L19,9 L19,19 L9,19 Z M15,9 L15,5 L5,5 L5,15 L9,15"
+                                              Stroke="{DynamicResource KumoBrushTextDefault}" StrokeThickness="1.4" />
+                                    </CommandBarToggleButton.Icon>
+                                </CommandBarToggleButton>
+                                <CommandBarButton Label="Paste" />
+                            </CommandBar.PrimaryCommands>
+                        </CommandBar>
+                        <TextBlock Text="Slider" FontSize="{StaticResource KumoFontSizeSm}"
+                                   Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                        <StackPanel Orientation="Horizontal" Spacing="24">
+                            <Slider Width="220" Minimum="0" Maximum="100" Value="35" />
+                            <Slider Width="220" Minimum="0" Maximum="100" Value="50" Ticks="0,25,50,75,100"
+                                   IsSnapToTickEnabled="True" TickPlacement="BottomRight" />
+                        </StackPanel>
+                        <TextBlock Text="Spinner inputs" FontSize="{StaticResource KumoFontSizeSm}"
+                                   Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                        <StackPanel Orientation="Horizontal" Spacing="24">
+                            <NumericUpDown Width="200" Minimum="0" Maximum="1000" Value="42" Increment="1" />
+                            <NumericUpDown Width="200" Minimum="0" Maximum="1000" Value="8" Increment="1"
+                                           ButtonSpinnerLocation="Left" HorizontalContentAlignment="Right" />
+                        </StackPanel>
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <PathIcon Width="16" Height="16" Foreground="{DynamicResource KumoBrushTextSubtle}"
                                       Data="M12 2 L15 9 L22 9 L17 14 L19 21 L12 17 L5 21 L7 14 L2 9 L9 9 Z" />
@@ -913,14 +1023,6 @@
                             </Border>
                         </ButtonSpinner>
                         <MaskedTextBox Mask="000000" Width="220" HorizontalAlignment="Left" PlaceholderText="040529" />
-                        <GroupBox Header="Zone settings" Width="320" HorizontalAlignment="Left">
-                            <StackPanel Spacing="10">
-                                <ToggleSwitch Content="Always Online" IsChecked="True" />
-                                <TextBlock Text="Serve cached content if your origin is down."
-                                           FontSize="{StaticResource KumoFontSizeSm}"
-                                           Foreground="{DynamicResource KumoBrushTextSubtle}" />
-                            </StackPanel>
-                        </GroupBox>
                         <Grid ColumnDefinitions="*" Width="220" HorizontalAlignment="Left">
                             <TransitioningContentControl Name="DemoTransitioner">
                                 <TransitioningContentControl.PageTransition>

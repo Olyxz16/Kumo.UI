@@ -23,6 +23,26 @@ namespace Kumo.Avalonia.Tests;
 /// </summary>
 public class CoverageInventory
 {
+    /// <summary>The style key each control looks themes up by (respecting
+    /// StyleKeyOverride, e.g. ToggleSplitButton keys as SplitButton so the
+    /// shared ControlTheme applies).</summary>
+    private static string StyleKeyOf(Type type)
+    {
+        // Known StyleKeyOverride mappings; keep explicit since reflecting a
+        // virtual getter requires a live instance which some controls refuse.
+        var overrides = new Dictionary<string, string>
+        {
+            ["Avalonia.Controls.ToggleSplitButton"] = "Avalonia.Controls.SplitButton",
+        };
+        return overrides.TryGetValue(type.FullName!, out var known) ? known : type.FullName!;
+    }
+
+    private static Type? GetAvaloniaType(string key)
+    {
+        var asm = typeof(global::Avalonia.Controls.Control).Assembly;
+        return asm.GetType(key) ?? asm.GetExportedTypes().FirstOrDefault(t => t.FullName == key);
+    }
+
     public static List<string> Missing()
     {
         var appAsm = typeof(App).Assembly;
@@ -54,6 +74,10 @@ public class CoverageInventory
         var result = new List<string>();
         foreach (var type in concrete)
         {
+            var key = StyleKeyOf(type);
+            var keyType = key == type.FullName ? type
+                : Type.GetType(key) ?? GetAvaloniaType(key);
+
             var themeFound = false;
             foreach (var variant in new[] { ThemeVariant.Default, ThemeVariant.Light, ThemeVariant.Dark })
             {
@@ -63,9 +87,21 @@ public class CoverageInventory
                     themeFound = true;
                     break;
                 }
+                if (keyType is not null && keyType != type &&
+                    app.TryGetResource(keyType, variant, out var keyed) && keyed is ControlTheme)
+                {
+                    themeFound = true;
+                    break;
+                }
             }
             if (!themeFound)
+            {
+                if (type.Name.Contains("ToggleSplit"))
+                {
+                    result.Add("DEBUG key=" + key + " keyType=" + (keyType is null ? "NULL" : keyType.FullName));
+                }
                 result.Add(type.FullName!);
+            }
         }
         return result;
     }
@@ -107,24 +143,13 @@ public class CoverageInventory
         "Avalonia.Controls.CalendarDatePicker",
         "Avalonia.Controls.Calendar",
         "Avalonia.Controls.Carousel",
-        "Avalonia.Controls.CommandBar",
-        "Avalonia.Controls.CommandBarButton",
-        "Avalonia.Controls.CommandBarSeparator",
-        "Avalonia.Controls.CommandBarToggleButton",
         "Avalonia.Controls.DatePicker",
         "Avalonia.Controls.DatePickerPresenter",
         "Avalonia.Controls.TimePicker",
         "Avalonia.Controls.TimePickerPresenter",
-        "Avalonia.Controls.GridSplitter",
-        "Avalonia.Controls.Menu",
-        "Avalonia.Controls.NumericUpDown",
         "Avalonia.Controls.PipsPager",
         "Avalonia.Controls.RefreshContainer",
         "Avalonia.Controls.RefreshVisualizer",
-        "Avalonia.Controls.Slider",
-        "Avalonia.Controls.SplitButton",
-        "Avalonia.Controls.ToggleSplitButton",
-        "Avalonia.Controls.SplitView",
         "Avalonia.Controls.TableView",
         "Avalonia.Controls.TableViewCell",
         "Avalonia.Controls.TableViewColumnHeader",

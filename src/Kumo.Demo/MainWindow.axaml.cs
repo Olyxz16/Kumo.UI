@@ -145,6 +145,16 @@ public partial class MainWindow : Window
         }
     }
 
+    private void OnDemoPreflightChecked(object? sender, global::Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (this.FindControl<TextBlock>("DemoPreflightState") is { } state)
+        {
+            state.Text = ((global::Avalonia.Controls.ToggleSplitButton)sender!).IsChecked is true
+                ? "Preflight expanded (toggle is on)"
+                : "Preflight collapsed (toggle is off)";
+        }
+    }
+
     private static readonly string[] TransitionMessages =
     [
         "TransitioningContentControl: swap content to see the 400ms fade",

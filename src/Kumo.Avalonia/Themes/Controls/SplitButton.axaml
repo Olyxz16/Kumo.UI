@@ -1,0 +1,128 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:c="using:KumoThemeSupport.Converters">
+
+    <!-- SplitButton / ToggleSplitButton: Kumo secondary button body split at
+         a hairline divider into primary action + chevron flyout button.
+         Checked state (toggle) uses the tint fill. -->
+
+    <Styles.Resources>
+    <ResourceDictionary>
+
+    <c:CornerRadiusFilterConverter x:Key="LeftRoundingFilter"
+                                   TopLeft="True" BottomLeft="True" />
+    <c:CornerRadiusFilterConverter x:Key="RightRoundingFilter"
+                                   TopRight="True" BottomRight="True" />
+
+    <ControlTheme x:Key="KumoSplitButtonPieButton" TargetType="Button">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <ContentPresenter x:Name="PART_ContentPresenter"
+                                  Background="{TemplateBinding Background}"
+                                  Content="{TemplateBinding Content}"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  Padding="{TemplateBinding Padding}"
+                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type SplitButton}" TargetType="SplitButton">
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        <Setter Property="Background" Value="{DynamicResource KumoBrushBase}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushLine}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="MinHeight" Value="36" />
+        <Setter Property="Padding" Value="12,6" />
+        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusLg}" />
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Focusable" Value="True" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid ColumnDefinitions="*, Auto, Auto">
+                    <Border Name="RingLayer"
+                            Grid.ColumnSpan="3"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            BoxShadow="{DynamicResource KumoBoxShadowXs}" />
+                    <Button x:Name="PART_PrimaryButton"
+                            Theme="{StaticResource KumoSplitButtonPieButton}"
+                            Grid.Column="0"
+                            Foreground="{TemplateBinding Foreground}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Padding="{TemplateBinding Padding}"
+                            BorderThickness="0"
+                            CornerRadius="{TemplateBinding CornerRadius, Converter={StaticResource LeftRoundingFilter}}"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Focusable="False"
+                            KeyboardNavigation.IsTabStop="False" />
+                    <Border x:Name="SeparatorBorder"
+                            Grid.Column="1"
+                            Width="1"
+                            VerticalAlignment="Stretch"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1,0" />
+                    <Button x:Name="PART_SecondaryButton"
+                            Theme="{StaticResource KumoSplitButtonPieButton}"
+                            Grid.Column="2"
+                            Foreground="{TemplateBinding Foreground}"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            CornerRadius="{TemplateBinding CornerRadius, Converter={StaticResource RightRoundingFilter}}"
+                            Padding="6,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Focusable="False"
+                            KeyboardNavigation.IsTabStop="False">
+                        <Path Width="8"
+                              Height="8"
+                              Stretch="Uniform"
+                              Data="M1 2 L4 5 L7 2"
+                              Stroke="{DynamicResource KumoBrushTextSubtle}"
+                              StrokeThickness="1.5" />
+                    </Button>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover /template/ Border#RingLayer">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushTint}" />
+        </Style>
+        <Style Selector="^:pressed /template/ Border#RingLayer">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushFill}" />
+        </Style>
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.4" />
+        </Style>
+        <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="RecognizesAccessKey" Value="True" />
+        </Style>
+
+        <!-- ToggleSplitButton keys as ^:Type SplitButton (StyleKeyOverride),
+             so its checked state lives here. Kumo selected state = tint fill,
+             border stays the resting hairline. -->
+        <Style Selector="^:checked /template/ Border#RingLayer">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushFill}" />
+        </Style>
+        <Style Selector="^:checked:pressed /template/ Border#RingLayer">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushFill}" />
+        </Style>
+    </ControlTheme>
+
+
+    </ResourceDictionary>
+    </Styles.Resources>
+</Styles>

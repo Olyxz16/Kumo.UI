@@ -1,0 +1,72 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- NumericUpDown: Kumo input surface hosting a transparent TextBox inside
+         the ButtonSpinner template (reads/writes through PART_Spinner +
+         PART_TextBox, matching the control's template contract). -->
+
+    <Styles.Resources>
+    <ResourceDictionary>
+
+    <ControlTheme x:Key="{x:Type NumericUpDown}" TargetType="NumericUpDown">
+        <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
+        <Setter Property="Background" Value="{DynamicResource KumoBrushControl}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushLine}" />
+        <Setter Property="CornerRadius" Value="{StaticResource KumoRadiusLg}" />
+        <Setter Property="MinHeight" Value="36" />
+        <Setter Property="MinWidth" Value="0" />
+        <Setter Property="Padding" Value="12,6" />
+        <Setter Property="FontSize" Value="{StaticResource KumoFontSizeBase}" />
+        <Setter Property="PlaceholderForeground" Value="{DynamicResource KumoBrushTextPlaceholder}" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <DataValidationErrors>
+                    <ButtonSpinner Name="PART_Spinner"
+                                   Theme="{StaticResource {x:Type ButtonSpinner}}"
+                                   Background="{TemplateBinding Background}"
+                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   CornerRadius="{TemplateBinding CornerRadius}"
+                                   Padding="0"
+                                   MinHeight="0"
+                                   MinWidth="0"
+                                   Focusable="False"
+                                   HorizontalContentAlignment="Stretch"
+                                   VerticalContentAlignment="Stretch"
+                                   AllowSpin="{TemplateBinding AllowSpin}"
+                                   ShowButtonSpinner="{TemplateBinding ShowButtonSpinner}"
+                                   ButtonSpinnerLocation="{TemplateBinding ButtonSpinnerLocation}">
+                        <TextBox Name="PART_TextBox"
+                                 Classes="kumo-inner-input"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 Margin="0"
+                                 MinHeight="0"
+                                 Padding="{TemplateBinding Padding}"
+                                 CornerRadius="0"
+                                 Foreground="{TemplateBinding Foreground}"
+                                 PlaceholderText="{TemplateBinding PlaceholderText}"
+                                 PlaceholderForeground="{TemplateBinding PlaceholderForeground}"
+                                 IsReadOnly="{TemplateBinding IsReadOnly}"
+                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                 TextAlignment="{TemplateBinding TextAlignment}"
+                                 AcceptsReturn="False"
+                                 TextWrapping="NoWrap"
+                                 Text="{TemplateBinding Text, Mode=TwoWay}"
+                                 InnerLeftContent="{TemplateBinding InnerLeftContent}"
+                                 InnerRightContent="{TemplateBinding InnerRightContent}" />
+                    </ButtonSpinner>
+                </DataValidationErrors>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.4" />
+        </Style>
+    </ControlTheme>
+
+    </ResourceDictionary>
+    </Styles.Resources>
+</Styles>
