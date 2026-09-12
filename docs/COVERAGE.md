@@ -38,16 +38,16 @@ test or from the debugger.
   base classes, the Avalonia 12 Page navigation stack, `NativeMenuBar`,
   `OverlayPopupHost`).
 
-## Remaining work queue (19 controls)
+## Remaining work queue (17 controls)
 
 Consumer-facing controls that currently render blank. Grouped by family;
 owning file will be `Themes/Controls/<family>.axaml`.
 
 | Family | Controls | Notes |
 | --- | --- | --- |
+| Trees | - | (`TreeView`/`TreeViewItem` done 2026-09-12: KumoTreeViewExpandCollapseChevron, Level x 16px indent, tint hover, fill-selected, `:empty` spacer) |
 | Date/time | `Calendar`, `CalendarItem`, `CalendarButton`, `CalendarDayButton`, `CalendarDatePicker`, `DatePicker`, `DatePickerPresenter`, `TimePicker`, `TimePickerPresenter` | biggest chunk; solid accent-fill selection per Kumo, not WinUI ring; `DatePicker`/`TimePicker` share the button + popup pattern |
 
-| Trees | `TreeView`, `TreeViewItem` | row indent + expander chevrons |
 | Lists/containers | `Carousel`, `RefreshContainer`, `RefreshVisualizer`, `PipsPager` | polish tier (`TransitioningContentControl` theme done) |
 | Data grid | `TableView`, `TableViewCell`, `TableViewColumnHeader`, `TableViewRow` | Avalonia 12's new table; decide vs. keep `KumoTable` composition |
 | Text | - | (`MaskedTextBox`, `PathIcon` themes done) |

@@ -945,6 +945,27 @@
                                            Foreground="{DynamicResource KumoBrushTextSubtle}" />
                             </StackPanel>
                         </StackPanel>
+                        <TextBlock Text="Trees" FontSize="{StaticResource KumoFontSizeSm}"
+                                   Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                        <Border Background="{DynamicResource KumoBrushTint}"
+                                CornerRadius="{StaticResource KumoRadiusMd}" MaxWidth="320" HorizontalAlignment="Left">
+                            <TreeView x:Name="DemoTree" Margin="4"
+                                      SelectionMode="Single">
+                                <TreeViewItem Header="Projects" IsExpanded="True">
+                                    <TreeViewItem Header="kumo-avalonia" IsSelected="True">
+                                        <TreeViewItem Header="Palette.axaml" />
+                                        <TreeViewItem Header="Controls/" IsExpanded="True">
+                                            <TreeViewItem Header="Button.axaml" />
+                                            <TreeViewItem Header="TreeView.axaml" />
+                                        </TreeViewItem>
+                                    </TreeViewItem>
+                                    <TreeViewItem Header="kumo-react" IsEnabled="False" />
+                                </TreeViewItem>
+                                <TreeViewItem Header="Archive">
+                                    <TreeViewItem Header="2025 releases" />
+                                </TreeViewItem>
+                            </TreeView>
+                        </Border>
                         <TextBlock Text="Split buttons" FontSize="{StaticResource KumoFontSizeSm}"
                                    Foreground="{DynamicResource KumoBrushTextSubtle}" />
                         <StackPanel Orientation="Horizontal" Spacing="16">

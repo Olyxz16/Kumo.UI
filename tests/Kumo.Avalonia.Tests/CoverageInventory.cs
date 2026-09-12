@@ -154,8 +154,6 @@ public class CoverageInventory
         "Avalonia.Controls.TableViewCell",
         "Avalonia.Controls.TableViewColumnHeader",
         "Avalonia.Controls.TableViewRow",
-        "Avalonia.Controls.TreeView",
-        "Avalonia.Controls.TreeViewItem",
         "Avalonia.Controls.Primitives.CalendarButton",
         "Avalonia.Controls.Primitives.CalendarDayButton",
         "Avalonia.Controls.Primitives.CalendarItem",

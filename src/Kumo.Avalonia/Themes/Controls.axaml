@@ -20,6 +20,7 @@
     <StyleInclude Source="avares://Kumo.Avalonia/Themes/Controls/CommandBar.axaml" />
     <StyleInclude Source="avares://Kumo.Avalonia/Themes/Controls/NumericUpDown.axaml" />
     <StyleInclude Source="avares://Kumo.Avalonia/Themes/Controls/Expander.axaml" />
+    <StyleInclude Source="avares://Kumo.Avalonia/Themes/Controls/TreeView.axaml" />
     <StyleInclude Source="avares://Kumo.Avalonia/Themes/Controls/Scroll.axaml" />
     <StyleInclude Source="avares://Kumo.Avalonia/Themes/Controls/PopupChrome.axaml" />
     <StyleInclude Source="avares://Kumo.Avalonia/Themes/Controls/Toast.axaml" />
