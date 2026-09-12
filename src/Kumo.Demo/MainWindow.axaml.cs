@@ -145,6 +145,51 @@ public partial class MainWindow : Window
         }
     }
 
+    private void OnDemoSlidePrev(object? sender, global::Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (this.FindControl<Carousel>("DemoCarousel") is { } carousel)
+        {
+            carousel.SelectedIndex = (carousel.SelectedIndex - 1 + carousel.ItemCount) % carousel.ItemCount;
+        }
+    }
+
+    private void OnDemoSlideNext(object? sender, global::Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (this.FindControl<Carousel>("DemoCarousel") is { } carousel)
+        {
+            carousel.SelectedIndex = (carousel.SelectedIndex + 1) % carousel.ItemCount;
+        }
+    }
+
+    private void OnDemoRefreshRequested(object? sender, global::Avalonia.Controls.RefreshRequestedEventArgs e)
+    {
+        var deferral = e.GetDeferral();
+        // brief moment for the brand circular-arrow visualizer to show
+            _ = global::System.Threading.Tasks.Task.Delay(1200).ContinueWith(_ =>
+            {
+                global::Avalonia.Threading.Dispatcher.UIThread.Post(() =>
+                {
+                    if (this.GetVisualDescendants().OfType<TextBlock>().FirstOrDefault(t => t.Name == "DemoRefreshStamp") is { } stamp)
+                    {
+                        stamp.Text = $"updated {DateTime.Now:HH:mm:ss}";
+                    }
+                    deferral.Complete();
+                });
+            });
+    }
+
+    private void OnDemoCarouselSlide(object? sender, global::Avalonia.Controls.SelectionChangedEventArgs e)
+    {
+        if (sender is not Carousel carousel) return;
+        // SelectionChanged fires during InitializeComponent, before the name
+        // scope is attached; FindControl would throw, so walk the visual tree
+        var state = this.GetVisualDescendants().OfType<TextBlock>().FirstOrDefault(t => t.Name == "DemoCarouselState");
+        if (state is { })
+        {
+            state.Text = $"Carousel: slide {carousel.SelectedIndex + 1} of 3";
+        }
+    }
+
     private void OnDemoPreflightChecked(object? sender, global::Avalonia.Interactivity.RoutedEventArgs e)
     {
         if (this.FindControl<TextBlock>("DemoPreflightState") is { } state)

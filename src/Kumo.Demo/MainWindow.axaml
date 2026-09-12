@@ -966,6 +966,58 @@
                                 </TreeViewItem>
                             </TreeView>
                         </Border>
+                        <TextBlock Text="Pips and refresh" FontSize="{StaticResource KumoFontSizeSm}"
+                                   Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                        <StackPanel Orientation="Horizontal" Spacing="24">
+                            <StackPanel Spacing="6">
+                                <PipsPager x:Name="DemoPips" NumberOfPages="7" SelectedPageIndex="3" HorizontalAlignment="Left" />
+                                <TextBlock Text="PipsPager (dot = page)"
+                                           FontSize="{StaticResource KumoFontSizeSm}"
+                                           Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                            </StackPanel>
+                            <StackPanel Spacing="6">
+                                <Carousel x:Name="DemoCarousel" Width="220" Height="96" SelectionChanged="OnDemoCarouselSlide">
+                                    <Border Background="{DynamicResource KumoBrushInfoTint}" CornerRadius="{StaticResource KumoRadiusMd}" Margin="4">
+                                        <TextBlock Text="Slide 1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                    <Border Background="{DynamicResource KumoBrushSuccessTint}" CornerRadius="{StaticResource KumoRadiusMd}" Margin="4">
+                                        <TextBlock Text="Slide 2" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                    <Border Background="{DynamicResource KumoBrushDangerTint}" CornerRadius="{StaticResource KumoRadiusMd}" Margin="4">
+                                        <TextBlock Text="Slide 3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                </Carousel>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <Button Classes="ghost" Click="OnDemoSlidePrev" Content="Prev" />
+                                    <Button Classes="ghost" Click="OnDemoSlideNext" Content="Next" />
+                                </StackPanel>
+                                <TextBlock x:Name="DemoCarouselState" Text="Carousel (buttons/arrow keys to slide)"
+                                           FontSize="{StaticResource KumoFontSizeSm}"
+                                           Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Spacing="6" Width="320" HorizontalAlignment="Left">
+                            <!-- RefreshContainer adapts an inner ScrollViewer: the
+                                 pull gesture lives there, so the card hosts its own
+                                 small scroller; IsMouseEnabled allows desktop drag -->
+                            <RefreshContainer x:Name="DemoRefresh" IsMouseEnabled="True" Background="{DynamicResource KumoBrushTint}"
+                                              CornerRadius="{StaticResource KumoRadiusMd}"
+                                              Height="136" RefreshRequested="OnDemoRefreshRequested">
+                                <ScrollViewer Height="136" VerticalAlignment="Top">
+                                    <StackPanel Spacing="6" Margin="12">
+                                        <TextBlock Text="Drag down to refresh" FontSize="{StaticResource KumoFontSizeSm}" FontWeight="Medium" />
+                                        <TextBlock Text="Inbox · 3 unread" FontSize="{StaticResource KumoFontSizeSm}"
+                                                   Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                                        <TextBlock Text="updated" x:Name="DemoRefreshStamp"
+                                                   FontSize="{StaticResource KumoFontSizeSm}"
+                                                   Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </RefreshContainer>
+                            <TextBlock Text="Refresh card (drag content down)"
+                                       FontSize="{StaticResource KumoFontSizeSm}"
+                                       Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                        </StackPanel>
                         <TextBlock Text="Split buttons" FontSize="{StaticResource KumoFontSizeSm}"
                                    Foreground="{DynamicResource KumoBrushTextSubtle}" />
                         <StackPanel Orientation="Horizontal" Spacing="16">
