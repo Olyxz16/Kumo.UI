@@ -24,10 +24,6 @@ jobs:
         with:
           name: nuget
           path: artifacts/*.nupkg
-      - uses: actions/upload-artifact@v4
-        with:
-          name: symbols
-          path: artifacts/*.snupkg
       - name: NuGet OIDC login
         uses: NuGet/login@v1
         id: login
@@ -36,8 +32,4 @@ jobs:
       - name: Push to NuGet.org
         run: >
           dotnet nuget push "artifacts/*.nupkg" --api-key ${{ steps.login.outputs.NUGET_API_KEY }}
-          --source https://api.nuget.org/v3/index.json --skip-duplicate
-      - name: Push symbols
-        run: >
-          dotnet nuget push "artifacts/*.snupkg" --api-key ${{ steps.login.outputs.NUGET_API_KEY }}
           --source https://api.nuget.org/v3/index.json --skip-duplicate
