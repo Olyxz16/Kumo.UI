@@ -1,6 +1,8 @@
 using System;
+using System.IO;
 using System.Linq;
 using Avalonia;
+using Avalonia.Media.Imaging;
 using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
@@ -69,7 +71,7 @@ public class WidgetsProbe
 
             // Carousel: apply + key paging advances selection
             Assert.NotNull(carousel.GetVisualDescendants().OfType<ItemsPresenter>().FirstOrDefault());
-            Assert.NotEmpty(carousel.GetVisualDescendants().OfType<ScrollViewer>().Where(s => s.Name == "PART_ScrollViewer"));
+            Assert.Contains(carousel.GetVisualDescendants(), s => s is ScrollViewer { Name: "PART_ScrollViewer" });
             carousel.Focus();
             Dispatcher.UIThread.RunJobs();
             // navigate: Carousel handles Next/Previous via KeyEvents
@@ -89,7 +91,7 @@ public class WidgetsProbe
             var icon = visualizer.Content as PathIcon;
             Assert.NotNull(icon);
 
-            HeadlessWindowExtensions.CaptureRenderedFrame(window)?.Save("/tmp/opencode/widgets.png");
+            Snapshot.Capture(window, "/tmp/opencode/widgets.png");
         }
         finally
         {

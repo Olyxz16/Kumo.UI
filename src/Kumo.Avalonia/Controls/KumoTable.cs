@@ -321,7 +321,7 @@ public class KumoTable : TemplatedControl
             };
             text.Foreground = _textDefault;
             text.FontSize = Tok<double>("KumoFontSizeBase");
-            if (column.Mono)
+            if (column.Mono && _mono is not null)
                 text.FontFamily = _mono;
             if (column.AlignRight)
                 text.HorizontalAlignment = HorizontalAlignment.Right;
@@ -371,7 +371,10 @@ public class KumoTable : TemplatedControl
         {
             if (v is CheckBox)
                 return true;
-            v = v.GetVisualParent();
+            var parent = v.GetVisualParent();
+            if (parent is null)
+                break;
+            v = parent;
         }
         return false;
     }

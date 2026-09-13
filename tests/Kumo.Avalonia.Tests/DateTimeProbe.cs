@@ -1,6 +1,8 @@
 using System;
+using System.IO;
 using System.Linq;
 using Avalonia;
+using Avalonia.Media.Imaging;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Threading;
@@ -52,16 +54,13 @@ namespace Kumo.Avalonia.Tests
                 // IsToday/IsSelected are internal; pseudoclasses carry them
                 Assert.Contains(dayButtons, b => b.Classes.Contains(":today"));
                 Assert.Contains(dayButtons, b => b.Classes.Contains(":selected"));
-                var months = entry.GetVisualDescendants().OfType<CalendarButton>().ToList();
-                // month view shows 0 CalendarButtons; year view shows 12 when opened
-                Assert.True(months.Count >= 0);
 
                 // pickers carry flyout buttons with watermark placeholders
                 var dp = datePicker.GetVisualDescendants().OfType<Button>().FirstOrDefault(b => b.Name == "PART_FlyoutButton");
                 var tp = timePicker.GetVisualDescendants().OfType<Button>().FirstOrDefault(b => b.Name == "PART_FlyoutButton");
                 Assert.NotNull(dp);
                 Assert.NotNull(tp);
-                Assert.True(datePicker.GetVisualDescendants().OfType<TextBlock>().Any(b => b.Name == "PART_DayTextBlock"));
+                Assert.Contains(datePicker.GetVisualDescendants(), b => b is TextBlock { Name: "PART_DayTextBlock" });
 
                 // open the TimePicker popup by clicking the flyout button
                 var tpPoint = tp.TranslatePoint(new Point(tp.Bounds.Width / 2, tp.Bounds.Height / 2), window)!.Value;
@@ -76,7 +75,7 @@ namespace Kumo.Avalonia.Tests
                 // CalendarDatePicker: text box + glyph button + popup calendar
                 Assert.NotNull(calendarPicker.GetVisualDescendants().OfType<TextBox>().FirstOrDefault(b => b.Name == "PART_TextBox"));
                 Assert.NotNull(calendarPicker.GetVisualDescendants().OfType<Button>().FirstOrDefault(b => b.Name == "PART_Button"));
-                HeadlessWindowExtensions.CaptureRenderedFrame(window)?.Save("/tmp/opencode/datetime.png");
+                Snapshot.Capture(window, "/tmp/opencode/datetime.png");
             }
             finally
             {
@@ -138,7 +137,7 @@ namespace Kumo.Avalonia.Tests
                 Assert.True(buttons.Count >= 12, $"year tiles: {buttons.Count}");
                 // tiles (tagged by ksup:CalendarTileTag) render as a circle:
                 // the visible TileRoot background is cell-width square
-                HeadlessWindowExtensions.CaptureRenderedFrame(window)?.Save("/tmp/opencode/yearview.png");
+                Snapshot.Capture(window, "/tmp/opencode/yearview.png");
                 var tileRoot = buttons[3].GetVisualDescendants().OfType<Border>().First(b => b.Name == "TileRoot");
                 Assert.True(tileRoot.IsVisible, "TileRoot must be the visible background");
                 Assert.Equal(buttons[3].Bounds.Width, tileRoot.Bounds.Width, 0.5);
@@ -233,7 +232,7 @@ namespace Kumo.Avalonia.Tests
                 }
             }
 
-            HeadlessWindowExtensions.CaptureRenderedFrame(window)?.Save("/tmp/opencode/datetime-snap.png");
+            
         }
         finally
         {
@@ -517,7 +516,7 @@ namespace Kumo.Avalonia.Tests
                 .OrderBy(t => Math.Abs(t.y - 160))
                 .ToList();
             var centered = items.First();
-            Assert.Equal(9, (int)centered.i.Tag); // 24h clock: 09 stays 09
+            Assert.Equal(9, (int)centered.i.Tag!); // 24h clock: 09 stays 09
 
             var tapPt = centered.i.TranslatePoint(new Point(centered.i.Bounds.Width / 2, centered.i.Bounds.Height / 2), window)!.Value;
             window.MouseDown(tapPt, MouseButton.Left);

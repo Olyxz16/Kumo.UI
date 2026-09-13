@@ -8,7 +8,6 @@ using Avalonia.Threading;
 using Avalonia.Headless.XUnit;
 using Avalonia.VisualTree;
 using Avalonia.Headless;
-using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using KS = KumoThemeSupport.Controls;
 using Xunit;

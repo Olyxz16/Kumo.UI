@@ -1,6 +1,8 @@
 using System;
+using System.IO;
 using System.Linq;
 using Avalonia;
+using Avalonia.Media.Imaging;
 using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
@@ -91,7 +93,7 @@ public class TreeViewProbe
 
             Assert.False(disabled.IsSelected);
 
-            HeadlessWindowExtensions.CaptureRenderedFrame(window)?.Save("/tmp/opencode/treeview.png");
+            Snapshot.Capture(window, "/tmp/opencode/treeview.png");
         }
         finally
         {

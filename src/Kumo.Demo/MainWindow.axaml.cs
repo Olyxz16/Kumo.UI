@@ -295,9 +295,11 @@ public partial class MainWindow : Window
 
     private void TryPageButton(Button? button, string tag, bool atLimit)
     {
+        if (button is null)
+            return;
         button.IsEnabled = !atLimit;
         var strokeKey = atLimit ? "KumoBrushTextInactive" : "KumoBrushTextDefault";
-        foreach (var branch in button?.GetVisualDescendants() ?? [])
+        foreach (var branch in button.GetVisualDescendants())
         {
             if (branch is Avalonia.Controls.Shapes.Path path)
             {
@@ -430,16 +432,19 @@ internal static class WheelProbe
 {
     private static bool _installed;
     private static readonly object _fileLock = new();
+    private static readonly string _dir = Path.Combine(Path.GetTempPath(), "kumo-snapshots");
     public static void Install()
     {
         if (_installed) return;
         _installed = true;
+        Directory.CreateDirectory(_dir);
 
         static void Out(string line)
         {
+            if (!Directory.Exists(_dir)) return;
             lock (_fileLock)
             {
-                File.AppendAllText(Path.Combine("/tmp/opencode", "wheelprobe.log"), line + "\n");
+                File.AppendAllText(Path.Combine(_dir, "wheelprobe.log"), line + "\n");
             }
         }
 
@@ -474,7 +479,7 @@ internal static class WheelProbe
             Out($"PROBE gestureEnd {Tag(e)} id={(e as ScrollGestureEndedEventArgs)?.Id}");
         });
 
-        File.WriteAllText(Path.Combine("/tmp/opencode", "wheelprobe.log"), "PROBE wheel probe installed\n");
+        File.WriteAllText(Path.Combine(_dir, "wheelprobe.log"), "PROBE wheel probe installed\n");
     }
 }
 

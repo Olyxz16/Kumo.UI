@@ -1,6 +1,8 @@
 using System;
+using System.IO;
 using System.Linq;
 using Avalonia;
+using Avalonia.Media.Imaging;
 using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
@@ -273,16 +275,6 @@ public class MiscProbe
             window.Show();
             Dispatcher.UIThread.RunJobs();
 
-            string Describe(Visual root, string label)
-            {
-                var parts = new System.Collections.Generic.List<string>();
-                foreach (var v in root.GetVisualDescendants())
-                {
-                    parts.Add($"{v.GetType().Name},{v.Bounds.Width:F1}x{v.Bounds.Height:F1}");
-                }
-                return label + ": " + string.Join("|", parts);
-            }
-
             // spin chevrons stay a narrow strip; no divider/border artifacts;
             // group box wraps its content without clipping
             foreach (var root in new Visual[] { spinner, nud })
@@ -302,7 +294,7 @@ public class MiscProbe
             {
                 Assert.True(t.Bounds.Bottom <= gb.Bounds.Bottom + 0.5, "text clipped by group box");
             }
-            global::Avalonia.Headless.HeadlessWindowExtensions.CaptureRenderedFrame(window)?.Save("/tmp/opencode/slice-a.png");
+            Snapshot.Capture(window, "/tmp/opencode/slice-a.png");
         }
         finally
         {
@@ -347,14 +339,14 @@ public class MiscProbe
             toggle.IsChecked = true;
             Dispatcher.UIThread.RunJobs();
             var ring = toggle.GetVisualDescendants().OfType<Border>().First(b => b.Name == "RingLayer");
-            Assert.Equal(toggle.IsChecked, true);
+            Assert.True(toggle.IsChecked == true);
             Assert.True(toggle.Classes.Contains(":checked"), "checked pseudo missing");
             var all = toggle.GetVisualDescendants();
-            global::Avalonia.Headless.HeadlessWindowExtensions.CaptureRenderedFrame(window)?.Save("/tmp/opencode/slice-d.png");
+            Snapshot.Capture(window, "/tmp/opencode/slice-d.png");
             var f2 = global::Avalonia.Headless.HeadlessWindowExtensions.CaptureRenderedFrame(window);
-            f2!.Save("/tmp/opencode/slice-d.png");
+            Snapshot.Capture(window, "/tmp/opencode/slice-d.png");
             global::Avalonia.Threading.Dispatcher.UIThread.RunJobs();
-            global::Avalonia.Headless.HeadlessWindowExtensions.CaptureRenderedFrame(window)?.Save("/tmp/opencode/slice-d.png");
+            Snapshot.Capture(window, "/tmp/opencode/slice-d.png");
         }
         finally
         {
@@ -387,7 +379,7 @@ public class MiscProbe
             var pr1 = splitviews[1].GetVisualDescendants().First(v => v.Name == "PART_PaneRoot");
             Assert.Equal(100, pr1.Bounds.Width, 1);
             Dispatcher.UIThread.RunJobs();
-            global::Avalonia.Headless.HeadlessWindowExtensions.CaptureRenderedFrame(window)?.Save("/tmp/opencode/demo-panes.png");
+            Snapshot.Capture(window, "/tmp/opencode/demo-panes.png");
         }
         finally { window.Close(); }
     }

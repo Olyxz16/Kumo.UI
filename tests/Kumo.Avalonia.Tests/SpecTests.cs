@@ -346,7 +346,7 @@ public class SpecTests
         {
             case "hover":
                 root.RaiseEvent(new PointerEventArgs(InputElement.PointerEnteredEvent,
-                    root, null, window, default, 0,
+                    root, null!, window, default, 0,
                     new PointerPointProperties(RawInputModifiers.None, PointerUpdateKind.Other),
                     KeyModifiers.None));
                 break;

@@ -1,6 +1,8 @@
 using System;
+using System.IO;
 using System.Linq;
 using Avalonia;
+using Avalonia.Media.Imaging;
 using global::Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Headless;
@@ -61,7 +63,7 @@ public class TableViewProbe
             Dispatcher.UIThread.RunJobs();
             Assert.True(target.IsSelected, "row click did not select");
 
-            HeadlessWindowExtensions.CaptureRenderedFrame(window)?.Save("/tmp/opencode/tableview.png");
+            Snapshot.Capture(window, "/tmp/opencode/tableview.png");
         }
         finally
         {

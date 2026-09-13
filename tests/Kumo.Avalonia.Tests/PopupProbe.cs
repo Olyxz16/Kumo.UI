@@ -3,7 +3,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Controls.Primitives;
 using KumoThemeSupport.Controls;
-using Avalonia.Controls.Primitives;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
@@ -33,7 +32,7 @@ public class PopupProbe
         var items = wnm.GetVisualDescendants().OfType<Panel>()
             .First(p => p.Name == "PART_Items");
         Assert.IsType<ToastDeck>(items);
-        Assert.Equal(1, items.Children.OfType<NotificationCard>().Count());
+        Assert.Single(items.Children.OfType<NotificationCard>());
     }
 
     [AvaloniaFact]
