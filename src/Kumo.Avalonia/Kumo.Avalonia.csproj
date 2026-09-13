@@ -6,12 +6,23 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Version>0.1.0</Version>
     <Title>Kumo.Avalonia</Title>
-    <Description>Kumo (Cloudflare's design system) as an Avalonia theme: semantic color tokens with light/dark variants and starter control styles.</Description>
+    <Authors>Olyxz16</Authors>
+    <Description>Kumo (Cloudflare's design system) as a fully self-contained Avalonia theme: semantic color tokens with light/dark variants and a complete set of ControlThemes.</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/Olyxz16/Kumo.UI</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Olyxz16/Kumo.UI</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>avalonia;kumo;cloudflare;theme;design-system;xaml;ui</PackageTags>
     <!-- The XAML compiler must see the embedded !AvaloniaResources index when
          other projects compile against this library; stripped ref assemblies
          break that (AVLN2000 "!AvaloniaResources" on cold builds). -->
     <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Link="README.md" Pack="true" PackagePath="\" />
+    <None Include="../../LICENSE" Link="LICENSE" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="12.1.2" />

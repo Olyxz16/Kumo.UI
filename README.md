@@ -7,13 +7,14 @@ Cloudflare's product design system ([`@cloudflare/kumo`](https://github.com/clou
 
 | Path | Purpose |
 | --- | --- |
-| `src/Kumo.Avalonia` | Theme library: generated palette, shared tokens, starter control styles |
+| `src/Kumo.Avalonia` | Theme library: generated palette, tokens, and a full per-control ControlTheme set |
 | `src/Kumo.Demo` | Showcase app (surface/status swatches, buttons, inputs, light/dark toggle) |
-| `tests/Kumo.Avalonia.Tests` | Headless tests verifying tokens and variant switching |
+| `tests/Kumo.Avalonia.Tests` | Headless tests: token checks, spec diffs, per-control probes, coverage guardrail (128 tests) |
 | `design/kumo/` | Upstream token CSS from `@cloudflare/kumo` v2.13.1 (source of truth) |
 | `scripts/generate_tokens.py` | Converts upstream CSS (oklch / `light-dark()` / `color-mix`) to Avalonia XAML |
 | `docs/TOKENS.md` | Generated reference of all 54 semantic color tokens and their resource keys |
-| `docs/THEME-AUDIT.md` | What exists, what is missing for full parity, and how to get there |
+| `docs/TOKENS.md` | Generated reference of all 54 semantic color tokens and their resource keys |
+| `docs/COVERAGE.md` | Exact inventory of themed controls, known approximations, and remaining parity extras |
 
 ## Quick start
 
@@ -25,12 +26,9 @@ dotnet run --project tests/Kumo.Avalonia.Tests
 
 ## Using the theme
 
-The theme is fully self-contained — no base theme (Fluent/Simple) is needed:
-
-> **Note on coverage**: every templated control in the hosted demo is themed.
-> Some edge-of-surface Avalonia controls (DatePicker, Slider, TreeView, …)
-> do not have a Kumo `ControlTheme` yet and would render blank — see
-> `docs/COVERAGE.md` for the exact, test-enforced list.
+The theme is fully self-contained — no base theme (Fluent/Simple) is needed,
+and every templated Avalonia control ships a Kumo `ControlTheme`. The exact
+inventory is `docs/COVERAGE.md` (test-enforced, so it can't rot).
 
 ```xml
 <Application xmlns="https://github.com/avaloniaui"
@@ -93,5 +91,5 @@ bump `KUMO_VERSION` in the script, and regenerate.
 ## Design rules baked in
 
 The [`kumo-design` skill](https://kumo-ui.com/skill.md) rules that apply to a theme
-port are captured in `docs/THEME-AUDIT.md` (14px content text, sentence case, no font-bold,
+port are captured in `docs/COVERAGE.md` (14px content text, sentence case, no font-bold,
 no hover color transitions, ring-instead-of-border shadows, concentric radii, ...).

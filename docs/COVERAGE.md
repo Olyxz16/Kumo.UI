@@ -90,5 +90,44 @@ uses inline stroke paths), `CloudflareLogo` (brand asset).
 
 Smoke-verified in `tests/Kumo.Avalonia.Tests/MiscProbe.cs` and shown in the demo "Windowed controls" card.
 
-See also `docs/THEME-AUDIT.md` for the full 48-component Kumo registry
-matrix and design-rule checklist.
+## Known approximations
+
+- Switch thumb is a 16px rounded-square (radius 5) inset 1px inside the 36×18 ring track; upstream thumb spans the ring-less track at full height with a `corner-shape:squircle` (10px radius when supported) — visually equivalent.
+- Dark-mode unchecked switch thumb: `neutral-850` does not exist in the compiled CSS — approximated with `neutral-800`.
+- `Border.badge.beta` uses a solid brand border; Avalonia `Border` cannot dash.
+- Checkbox/radio glyphs are paths instead of Phosphor bold check/minus.
+- Hover treatment follows the Kumo rule "no color transitions": no `Transitions` on colors anywhere.
+- Expander animates content fade/slide (150 ms); upstream animates height (needs known content size — Avalonia has no layout animation).
+- Toast close button: NotificationCard template has none — cards auto-dismiss (4 s in demo).
+- Toolbar/menu bar dividers use `:nth-child(n+2)` left borders; upstream rounds only the outermost children — matched via `:nth-child(1)`/`:nth-last-child(1)`.
+- Loader is a rotating arc approximation of the upstream SMIL dash animation (2 s rotation, round caps, 15% track).
+- Link underline decoration color follows the text color (upstream uses 35% alpha `currentColor` underline via `color-mix`).
+- Emphasis buttons: the `inset 0 1px 0 0 emphasis-bg` highlight is rendered as a `PART_TopSheen` 1px top-edge overlay (solid `emphasis-bg` per variant); gradient from = `white 15%` mix, hover starts at `white 30%`. Buttons get a `loading` class (spinning arc on `PART_Loading`, label hidden, hit-testing disabled).
+- Toast deck overlap is fixed at 34px per older card (upstream overlaps by a fixed peek too); layout margin (not z-order) creates the stack.
+- Table child clipping: `Border.table` uses `Padding=1` + `ClipToBounds` so row backgrounds don't overpaint the rounded border at the corners.
+- Dialog scrim (OS-window): the modal renders as an in-app overlay (`KumoBrushDialogScrim` + `dialog-surface`, no OS window involved). A see-through scrim on a real `Window.dialog` child window still needs `TransparencyLevelHint` + acrylic — platform-dependent.
+
+## Remaining parity extras (polish, not coverage)
+
+- Size variants (`size` prop): `size-sm`/`size-lg` classes per control from upstream size tables (input sizes: xs 20, sm 26, base 36, lg 40/44); Switch `sm` (32×16) / `lg` (40×20) tracks — only base implemented.
+- FedRAMP theme: `theme-fedramp.css` (3 token overrides) — easy second generator pass.
+- Chart tokens: https://kumo-ui.com/charts/colors — only needed if charts get themed.
+- Motion tokens: `kumo-binding.css` — enter/exit animations exist for toast + collapsible; full token mapping optional (Kumo rule: no hover color transitions).
+- Icon set: `@phosphor-icons/react` — no Avalonia equivalent; demo uses inline stroke paths. Charts and `CloudflareLogo` are out of scope by design.
+
+## Design-rule checklist (from https://kumo-ui.com/skill.md)
+
+- [x] 14 px content text (`KumoFontSizeBase` = 14)
+- [x] Concentric radii: `KumoRadius*` scale + `ControlCornerRadius`/`OverlayCornerRadius` redefined
+- [x] No hover color transitions
+- [x] Ring instead of border+shadow: popup chrome = 1px line ring + shadow
+- [x] `font-semibold` not `bold`: Medium/SemiBold presets only
+- [x] Status solid + tint pairs: all generated
+- [x] Sentence case demo copy
+- [x] Inline mono: `TextBlock.code` (13px mono subtle) and `TextBlock.mono`
+- [ ] Sticky separator preset (minor; use `Border.pagination-separator` pattern)
+
+## Verification loop
+
+After each change: `dotnet build` → `dotnet run --project tests/Kumo.Avalonia.Tests`
+(one test per new control/preset) → eyeball `src/Kumo.Demo`.
