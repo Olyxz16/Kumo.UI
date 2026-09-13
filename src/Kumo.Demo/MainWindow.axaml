@@ -1031,6 +1031,13 @@
                                 <kd:DemoServerRows />
                             </TableView.ItemsSource>
                         </TableView>
+                        <TextBlock Text="Date and time" FontSize="{StaticResource KumoFontSizeSm}"
+                                   Foreground="{DynamicResource KumoBrushTextSubtle}" />
+                        <StackPanel Orientation="Horizontal" Spacing="16">
+                            <DatePicker Width="220" />
+                            <TimePicker Width="180" />
+                            <CalendarDatePicker Width="200" PlaceholderText="Pick a date" />
+                        </StackPanel>
                         <TextBlock Text="Split buttons" FontSize="{StaticResource KumoFontSizeSm}"
                                    Foreground="{DynamicResource KumoBrushTextSubtle}" />
                         <StackPanel Orientation="Horizontal" Spacing="16">

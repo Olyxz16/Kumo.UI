@@ -226,7 +226,7 @@
         </Style>
 
         <!-- Open inline pane: TemplateSettings keeps PaneColumnGridLength at
-             Auto for Inline mode, so the open width is set here (Fluent does
+             Auto for Inline mode, so the open width is set here (the Avalonia reference does
              the same via :open styles). These must come after the placement
              templates so the open size wins over the closed inline size. -->
         <Style Selector="^:left:open /template/ Panel#PART_PaneRoot">

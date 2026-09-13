@@ -3,7 +3,7 @@
 
     <!-- Kumo PipsPager: subtle grey idle pips, brand dot for the selected
          page, ghost nav chevrons that press-scale. Structure matches the
-         Fluent reference (PART_PreviousButton / PART_PipsPagerList /
+         Avalonia reference theme (PART_PreviousButton / PART_PipsPagerList /
          PART_NextButton + PipsPagerItemTheme ListBoxItem). -->
 
     <Styles.Resources>

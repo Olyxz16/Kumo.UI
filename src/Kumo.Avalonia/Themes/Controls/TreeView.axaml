@@ -7,7 +7,7 @@
 
     <!-- Kumo TreeView: flat rows, subtle tint hover, fill-selected rows,
          grey chevron glyphs, 12px min row height. Template structure follows
-         the Avalonia Fluent reference (same PART_* names and pseudoclasses)
+         the Avalonia reference theme (same PART_* names and pseudoclasses)
          with Kumo tokens and rounded rows. -->
 
     <x:Double x:Key="TreeViewItemIndent">16</x:Double>

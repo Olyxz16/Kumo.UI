@@ -138,18 +138,7 @@ public class CoverageInventory
     /// Each of these needs a real ControlTheme (see docs/THEME-AUDIT.md §3).
     /// This test fails when a control disappears from the list (prune it
     /// here) or a new one appears (theme it).</summary>
-    private static readonly string[] KnownUnthemed = new[]
-    {
-        "Avalonia.Controls.CalendarDatePicker",
-        "Avalonia.Controls.Calendar",
-        "Avalonia.Controls.DatePicker",
-        "Avalonia.Controls.DatePickerPresenter",
-        "Avalonia.Controls.TimePicker",
-        "Avalonia.Controls.TimePickerPresenter",
-        "Avalonia.Controls.Primitives.CalendarButton",
-        "Avalonia.Controls.Primitives.CalendarDayButton",
-        "Avalonia.Controls.Primitives.CalendarItem",
-    };
+    private static readonly string[] KnownUnthemed = System.Array.Empty<string>();
 
     [AvaloniaFact]
     public void Unthemed_control_list_matches_the_known_plan()

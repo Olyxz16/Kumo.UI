@@ -3,7 +3,7 @@
 
     <!-- Kumo TableView family: white rows with recessed even-row stripes,
          12px cell padding, hairline header underline, subtle hover,
-         Fill-tint selected rows. Structure matches the Avalonia Fluent
+         Fill-tint selected rows. Structure matches the Avalonia reference theme
          reference templates (same PART_* names and pseudoclasses). -->
 
     <Styles.Resources>
