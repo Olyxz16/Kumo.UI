@@ -9,6 +9,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Controls.Presenters;
 using Avalonia.VisualTree;
+using KumoThemeSupport.Controls;
 using Xunit;
 
 namespace Kumo.Avalonia.Tests
@@ -30,7 +31,7 @@ namespace Kumo.Avalonia.Tests
             };
             var datePicker = new DatePicker();
             var timePicker = new TimePicker();
-            var calendarPicker = new CalendarDatePicker { PlaceholderText = "Pick a date" };
+            var calendarPicker = new KumoCalendarDatePicker { PlaceholderText = "Pick a date" };
             var window = new Window { Width = 760, Height = 420 };
             try
             {
@@ -83,6 +84,76 @@ namespace Kumo.Avalonia.Tests
             }
         }
 
+        [AvaloniaFact]
+        public void CalendarDatePicker_formats_zero_padded_and_validates_on_completion()
+        {
+            var picker = new KumoCalendarDatePicker();
+            var invalid = new KumoCalendarDatePicker();
+            var window = new Window { Width = 420, Height = 200 };
+            try
+            {
+                window.Content = new StackPanel
+                {
+                    Children = { picker, invalid, new TextBox() }
+                };
+                window.Show();
+                Dispatcher.UIThread.RunJobs();
+
+                // default format is dd/MM/yyyy with zero padding
+                picker.SelectedDate = new DateTime(2026, 9, 7);
+                global::Avalonia.Threading.Dispatcher.UIThread.RunJobs();
+                var box = picker.GetVisualDescendants().OfType<TextBox>().First(b => b.Name == "PART_TextBox");
+                Assert.Equal("07/09/2026", box.Text);
+
+                // invalid entry shows the :error state on completion
+                var invalidBox = invalid.GetVisualDescendants().OfType<TextBox>().First(b => b.Name == "PART_TextBox");
+                invalidBox.Focus();
+                invalidBox.Text = "99/99/2026";
+                var other = window.GetVisualDescendants().OfType<TextBox>().Last();
+                other.Focus();
+                Dispatcher.UIThread.RunJobs();
+                Assert.True(invalid.Classes.Contains(":error"), $"classes: {string.Join(',', invalid.Classes)} text: {invalid.Text}");
+                var border = invalid.GetVisualDescendants()
+                    .OfType<Border>()
+                    .First(b => b.Name == "Background");
+                Application.Current!.TryGetResource("KumoBrushDanger", window.ActualThemeVariant, out var danger);
+                Assert.Equal(danger, border.BorderBrush);
+            }
+            finally
+            {
+                window.Close();
+            }
+        }
+
+        [AvaloniaFact]
+        public void Calendar_year_tiles_are_rounded_rectangles()
+        {
+            var cal = new Calendar { DisplayMode = CalendarMode.Year };
+            var window = new Window { Width = 400, Height = 360, Content = cal };
+            try
+            {
+                window.Show();
+                Dispatcher.UIThread.RunJobs();
+                var buttons = window.GetVisualDescendants().OfType<CalendarButton>().ToList();
+                Assert.True(buttons.Count >= 12, $"year tiles: {buttons.Count}");
+                // tiles (tagged by ksup:CalendarTileTag) render as a circle:
+                // the visible TileRoot background is cell-width square
+                HeadlessWindowExtensions.CaptureRenderedFrame(window)?.Save("/tmp/opencode/yearview.png");
+                var tileRoot = buttons[3].GetVisualDescendants().OfType<Border>().First(b => b.Name == "TileRoot");
+                Assert.True(tileRoot.IsVisible, "TileRoot must be the visible background");
+                Assert.Equal(buttons[3].Bounds.Width, tileRoot.Bounds.Width, 0.5);
+                Assert.Equal(buttons[3].Bounds.Width, tileRoot.Bounds.Height, 0.5);
+                Assert.Equal(9999, tileRoot.CornerRadius.TopLeft);
+                var days = new Calendar { SelectedDate = new DateTime(2026, 9, 13) };
+                var dayWindow = new Window { Width = 400, Height = 360, Content = days };
+                dayWindow.Show();
+                Dispatcher.UIThread.RunJobs();
+                var day = dayWindow.GetVisualDescendants().OfType<CalendarDayButton>().First();
+                Assert.Equal(9999, day.CornerRadius.TopLeft);
+                dayWindow.Close();
+            }
+            finally { window.Close(); }
+        }
         private static void KeyInput(Window window, Key key)
         {
             // RaiseEvent path — headless KeyDown extension needs raw args

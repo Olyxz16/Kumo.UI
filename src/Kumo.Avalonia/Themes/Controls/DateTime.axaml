@@ -1,7 +1,8 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:sys="using:System"
-        xmlns:ksup="using:KumoThemeSupport">
+        xmlns:ksup="using:KumoThemeSupport"
+        xmlns:ksupc="using:KumoThemeSupport.Controls">
 
     <!-- Kumo date/time: Calendar + CalendarItem + CalendarDay/Button + the
          three pickers and their loop presenters. Structure (PART_* names,
@@ -113,6 +114,7 @@
                             HorizontalAlignment="Center"
                             ClipToBounds="True">
                     <CalendarItem Name="PART_CalendarItem"
+                                  ksup:CalendarTileTag.IsEnabled="True"
                                   Background="{TemplateBinding Background}"
                                   BorderBrush="{TemplateBinding BorderBrush}"
                                   BorderThickness="{TemplateBinding BorderThickness}"
@@ -276,7 +278,7 @@
                     <Border Name="Root"
                             Background="{TemplateBinding Background}"
                             BorderThickness="0"
-                            CornerRadius="{StaticResource KumoRadiusFull}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
                             ClipToBounds="True">
                         <ContentPresenter Name="PART_ContentPresenter"
                                           ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -287,7 +289,7 @@
                     </Border>
                     <Border Name="Border"
                             BorderThickness="2"
-                            CornerRadius="{StaticResource KumoRadiusFull}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
                             BorderBrush="{TemplateBinding BorderBrush}" />
                 </Panel>
             </ControlTemplate>
@@ -367,21 +369,34 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
+                    <!-- day cells: pill/circle background sized to the cell -->
                     <Border Name="Root"
                             Background="{TemplateBinding Background}"
                             BorderThickness="0"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            ClipToBounds="True" />
+                    <!-- month/year/decade tiles: true circle, diameter = cell
+                         width, centered in the taller cell -->
+                    <Border Name="TileRoot"
+                            IsVisible="False"
+                            Width="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
+                            Height="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="2"
+                            BorderBrush="{TemplateBinding BorderBrush}"
                             CornerRadius="{StaticResource KumoRadiusFull}"
-                            ClipToBounds="True">
-                        <ContentPresenter Name="PART_ContentPresenter"
-                                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                                          Content="{TemplateBinding Content}"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          Margin="{TemplateBinding Padding}" />
-                    </Border>
+                            ClipToBounds="True" />
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Content="{TemplateBinding Content}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      Margin="{TemplateBinding Padding}" />
                     <Border Name="Border"
                             BorderThickness="2"
-                            CornerRadius="{StaticResource KumoRadiusFull}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
                             BorderBrush="{TemplateBinding BorderBrush}" />
                 </Panel>
             </ControlTemplate>
@@ -423,6 +438,32 @@
         <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
             <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextPlaceholder}" />
         </Style>
+
+        <!-- Month/year/decade tiles (tagged by ksup:CalendarTileTag): show the
+             circle background instead of the day-cell pill; the hover ring
+             also comes from the circle. -->
+        <Style Selector="^.kumo-tile /template/ Border#Root">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^.kumo-tile /template/ Border#TileRoot">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+        <Style Selector="^.kumo-tile /template/ Border#Border">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^.kumo-tile:inactive /template/ Border#TileRoot">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style Selector="^.kumo-tile:pointerover /template/ Border#TileRoot">
+            <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushFill}" />
+        </Style>
+        <Style Selector="^.kumo-tile:pressed /template/ Border#TileRoot">
+            <Setter Property="BorderBrush" Value="{DynamicResource KumoBrushFill}" />
+        </Style>
+        <Style Selector="^.kumo-tile:selected /template/ Border#TileRoot">
+            <Setter Property="Background" Value="{DynamicResource KumoBrushBrand}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
     </ControlTheme>
 
     <!-- CalendarDatePicker: TextBox-style input with the glyph date icon and
@@ -430,7 +471,7 @@
 
     <ControlTheme x:Key="KumoCalendarDatePickerGlyphButton" TargetType="Button">
         <Setter Property="TextElement.Foreground" Value="{DynamicResource KumoBrushTextSubtle}" />
-        <Setter Property="Margin" Value="2,0,4,0" />
+        <Setter Property="Margin" Value="2,0,6,0" />
         <Setter Property="Width" Value="20" />
         <Setter Property="Template">
             <ControlTemplate>
@@ -478,6 +519,8 @@
     </ControlTheme>
 
     <ControlTheme x:Key="{x:Type CalendarDatePicker}" TargetType="CalendarDatePicker">
+        <Setter Property="SelectedDateFormat" Value="Custom" />
+        <Setter Property="CustomDateFormatString" Value="dd/MM/yyyy" />
         <Setter Property="Background" Value="{DynamicResource KumoBrushControl}" />
         <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextDefault}" />
         <Setter Property="PlaceholderForeground" Value="{DynamicResource KumoBrushTextPlaceholder}" />
@@ -493,6 +536,13 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <DataValidationErrors>
+                    <DataValidationErrors.Styles>
+                        <!-- border red is the error signal; the inline
+                             error text stays hidden on date inputs -->
+                        <Style Selector="ContentControl#InlineDataValidationContentControl">
+                            <Setter Property="IsVisible" Value="False" />
+                        </Style>
+                    </DataValidationErrors.Styles>
                     <Panel x:Name="LayoutRoot"
                            HorizontalAlignment="Stretch"
                            VerticalAlignment="Stretch">
@@ -503,6 +553,7 @@
                                 Background="{TemplateBinding Background}" />
                         <Grid ColumnDefinitions="*,Auto">
                             <TextBox Name="PART_TextBox"
+                                     Classes="kumo-inner-input"
                                      Foreground="{TemplateBinding Foreground}"
                                      Background="Transparent"
                                      BorderBrush="Transparent"
@@ -518,12 +569,7 @@
                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                      Grid.Column="0">
                                 <TextBox.Styles>
-                                    <Style Selector="TextBox#PART_TextBox:focus /template/ Border#PART_BorderElement">
-                                        <Setter Property="Background" Value="Transparent" />
-                                        <Setter Property="BorderBrush" Value="Transparent" />
-                                        <Setter Property="BorderThickness" Value="0" />
-                                    </Style>
-                                    <Style Selector="TextBox#PART_TextBox:disabled /template/ Border#PART_BorderElement">
+                                    <Style Selector="TextBox#PART_TextBox.kumo-inner-input:disabled /template/ Border#PART_BorderElement">
                                         <Setter Property="Background" Value="Transparent" />
                                         <Setter Property="BorderBrush" Value="Transparent" />
                                     </Style>
@@ -568,6 +614,11 @@
         <Style Selector="^:disabled /template/ TextBox#PART_TextBox">
             <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextPlaceholder}" />
         </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type ksupc:KumoCalendarDatePicker}" TargetType="ksupc:KumoCalendarDatePicker"
+                  BasedOn="{StaticResource {x:Type CalendarDatePicker}}">
+        <!-- same validation chrome; parse errors surface as the :error border -->
     </ControlTheme>
 
     <!-- DatePicker: flyout button with day/month/year placeholders -->

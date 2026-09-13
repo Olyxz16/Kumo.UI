@@ -124,7 +124,10 @@
         <!-- Inner inputs hosted by a composite control (e.g. NumericUpDown):
              the host draws the single focus line, so the inner border stays
              invisible even while focused. -->
-        <Style Selector="^.kumo-inner-input:focus /template/ Border#PART_BorderElement">
+        <Style Selector="^.kumo-inner-input /template/ Border#PART_BorderElement">
+            <!-- Host draws the single line/border; the inner TextBox never
+                 renders its own chrome in any state, even while focused. -->
+            <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="BorderBrush" Value="Transparent" />
         </Style>
