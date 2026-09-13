@@ -1033,11 +1033,12 @@
                         </TableView>
                         <TextBlock Text="Date and time" FontSize="{StaticResource KumoFontSizeSm}"
                                    Foreground="{DynamicResource KumoBrushTextSubtle}" />
-                        <StackPanel Orientation="Horizontal" Spacing="16">
-                            <DatePicker Width="220" />
-                            <TimePicker Width="180" />
-                            <CalendarDatePicker Width="200" PlaceholderText="Pick a date" />
-                        </StackPanel>
+                        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                            <DatePicker Width="220" Margin="0,0,16,8" />
+                            <TimePicker Width="180" Margin="0,0,16,8" />
+                            <TimePicker Width="140" ClockIdentifier="24HourClock" Margin="0,0,16,8" />
+                            <CalendarDatePicker Width="200" PlaceholderText="Pick a date" Margin="0,0,16,8" />
+                        </WrapPanel>
                         <TextBlock Text="Split buttons" FontSize="{StaticResource KumoFontSizeSm}"
                                    Foreground="{DynamicResource KumoBrushTextSubtle}" />
                         <StackPanel Orientation="Horizontal" Spacing="16">

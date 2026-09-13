@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
+using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Media;
 using Avalonia.Styling;
@@ -32,6 +32,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        WheelProbe.Install();
         _toasts = new WindowNotificationManager(this)
         {
             Position = NotificationPosition.BottomRight,
@@ -424,6 +425,59 @@ public partial class MainWindow : Window
 
 
 public record DemoServerRow(string Region, int Instances, string Status);
+
+internal static class WheelProbe
+{
+    private static bool _installed;
+    private static readonly object _fileLock = new();
+    public static void Install()
+    {
+        if (_installed) return;
+        _installed = true;
+
+        static void Out(string line)
+        {
+            lock (_fileLock)
+            {
+                File.AppendAllText(Path.Combine("/tmp/opencode", "wheelprobe.log"), line + "\n");
+            }
+        }
+
+        static string Tag(Avalonia.Interactivity.RoutedEventArgs e) =>
+            $"{DateTime.Now:HH:mm:ss.fff} src={e.Source?.GetType().Name ?? "??"}";
+
+        InputElement.PointerWheelChangedEvent.AddClassHandler<Control>((_, e) =>
+        {
+            var wheel = e.GetCurrentPoint(null);
+            Out($"PROBE wheel {Tag(e)} delta=({e.Delta.X:F3},{e.Delta.Y:F3}) type={wheel.Pointer.Type} pos={wheel.Position:F0}");
+        }, RoutingStrategies.Tunnel);
+
+        InputElement.PointerPressedEvent.AddClassHandler<Control>((_, e) =>
+        {
+            var pt = e.GetCurrentPoint(null);
+            Out($"PROBE press {Tag(e)} type={pt.Pointer.Type} captured={pt.Pointer.Captured?.GetType().Name ?? "-"}");
+        });
+
+        InputElement.PointerReleasedEvent.AddClassHandler<Control>((_, e) =>
+        {
+            Out($"PROBE release {Tag(e)} type={e.Pointer.Type}");
+        });
+
+        ScrollViewer.ScrollGestureEvent.AddClassHandler<Control>((_, e) =>
+        {
+            if (e is ScrollGestureEventArgs g)
+                Out($"PROBE gesture {Tag(e)} delta=({g.Delta.X:F3},{g.Delta.Y:F3}) id={g.Id}");
+        });
+
+        ScrollViewer.ScrollGestureEndedEvent.AddClassHandler<Control>((_, e) =>
+        {
+            Out($"PROBE gestureEnd {Tag(e)} id={(e as ScrollGestureEndedEventArgs)?.Id}");
+        });
+
+        File.WriteAllText(Path.Combine("/tmp/opencode", "wheelprobe.log"), "PROBE wheel probe installed\n");
+    }
+}
+
 
 public class DemoServerRows : System.Collections.ObjectModel.ObservableCollection<DemoServerRow>
 {

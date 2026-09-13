@@ -82,7 +82,6 @@
             <Setter Property="Background" Value="Transparent" />
         </Style>
         <Style Selector="^:selected">
-            <Setter Property="IsHitTestVisible" Value="False" />
             <Style Selector="^ /template/ ContentPresenter">
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="Foreground" Value="{DynamicResource KumoBrushTextBrand}" />
@@ -699,8 +698,6 @@
                                                          ItemHeight="{StaticResource DateTimeFlyoutItemHeight}"
                                                          ShouldLoop="True" />
                                 </ScrollViewer>
-                                <RepeatButton Name="PART_MonthUpButton" Theme="{StaticResource KumoDateTimePickerUpButton}" />
-                                <RepeatButton Name="PART_MonthDownButton" Theme="{StaticResource KumoDateTimePickerDownButton}" />
                             </Panel>
                             <Panel Name="PART_DayHost">
                                 <ScrollViewer ksup:DateTimeLoopSnap.IsEnabled="True" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
@@ -709,8 +706,6 @@
                                                          ItemHeight="{StaticResource DateTimeFlyoutItemHeight}"
                                                          ShouldLoop="True" />
                                 </ScrollViewer>
-                                <RepeatButton Name="PART_DayUpButton" Theme="{StaticResource KumoDateTimePickerUpButton}" />
-                                <RepeatButton Name="PART_DayDownButton" Theme="{StaticResource KumoDateTimePickerDownButton}" />
                             </Panel>
                             <Panel Name="PART_YearHost">
                                 <ScrollViewer ksup:DateTimeLoopSnap.IsEnabled="True" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
@@ -719,8 +714,6 @@
                                                          ItemHeight="{StaticResource DateTimeFlyoutItemHeight}"
                                                          ShouldLoop="False" />
                                 </ScrollViewer>
-                                <RepeatButton Name="PART_YearUpButton" Theme="{StaticResource KumoDateTimePickerUpButton}" />
-                                <RepeatButton Name="PART_YearDownButton" Theme="{StaticResource KumoDateTimePickerDownButton}" />
                             </Panel>
                             <Rectangle Name="HighlightRect" IsHitTestVisible="False" ZIndex="-1"
                                        Fill="{DynamicResource KumoBrushFill}"
@@ -738,45 +731,23 @@
                                        Width="{StaticResource DateTimeSpacerWidth}"
                                        Grid.Column="3" />
                         </Grid>
+                        <!-- commit/cancel visuals moved to tap-to-commit +
+                             light dismiss; the buttons stay hidden and are
+                             invoked programmatically by DateTimeLoopSnap -->
                         <Grid Name="AcceptDismissGrid"
                               Grid.Row="1"
-                              ColumnDefinitions="*,*">
-                            <Rectangle Height="{StaticResource DateTimeSpacerWidth}"
-                                       VerticalAlignment="Top"
-                                       Fill="{DynamicResource KumoBrushLine}"
-                                       Grid.ColumnSpan="2" />
+                              ColumnDefinitions="*,*"
+                              IsVisible="False">
                             <Button Name="PART_AcceptButton"
-                                    Grid.Column="0"
-                                    Theme="{StaticResource KumoDateTimePickerButton}"
-                                    Height="{StaticResource DateTimeAcceptDismissHeight}"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch">
-                                <Path Stroke="{DynamicResource KumoBrushTextBrand}"
-                                      StrokeLineCap="Round"
-                                      StrokeThickness="1"
-                                      Data="M0.5,8.5 5,13.5 15.5,3" />
-                            </Button>
+                                    Theme="{StaticResource KumoDateTimePickerButton}" />
                             <Button Name="PART_DismissButton"
                                     Grid.Column="1"
-                                    Theme="{StaticResource KumoDateTimePickerButton}"
-                                    Height="{StaticResource DateTimeAcceptDismissHeight}"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch">
-                                <Path Stroke="{DynamicResource KumoBrushTextDefault}"
-                                      StrokeLineCap="Round"
-                                      StrokeThickness="1"
-                                      Data="M2,2 14,14 M2,14 14,2" />
-                            </Button>
+                                    Theme="{StaticResource KumoDateTimePickerButton}" />
                         </Grid>
                     </Grid>
                 </Border>
             </ControlTemplate>
         </Setter>
-        <Style Selector="^ /template/ Panel">
-            <Style Selector="^:pointerover RepeatButton">
-                <Setter Property="IsVisible" Value="True" />
-            </Style>
-        </Style>
     </ControlTheme>
 
     <!-- TimePicker: same pattern with hour/minute/second/period columns -->
@@ -940,8 +911,6 @@
                                                          ShouldLoop="True"
                                                          ItemHeight="{StaticResource DateTimeFlyoutItemHeight}" />
                                 </ScrollViewer>
-                                <RepeatButton Name="PART_HourUpButton" Theme="{StaticResource KumoDateTimePickerUpButton}" />
-                                <RepeatButton Name="PART_HourDownButton" Theme="{StaticResource KumoDateTimePickerDownButton}" />
                             </Panel>
                             <Panel Name="PART_MinuteHost" Grid.Column="2">
                                 <ScrollViewer ksup:DateTimeLoopSnap.IsEnabled="True" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
@@ -950,8 +919,6 @@
                                                          ShouldLoop="True"
                                                          ItemHeight="{StaticResource DateTimeFlyoutItemHeight}" />
                                 </ScrollViewer>
-                                <RepeatButton Name="PART_MinuteUpButton" Theme="{StaticResource KumoDateTimePickerUpButton}" />
-                                <RepeatButton Name="PART_MinuteDownButton" Theme="{StaticResource KumoDateTimePickerDownButton}" />
                             </Panel>
                             <Panel Name="PART_SecondHost" Grid.Column="4">
                                 <ScrollViewer ksup:DateTimeLoopSnap.IsEnabled="True" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
@@ -960,8 +927,6 @@
                                                          ShouldLoop="True"
                                                          ItemHeight="{StaticResource DateTimeFlyoutItemHeight}" />
                                 </ScrollViewer>
-                                <RepeatButton Name="PART_SecondUpButton" Theme="{StaticResource KumoDateTimePickerUpButton}" />
-                                <RepeatButton Name="PART_SecondDownButton" Theme="{StaticResource KumoDateTimePickerDownButton}" />
                             </Panel>
                             <Panel Name="PART_PeriodHost" Grid.Column="6">
                                 <ScrollViewer ksup:DateTimeLoopSnap.IsEnabled="True" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
@@ -970,8 +935,6 @@
                                                          ShouldLoop="False"
                                                          ItemHeight="{StaticResource DateTimeFlyoutItemHeight}" />
                                 </ScrollViewer>
-                                <RepeatButton Name="PART_PeriodUpButton" Theme="{StaticResource KumoDateTimePickerUpButton}" />
-                                <RepeatButton Name="PART_PeriodDownButton" Theme="{StaticResource KumoDateTimePickerDownButton}" />
                             </Panel>
                             <Rectangle x:Name="HighlightRect" ZIndex="-1"
                                        Fill="{DynamicResource KumoBrushFill}"
@@ -995,45 +958,23 @@
                                        Width="{StaticResource DateTimeSpacerWidth}"
                                        Grid.Column="5" />
                         </Grid>
+                        <!-- hidden commit/cancel parts, invoked programmatically
+                             (see DateTimeLoopSnap.CommitTap); cancel is the
+                             popup's light dismiss on outside click -->
                         <Grid Name="AcceptDismissGrid"
                               Grid.Row="1"
-                              ColumnDefinitions="*,*">
-                            <Rectangle Height="{StaticResource DateTimeSpacerWidth}"
-                                       VerticalAlignment="Top"
-                                       Fill="{DynamicResource KumoBrushLine}"
-                                       Grid.ColumnSpan="2" />
+                              ColumnDefinitions="*,*"
+                              IsVisible="False">
                             <Button Name="PART_AcceptButton"
-                                    Grid.Column="0"
-                                    Theme="{StaticResource KumoDateTimePickerButton}"
-                                    Height="{StaticResource DateTimeAcceptDismissHeight}"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch">
-                                <Path Stroke="{DynamicResource KumoBrushTextBrand}"
-                                      StrokeLineCap="Round"
-                                      StrokeThickness="1"
-                                      Data="M0.5,8.5 5,13.5 15.5,3" />
-                            </Button>
+                                    Theme="{StaticResource KumoDateTimePickerButton}" />
                             <Button Name="PART_DismissButton"
                                     Grid.Column="1"
-                                    Theme="{StaticResource KumoDateTimePickerButton}"
-                                    Height="{StaticResource DateTimeAcceptDismissHeight}"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch">
-                                <Path Stroke="{DynamicResource KumoBrushTextDefault}"
-                                      StrokeLineCap="Round"
-                                      StrokeThickness="1"
-                                      Data="M2,2 14,14 M2,14 14,2" />
-                            </Button>
+                                    Theme="{StaticResource KumoDateTimePickerButton}" />
                         </Grid>
                     </Grid>
                 </Border>
             </ControlTemplate>
         </Setter>
-        <Style Selector="^ /template/ Panel">
-            <Style Selector="^:pointerover RepeatButton">
-                <Setter Property="IsVisible" Value="True" />
-            </Style>
-        </Style>
     </ControlTheme>
 
     </ResourceDictionary>

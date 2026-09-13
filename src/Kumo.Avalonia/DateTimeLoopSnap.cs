@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -6,6 +7,7 @@ using Avalonia.Interactivity;
 using Avalonia.Input;
 using Avalonia.Input.GestureRecognizers;
 using Avalonia.Threading;
+using Avalonia.VisualTree;
 
 namespace KumoThemeSupport;
 
@@ -14,16 +16,20 @@ namespace KumoThemeSupport;
 /// wrapped in a ScrollViewer). Stock scrolling can rest between two values,
 /// where the half-shown pair does not map to a real selection. The attached
 /// behavior:
-/// - clamps when the strip session ends, never while it is in motion or
-///   grabbed: pointer grab (all pointer types, registered with
+/// - clamps when a scroll session demonstrably ends, never while it is in
+///   motion or grabbed: pointer grab end (all pointer types, registered with
 ///   handledEventsToo so selection handlers cannot mask it), touch/pen
 ///   inertia (clamped only when the scroll gesture actually ends, not at
-///   finger lift), or a long wheel pause (500ms without offset change and
-///   a strip that has actually been quiet — trackpad drivers batch momentum
-///   deltas, so the tick re-checks liveness and postpones before clamping),
+///   finger lift), a mouse wheel notch pause, or the strip resting after a
+///   wheel stream — a trackpad that stops streaming deltas while the fingers
+///   still rest on it must never clamp, so nothing is scheduled on the wheel
+///   stream itself; the clamp waits for the next decisive event,
 /// - adds mouse click-and-drag to the loop — the ScrollGestureRecognizer
 ///   only drives touch/pen, so with a mouse the strip would otherwise only
 ///   respond to the wheel,
+/// - taps: only the centered (selected) value is clickable for proceeding —
+///   tapping it commits the picker; tapping any other value glides it to
+///   the center and selects it without committing,
 /// - cancels an in-flight clamp the moment anything else moves the strip
 ///   (grab, wheel, drag): while the glide runs it does not own the strip.
 /// The clamp glides with an exponential follow (no overshoot), reading from
@@ -34,8 +40,8 @@ namespace KumoThemeSupport;
 /// </summary>
 public class DateTimeLoopSnap
 {
-    private static readonly TimeSpan WheelIdle = TimeSpan.FromMilliseconds(500);
     private static readonly TimeSpan FrameTime = TimeSpan.FromMilliseconds(16);
+    private const double DragThreshold = 8;
     private const int MaxFollowFrames = 24;
 
     public static readonly AttachedProperty<bool> IsEnabledProperty =
@@ -43,9 +49,6 @@ public class DateTimeLoopSnap
 
     public static void SetIsEnabled(ScrollViewer obj, bool value) => obj.SetValue(IsEnabledProperty, value);
     public static bool GetIsEnabled(ScrollViewer obj) => obj.GetValue(IsEnabledProperty);
-
-    private static readonly AttachedProperty<object?> IdleTimerProperty =
-        AvaloniaProperty.RegisterAttached<DateTimeLoopSnap, ScrollViewer, object?>("IdleTimer");
 
     private static readonly AttachedProperty<object?> AnimProperty =
         AvaloniaProperty.RegisterAttached<DateTimeLoopSnap, ScrollViewer, object?>("Anim");
@@ -57,9 +60,14 @@ public class DateTimeLoopSnap
     private static readonly AttachedProperty<bool> SlidingProperty =
         AvaloniaProperty.RegisterAttached<DateTimeLoopSnap, ScrollViewer, bool>("Sliding");
 
-    // last real offset change (wheel/trackpad glide liveness)
-    private static readonly AttachedProperty<object?> MovedAtProperty =
-        AvaloniaProperty.RegisterAttached<DateTimeLoopSnap, ScrollViewer, object?>("MovedAt");
+    // most recent non-animated settled offset (source for tap animations)
+    private static readonly AttachedProperty<object?> RestOffsetProperty =
+        AvaloniaProperty.RegisterAttached<DateTimeLoopSnap, ScrollViewer, object?>("RestOffset");
+
+    // a tapped (clicked) item is driving the current animation; the settle
+    // confirms the picker
+    private static readonly AttachedProperty<bool> TapPendingProperty =
+        AvaloniaProperty.RegisterAttached<DateTimeLoopSnap, ScrollViewer, bool>("TapPending");
 
     // mouse click-drag state
     private static readonly AttachedProperty<object?> DragPointProperty =
@@ -67,6 +75,10 @@ public class DateTimeLoopSnap
 
     static DateTimeLoopSnap()
     {
+        // taps land on the panel's items BEFORE the panel's own tap handler
+        // teleports the strip: class handlers run ahead of instance handlers,
+        // so reading the offset here gives the true pre-tap resting position
+        InputElement.TappedEvent.AddClassHandler<DateTimePickerPanel>(OnPanelTap);
         IsEnabledProperty.Changed.AddClassHandler<ScrollViewer>((sv, e) =>
         {
             if (e.NewValue is not true)
@@ -79,23 +91,23 @@ public class DateTimeLoopSnap
             {
                 var point = a.GetCurrentPoint(sv);
 
-                // grab anywhere on the strip cancels any in-flight glide and
-                // the pending wheel-pause timer; nothing may move under a
-                // held pointer
+                // grab anywhere on the strip cancels any in-flight glide;
+                // nothing may move under a held pointer, nothing may clamp
+                // while the wheel/touch stream is being consumed
                 sv.SetValue(PressedProperty, true);
                 CancelGlide(sv);
-                (sv.GetValue(IdleTimerProperty) as DispatcherTimer)?.Stop();
 
-                // mouse click-and-drag: the recognizer only drives touch/pen;
-                // skip presses that are already owned (scrollbars etc.)
-                if (point.Pointer.Type == PointerType.Mouse &&
-                    point.Properties.IsLeftButtonPressed &&
-                    !a.Handled &&
-                    a.Source is not ScrollBar and not Thumb)
-                {
-                    point.Pointer.Capture(sv);
-                    sv.SetValue(DragPointProperty, point.Position);
-                }
+            // mouse click-and-drag: the recognizer only drives touch/pen;
+            // skip presses that are already owned (scrollbars etc.). Capture
+            // starts only once the pointer actually drags past the tap
+            // threshold, so plain presses/taps still reach the inner items
+            if (point.Pointer.Type == PointerType.Mouse &&
+                point.Properties.IsLeftButtonPressed &&
+                !a.Handled &&
+                a.Source is not ScrollBar and not Thumb)
+            {
+                sv.SetValue(DragPointProperty, point.Position);
+            }
             }
             void OnReleased(object? s, PointerReleasedEventArgs a)
             {
@@ -103,10 +115,11 @@ public class DateTimeLoopSnap
                 FinishDrag(sv);
                 // touch/pen releases keep scrolling by inertia; the gesture
                 // end event fires the clamp for those, a mouse release is the
-                // drag end here and clamps now
-                if (a.Pointer.Type == PointerType.Mouse)
+                // drag end here and clamps now. A pending tap glide owns the
+                // strip and commits on settle, so the release stays passive.
+                if (a.Pointer.Type == PointerType.Mouse && !sv.GetValue(TapPendingProperty))
                 {
-                    Arm(sv, immediate: true);
+                    EndSession(sv);
                 }
             }
             void OnScrollGesture(object? s, ScrollGestureEventArgs a)
@@ -116,12 +129,11 @@ public class DateTimeLoopSnap
                 // clamping rides on pointer release visibility here
                 sv.SetValue(SlidingProperty, true);
                 CancelGlide(sv);
-                (sv.GetValue(IdleTimerProperty) as DispatcherTimer)?.Stop();
             }
             void OnScrollGestureEnded(object? s, ScrollGestureEndedEventArgs a)
             {
                 sv.SetValue(SlidingProperty, false);
-                Arm(sv, immediate: true);
+                EndSession(sv);
             }
             void OnCaptureLost(object? s, PointerCaptureLostEventArgs a)
             {
@@ -132,20 +144,19 @@ public class DateTimeLoopSnap
                 FinishDrag(sv);
                 if (!sv.GetValue(SlidingProperty))
                 {
-                    Arm(sv);
+                    EndSession(sv);
                 }
             }
             sv.AddHandler(InputElement.PointerPressedEvent, OnPressed, RoutingStrategies.Bubble, handledEventsToo: true);
             sv.AddHandler(InputElement.PointerReleasedEvent, OnReleased, RoutingStrategies.Bubble, handledEventsToo: true);
             sv.AddHandler(InputElement.PointerMovedEvent, OnDragMoved, RoutingStrategies.Bubble, handledEventsToo: true);
             sv.AddHandler(InputElement.PointerCaptureLostEvent, OnCaptureLost, RoutingStrategies.Direct, handledEventsToo: true);
-            sv.AddHandler(ScrollViewer.ScrollGestureEvent, OnScrollGesture, RoutingStrategies.Bubble, handledEventsToo: true);
+        sv.AddHandler(ScrollViewer.ScrollGestureEvent, OnScrollGesture, RoutingStrategies.Bubble, handledEventsToo: true);
             sv.AddHandler(ScrollViewer.ScrollGestureEndedEvent, OnScrollGestureEnded, RoutingStrategies.Bubble, handledEventsToo: true);
             sv.ScrollChanged += OnScrollChanged;
             sv.DetachedFromVisualTree += (_, _) =>
             {
                 (sv.GetValue(AnimProperty) as DispatcherTimer)?.Stop();
-                (sv.GetValue(IdleTimerProperty) as DispatcherTimer)?.Stop();
             };
         });
     }
@@ -163,6 +174,17 @@ public class DateTimeLoopSnap
         if (Math.Abs(current.Y - start.Y) < 0.01)
         {
             return;
+        }
+
+        // capture starts at the drag threshold so taps and clicks on inner
+        // items keep flowing without our capture in the way
+        if (point.Pointer.Captured != sv)
+        {
+            if (Math.Abs(current.Y - start.Y) < DragThreshold)
+            {
+                return;
+            }
+            point.Pointer.Capture(sv);
         }
         sv.Offset = new Vector(0, sv.Offset.Y - (current.Y - start.Y));
         sv.SetValue(DragPointProperty, point.Position);
@@ -188,6 +210,11 @@ public class DateTimeLoopSnap
             if (e.OffsetDelta.Y != 0 && Math.Abs(anim.LastWritten - sv.Offset.Y) > 0.25)
             {
                 CancelGlide(sv);
+                // an interrupted tap must still commit its value
+                if (sv.GetValue(TapPendingProperty))
+                {
+                    CommitTap(sv);
+                }
             }
             else
             {
@@ -200,30 +227,105 @@ public class DateTimeLoopSnap
             // clamping until the session ends
             return;
         }
-        if (e.OffsetDelta.Y != 0)
+        if (sv.GetValue(AnimProperty) is null)
         {
-            // scroll-in-progress: stamp liveness and keep the pause armed;
-            // nothing clamps while deltas keep arriving
-            sv.SetValue(MovedAtProperty, DateTime.UtcNow);
+            // settled strip position (debug/inspection aid)
+            sv.SetValue(RestOffsetProperty, sv.Content is DateTimePickerPanel p ? p.Offset : null);
         }
-        Arm(sv);
+        // wheel/trackpad deltas intentionally do not schedule a clamp: a
+        // trackpad that rests its fingers on the pad stops streaming deltas
+        // with no end-of-scroll event at app level, so any timer would
+        // clamp mid-touch. The clamp fires on the next decisive event
+        // (release, gesture end, tap settle).
     }
 
     /// <summary>
-    /// Scroll-end detector for the wheel/trackpad stream. A wheel has no
-    /// press or release on Linux, so "still scrolling" vs "scroll ended" can
-    /// only be read from the delta stream: no offset change for the pause
-    /// interval means the scroll ended. If the pointer is pressed (touchpad
-    /// click held), the settle holds until release re-arms it.
+    /// A tapped (clicked) item: no teleport — the strip glides to the tapped
+    /// item as if scrolled there, and when it settles the picker commits
+    /// (accept). The panel's own tap handler (which sets the selection and
+    /// canonical offset directly) is suppressed by marking the event handled;
+    /// we drive selection + motion + commit ourselves. Class-handler level
+    /// because the pre-tap offset must be read before the panel's handler.
     /// </summary>
-    private static void OnIdleTick(ScrollViewer sv)
+    private static void OnPanelTap(DateTimePickerPanel panel, TappedEventArgs e)
     {
-        if (sv.GetValue(MovedAtProperty) is DateTime movedAt &&
-            DateTime.UtcNow - movedAt < WheelIdle)
+        PanelTapProbeCount++;
+        var itemHeight = panel.ItemHeight;
+        if (itemHeight <= 0) return;
+        if (e.Source is not Visual source) return;
+        var walk = source;
+        while (walk is not null && walk is not ListBoxItem)
         {
-            return; // still scrolling
+            walk = walk.GetVisualParent();
         }
-        SnapNow(sv);
+        if (walk is not ListBoxItem clickedItem || clickedItem.Tag is not int value)
+        {
+            return;
+        }
+
+        var sv = panel.GetVisualAncestors().OfType<ScrollViewer>()
+            .FirstOrDefault(p => GetIsEnabled(p));
+        if (sv is null)
+        {
+            return; // no snap behavior: leave the panel's own handling alone
+        }
+        e.Handled = true; // suppress the panel's own teleporting tap handler
+
+        var first = panel.MinimumValue;
+        var index = (value - first) / panel.Increment;
+        var y0 = panel.Offset.Y;
+        CancelGlide(sv);
+
+        double target;
+        if (panel.ShouldLoop)
+        {
+            var setHeight = panel.Extent.Height / 100.0;
+            if (setHeight <= 0)
+            {
+                return;
+            }
+            target = index * itemHeight + setHeight * Math.Round((y0 - index * itemHeight) / setHeight);
+        }
+        else
+        {
+            target = index * itemHeight;
+        }
+
+        // selection/highlight to the tapped value at once, then glide
+        SyncSelection(panel, index, new Point(0, y0));
+
+        if (Math.Abs(target - y0) <= 0.01)
+        {
+            // only the centered (selected) value is clickable for proceeding:
+            // tapping it commits and closes; or when the strip rests exactly
+            // on the tapped item already, it IS the centered value
+            CommitTap(sv);
+            return;
+        }
+        // any other value: glide it to the center and select it, but do not
+        // commit — committing is reserved for tapping the centered value
+        var anim = new SnapAnimation(sv, panel, target);
+        sv.SetValue(AnimProperty, anim);
+        anim.Start();
+    }
+
+    private static void CommitTap(ScrollViewer sv)
+    {
+        sv.SetValue(TapPendingProperty, false);
+        TapCommitProbeCount++;
+        var presenter = sv.GetVisualAncestors().OfType<TemplatedControl>()
+            .FirstOrDefault(a => a is DatePickerPresenter or TimePickerPresenter);
+        CommitPresenterProbeCount += presenter is null ? 0 : 1;
+        if (presenter is null)
+        {
+            return;
+        }
+        var accept = presenter.GetVisualDescendants().OfType<Button>().FirstOrDefault(b => b.Name == "PART_AcceptButton");
+        CommitButtonProbeCount += accept is null ? 0 : 1;
+        if (accept is { } button)
+        {
+            button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        }
     }
 
     private static void CancelGlide(ScrollViewer sv)
@@ -235,24 +337,7 @@ public class DateTimeLoopSnap
         }
     }
 
-    private static void Arm(ScrollViewer sv, bool immediate = false)
-    {
-        if (immediate)
-        {
-            SnapNow(sv);
-            return;
-        }
-        if (sv.GetValue(IdleTimerProperty) is not DispatcherTimer idle)
-        {
-            idle = new DispatcherTimer(WheelIdle, DispatcherPriority.Background, (_, _) => OnIdleTick(sv));
-            sv.SetValue(IdleTimerProperty, idle);
-        }
-        // a postponement may have left the interval short; new input re-arms
-        // with the full pause instead of inheriting the postpone cadence
-        idle.Interval = WheelIdle;
-        idle.Stop();
-        idle.Start();
-    }
+    private static void EndSession(ScrollViewer sv) => SnapNow(sv);
 
     /// <summary>
     /// Move <paramref name="sv"/> onto the nearest loop item boundary. With
@@ -275,6 +360,10 @@ public class DateTimeLoopSnap
         if (Math.Abs(delta) <= 0.01)
         {
             SyncSelection(panel, target);
+            if (sv.GetValue(TapPendingProperty))
+            {
+                CommitTap(sv);
+            }
             return;
         }
 
@@ -287,6 +376,10 @@ public class DateTimeLoopSnap
             // resync the ScrollViewer's own copy so later clamp math starts
             // from the true position
             sv.Offset = panel.Offset;
+            if (sv.GetValue(TapPendingProperty))
+            {
+                CommitTap(sv);
+            }
             return;
         }
 
@@ -300,15 +393,17 @@ public class DateTimeLoopSnap
         private readonly ScrollViewer _owner;
         private readonly DateTimePickerPanel _panel;
         private readonly double _to;
+        private readonly bool _committedOnEnd;
         private int _frames;
         public double LastWritten { get; private set; }
 
-        public SnapAnimation(ScrollViewer owner, DateTimePickerPanel panel, double to)
+        public SnapAnimation(ScrollViewer owner, DateTimePickerPanel panel, double to, bool committedOnEnd = false)
             : base(FrameTime, DispatcherPriority.Background, (self, _) => ((SnapAnimation)self!).TickNext())
         {
             _owner = owner;
             _panel = panel;
             _to = to;
+            _committedOnEnd = committedOnEnd;
             LastWritten = panel.Offset.Y;
         }
 
@@ -334,7 +429,12 @@ public class DateTimeLoopSnap
                 SyncSelection(_panel, (int)Math.Round(_to / _panel.ItemHeight));
                 // resync the ScrollViewer copy so later clamp math is sane
                 _owner.Offset = _panel.Offset;
+                var committed = _committedOnEnd;
                 _owner.SetValue(AnimProperty, null);
+                if (committed)
+                {
+                    CommitTap(_owner);
+                }
                 return;
             }
             _panel.Offset = new Vector(0, next);
@@ -342,11 +442,29 @@ public class DateTimeLoopSnap
         }
 
         private static double MaxStep => 6; // never yank more than 6px per frame
+
+        public void TickProbe() => TickNext();
     }
 
     /// Debug/release-probe accessors used by the headless tests.
     public static object? AnimPropertyProbe(ScrollViewer sv) => sv.GetValue(AnimProperty);
+    public static bool TapPendingProbe(ScrollViewer sv) => sv.GetValue(TapPendingProperty);
     public static double HourItemHeight(ScrollViewer sv) => (sv.Content as DateTimePickerPanel)?.ItemHeight ?? 0;
+
+    // deterministic-machinery counters used by the headless tap probes
+    public static int TapCommitProbeCount;
+    public static int PanelTapProbeCount;
+    public static int CommitPresenterProbeCount;
+    public static int CommitButtonProbeCount;
+
+    /// <summary>
+    /// Headless test hook: run one animation frame; if the target has been
+    /// reached this finalizes with selection sync and (for taps) commit.
+    /// </summary>
+    public static void AnimFinalizeProbe(ScrollViewer sv)
+    {
+        (sv.GetValue(AnimProperty) as SnapAnimation)?.TickProbe();
+    }
 
     /// <summary>
     /// Point the panel's selection at the value the strip settles on, so the
@@ -357,17 +475,17 @@ public class DateTimeLoopSnap
     /// the settle position is restored right after — synchronously, no
     /// render in between.
     /// </summary>
-    internal static void SyncSelection(DateTimePickerPanel panel, int index)
+    internal static void SyncSelection(DateTimePickerPanel panel, int index, Point? restorePosition = null)
     {
         var first = panel.MinimumValue;
         var items = (panel.MaximumValue - first) / panel.Increment + 1;
         index = ((index % items) + items) % items;
         var value = first + index * panel.Increment;
-        if (panel.SelectedValue == value)
+        if (panel.SelectedValue == value && !restorePosition.HasValue)
         {
             return;
         }
-        var restore = panel.Offset;
+        var restore = restorePosition ?? panel.Offset;
         panel.SelectedValue = value;
         panel.Offset = restore;
     }
