@@ -83,9 +83,9 @@ Real `Kumo*` composition controls live in `Kumo.Avalonia.Controls` namespace:
 - Regenerate tokens from `design/kumo/theme-kumo.css` into
   `src/Kumo.Avalonia/Themes/Palette.axaml` and `docs/TOKENS.md`:
   `python3 scripts/generate_tokens.py` (`--check` exits 1 when stale; CI-style)
-- Regenerate reference component specs (needs the kumo npm tarball at
-  `/tmp/opencode/kumo-pkg`): `python3 scripts/extract_component_specs.py`
-  writes `design/specs/*.json`; `--check` verifies staleness. The headless
+- Regenerate reference component specs from the vendored upstream CSS in
+  `design/kumo/`: `python3 scripts/extract_component_specs.py` writes
+  `design/specs/*.json`; `--check` verifies staleness. The headless
   SpecTests diff resolved control properties against those specs; accepted
   deviations live in `SpecTests.cs` `Accepted`.
 

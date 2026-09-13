@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Extract normalized component specs from the Kumo reference CSS.
 
-Source of truth: the @cloudflare/kumo npm tarball (v2.13.1), previously
-extracted to /tmp/opencode/kumo-pkg (re-extract if missing:
-    npm pack @cloudflare/kumo@2.13.1 && tar -xzf cloudflare-kumo-2.13.1.tgz -C /tmp/opencode/kumo-pkg)
+Source of truth: the vendored CSS in design/kumo/ (committed copies of
+@cloudflare/kumo v2.13.1 dist styles). No npm tarball needed.
 
 Pipeline:
   1. Parse kumo-standalone.css (compiled Tailwind, ~1400 utility rules) into
@@ -33,9 +32,9 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-PKG = Path("/tmp/opencode/kumo-pkg/package/dist")
-STANDALONE = PKG / "styles" / "kumo-standalone.css"
-THEME = PKG / "styles" / "theme-kumo.css"
+PKG = ROOT / "design" / "kumo"
+STANDALONE = PKG / "kumo-standalone.css"
+THEME = PKG / "theme-kumo.css"
 OUT_DIR = ROOT / "design" / "specs"
 KUMO_VERSION = "2.13.1"
 
@@ -920,7 +919,7 @@ def main() -> int:
             only = sys.argv[i + 1]
 
     if not STANDALONE.exists():
-        print(f"missing {STANDALONE}; re-extract the npm tarball", file=sys.stderr)
+        print(f"missing {STANDALONE}; vendored CSS should live in design/kumo/", file=sys.stderr)
         return 2
 
     standalone = STANDALONE.read_text()
