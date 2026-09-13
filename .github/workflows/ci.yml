@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_call:
 
 jobs:
   build-test:
@@ -21,27 +22,6 @@ jobs:
         run: python3 scripts/generate_tokens.py --check
       - name: Component spec check
         run: python3 scripts/extract_component_specs.py --check
-      - name: Pack (dry run)
+      - name: Pack
         run: dotnet pack src/Kumo.Avalonia -c Release -o artifacts
 
-  publish:
-    if: startsWith(github.ref, 'refs/tags/')
-    needs: build-test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
-      - name: Build + pack
-        run: |
-          dotnet build
-          dotnet pack src/Kumo.Avalonia -c Release -o artifacts
-      - uses: actions/upload-artifact@v4
-        with:
-          name: nuget
-          path: artifacts/*.nupkg
-      - uses: actions/upload-artifact@v4
-        with:
-          name: symbols
-          path: artifacts/*.snupkg

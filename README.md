@@ -13,7 +13,6 @@ Cloudflare's product design system ([`@cloudflare/kumo`](https://github.com/clou
 | `design/kumo/` | Upstream token CSS from `@cloudflare/kumo` v2.13.1 (source of truth) |
 | `scripts/generate_tokens.py` | Converts upstream CSS (oklch / `light-dark()` / `color-mix`) to Avalonia XAML |
 | `docs/TOKENS.md` | Generated reference of all 54 semantic color tokens and their resource keys |
-| `docs/TOKENS.md` | Generated reference of all 54 semantic color tokens and their resource keys |
 | `docs/COVERAGE.md` | Exact inventory of themed controls, known approximations, and remaining parity extras |
 
 ## Quick start
@@ -25,6 +24,10 @@ dotnet run --project tests/Kumo.Avalonia.Tests
 ```
 
 ## Using the theme
+
+> **Note:** installing in your own project? `dotnet add package Kumo.Avalonia`
+> (or add `<PackageReference Include="Kumo.Avalonia" />` to your csproj), then
+> wire up the two includes below.
 
 The theme is fully self-contained — no base theme (Fluent/Simple) is needed,
 and every templated Avalonia control ships a Kumo `ControlTheme`. The exact
