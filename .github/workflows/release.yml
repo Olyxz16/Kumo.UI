@@ -11,6 +11,8 @@ jobs:
   publish:
     needs: validate
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write  # NuGet Trusted Publishing (OIDC)
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
@@ -26,11 +28,16 @@ jobs:
         with:
           name: symbols
           path: artifacts/*.snupkg
+      - name: NuGet OIDC login
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user-oidc: ${{ vars.NUGET_USER }}
       - name: Push to NuGet.org
         run: >
-          dotnet nuget push "artifacts/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }}
+          dotnet nuget push "artifacts/*.nupkg" --api-key ${{ steps.login.outputs.NUGET_API_KEY }}
           --source https://api.nuget.org/v3/index.json --skip-duplicate
       - name: Push symbols
         run: >
-          dotnet nuget push "artifacts/*.snupkg" --api-key ${{ secrets.NUGET_API_KEY }}
+          dotnet nuget push "artifacts/*.snupkg" --api-key ${{ steps.login.outputs.NUGET_API_KEY }}
           --source https://api.nuget.org/v3/index.json --skip-duplicate
